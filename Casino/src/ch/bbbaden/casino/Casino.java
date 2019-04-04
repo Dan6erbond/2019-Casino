@@ -12,6 +12,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 /**
@@ -21,7 +22,8 @@ public class Casino extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        SceneManager.getInstance().changeScene("Login.fxml");
+        SceneManager.getInstance().changeScene("Login.fxml", Root.CASINO);
+        Font.loadFont(getClass().getResource("Roboto-Black.ttf").toExternalForm(), 10);
     }
 
     /**

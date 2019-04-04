@@ -5,7 +5,9 @@
  */
 package ch.bbbaden.casino;
 
+import ch.bbbaden.casino.slotmachine.SlotMachineController;
 import java.io.IOException;
+import java.net.URL;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -32,27 +34,27 @@ public class SceneManager {
         return sceneManager;
     }
 
-    public void changeScene(String fxml) throws IOException {
+    public void changeScene(String fxml, Root r) throws IOException {
         if (stage == null) {
-            stage = new Stage(StageStyle.UTILITY);
+            stage = openWindow(fxml, r);
+            return;
         }
-        
-        Parent root = FXMLLoader.load(getClass().getResource(fxml));
+
+        Parent root = FXMLLoader.load(getURL(fxml, r));
 
         Scene scene = new Scene(root);
 
         stage.setScene(scene);
-        stage.show();
     }
-    
-    public Stage getStage(){
+
+    public Stage getStage() {
         return stage;
     }
 
-    public Stage openWindow(String fxml) throws IOException {
+    public Stage openWindow(String fxml, Root r) throws IOException {
         Stage s = new Stage(StageStyle.UTILITY);
 
-        Parent root = FXMLLoader.load(getClass().getResource(fxml));
+        Parent root = FXMLLoader.load(getURL(fxml, r));
 
         Scene scene = new Scene(root);
 
@@ -60,6 +62,19 @@ public class SceneManager {
         s.show();
 
         return s;
+    }
+
+    private URL getURL(String fxml, Root root) {
+        URL url;
+        switch (root) {
+            case SLOTMACHINE:
+                url = SlotMachineController.class.getResource(fxml);
+                break;
+            default:
+                url = getClass().getResource(fxml);
+                break;
+        }
+        return url;
     }
 
 }
