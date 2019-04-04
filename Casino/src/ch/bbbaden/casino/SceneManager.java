@@ -17,25 +17,26 @@ import javafx.stage.StageStyle;
  * @author User
  */
 public class SceneManager {
-    
+
     private static SceneManager sceneManager;
     private Stage stage;
-    
-    private SceneManager(){
-        if (stage == null){
-            stage = new Stage(StageStyle.UTILITY);
-        }
+
+    private SceneManager() {
         sceneManager = this;
     }
-    
-    public static SceneManager getInstance(){
-        if (sceneManager == null){
+
+    public static SceneManager getInstance() {
+        if (sceneManager == null) {
             sceneManager = new SceneManager();
         }
         return sceneManager;
     }
-    
-    public void changeScene(String fxml) throws IOException{        
+
+    public void changeScene(String fxml) throws IOException {
+        if (stage == null) {
+            stage = new Stage(StageStyle.UTILITY);
+        }
+        
         Parent root = FXMLLoader.load(getClass().getResource(fxml));
 
         Scene scene = new Scene(root);
@@ -44,17 +45,21 @@ public class SceneManager {
         stage.show();
     }
     
-    public Stage openWindow(String fxml) throws IOException{
+    public Stage getStage(){
+        return stage;
+    }
+
+    public Stage openWindow(String fxml) throws IOException {
         Stage s = new Stage(StageStyle.UTILITY);
-        
+
         Parent root = FXMLLoader.load(getClass().getResource(fxml));
 
         Scene scene = new Scene(root);
 
         s.setScene(scene);
         s.show();
-        
+
         return s;
     }
-    
+
 }
