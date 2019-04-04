@@ -44,7 +44,7 @@ public class SceneManager {
         stage.show();
     }
     
-    public void openWindow(String fxml) throws IOException{
+    public Stage openWindow(String fxml) throws IOException{
         Stage s = new Stage(StageStyle.UTILITY);
         
         Parent root = FXMLLoader.load(getClass().getResource(fxml));
@@ -53,6 +53,8 @@ public class SceneManager {
 
         s.setScene(scene);
         s.show();
+        
+        return s;
     }
     
 }
