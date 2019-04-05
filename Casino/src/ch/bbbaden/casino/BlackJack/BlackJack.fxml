@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" styleClass="window" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.bbbaden.casino.BlackJack.BlackJackController">
+   <children>
+      <Button fx:id="putchip" layoutX="32.0" layoutY="287.0" mnemonicParsing="false" onAction="#clickPutChips" text="Betrag setzen" />
+      <Button fx:id="deletechip" layoutX="132.0" layoutY="287.0" mnemonicParsing="false" onAction="#clickDeleteChips" text="Zurücknehmen" />
+      <Button fx:id="hit" layoutX="341.0" layoutY="287.0" mnemonicParsing="false" onAction="#clickHit" text="Hit" />
+      <Button fx:id="stand" layoutX="412.0" layoutY="287.0" mnemonicParsing="false" onAction="#clickStand" text="Stand" />
+      <Button fx:id="doubledown" layoutX="497.0" layoutY="287.0" mnemonicParsing="false" onAction="#clickDouble" text="Double" />
+      <Label fx:id="lpool" layoutX="32.0" layoutY="241.0" text="Einsatz" />
+      <Label fx:id="lbalance" layoutX="509.0" layoutY="352.0" text="Konto" />
+      <Button layoutX="328.0" layoutY="339.0" mnemonicParsing="false" onAction="#clickHundred" prefHeight="26.0" prefWidth="37.0" text="100" />
+      <Button layoutX="282.0" layoutY="339.0" mnemonicParsing="false" onAction="#clickTwentyfive" prefHeight="26.0" prefWidth="37.0" text="25" />
+      <Button layoutX="238.0" layoutY="339.0" mnemonicParsing="false" onAction="#clickFive" prefHeight="26.0" prefWidth="37.0" text="5" />
+      <Button layoutX="192.0" layoutY="339.0" mnemonicParsing="false" onAction="#clickTwo" prefHeight="26.0" prefWidth="37.0" text="2" />
+   </children>
+</AnchorPane>
