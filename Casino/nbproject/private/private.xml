@@ -3,12 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/2.%20Klasse/Berufsbildung%20Baden/Module/Programmierwoche/Projekt/2019-Casino/Casino/src/ch/bbbaden/casino/slotmachine/SlotMachine.fxml</file>
-            <file>file:/D:/2.%20Klasse/Berufsbildung%20Baden/Module/Programmierwoche/Projekt/2019-Casino/Casino/src/ch/bbbaden/casino/Casino.java</file>
-            <file>file:/D:/2.%20Klasse/Berufsbildung%20Baden/Module/Programmierwoche/Projekt/2019-Casino/Casino/src/ch/bbbaden/casino/SceneManager.java</file>
-            <file>file:/D:/2.%20Klasse/Berufsbildung%20Baden/Module/Programmierwoche/Projekt/2019-Casino/Casino/src/ch/bbbaden/casino/style.css</file>
-            <file>file:/D:/2.%20Klasse/Berufsbildung%20Baden/Module/Programmierwoche/Projekt/2019-Casino/Casino/src/ch/bbbaden/casino/Root.java</file>
-            <file>file:/D:/2.%20Klasse/Berufsbildung%20Baden/Module/Programmierwoche/Projekt/2019-Casino/Casino/src/ch/bbbaden/casino/slotmachine/SlotMachineController.java</file>
+            <file>file:/C:/Users/aless/Documents/2019-Casino/Casino/src/ch/bbbaden/casino/roulette/RouletteController.java</file>
+            <file>file:/C:/Users/aless/Documents/2019-Casino/Casino/src/ch/bbbaden/casino/style.css</file>
+            <file>file:/C:/Users/aless/Documents/2019-Casino/Casino/src/ch/bbbaden/casino/roulette/Field.java</file>
         </group>
     </open-files>
 </project-private>

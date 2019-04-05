@@ -11,14 +11,22 @@ package ch.bbbaden.casino.roulette;
  */
 public class Field {
     private boolean isblack;
-    
-    public Field(boolean isblack)
+    private int number;
+    public Field(int number)
     {
-        this.isblack = isblack;
+        this.number = number;
     }
     
     public boolean isblack()
     {
         return isblack;
+    }
+    public int getnumber()
+    {
+        return number;
+    }
+    public void setisblack(boolean isblack)
+    {
+        this.isblack = isblack;
     }
 }
