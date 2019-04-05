@@ -1,0 +1,50 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 04.04.2019, 15:16:51
+    Author     : User
+*/
+
+@font-face{
+    font-family: "Roboto";
+    src: url("/fonts/Roboto-Regular.ttf");
+}
+
+@font-face{
+    font-family: "Aldrich";
+    src: url("/fonts/Aldrich-Regular.ttf");
+}
+
+.window {
+    -fx-background-color: #ffffff;
+    -fx-font-family: 'Roboto';
+    /* -fx-font-weight: bold; */
+}
+
+.button {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 0px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 2, 0, 0, 0);
+}
+
+.button:hover {
+}
+
+.startButton {
+    -fx-background-color: #ff3333;
+    -fx-background-radius: 50px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 2, 0, 0, 0);
+    -fx-color: #ff3333;
+}
+
+.startButton:hover {
+    -fx-background-color: #ff0000;
+}
+
+.title{
+    -fx-font-family: 'Aldrich';
+    -fx-font-size: 16px;
+}
