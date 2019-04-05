@@ -20,10 +20,12 @@ import javafx.stage.Stage;
  */
 public class Casino extends Application {
 
+    String[] fonts = {"fonts/Roboto/Roboto-Regular.ttf", "fonts/Aldrich/Aldrich-Regular.ttf"};
+
     @Override
     public void start(Stage stage) throws IOException {
-        SceneManager.getInstance().changeScene("Login.fxml", Root.CASINO);
-        Font.loadFont(getClass().getResource("Roboto-Black.ttf").toExternalForm(), 10);
+        SceneManager.getInstance().changeScene("SlotMachine.fxml", Root.SLOTMACHINE);
+        //importFonts();
     }
 
     /**
@@ -31,6 +33,16 @@ public class Casino extends Application {
      */
     public static void main(String[] args) {
         launch(args);
+    }
+
+    private void importFonts() {
+        for (String font : fonts) {
+            try {
+                Font.loadFont(getClass().getResource(font).toExternalForm(), 10);
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+        }
     }
 
 }
