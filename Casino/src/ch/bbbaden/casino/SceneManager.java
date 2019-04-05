@@ -57,6 +57,8 @@ public class SceneManager {
         Parent root = FXMLLoader.load(getURL(fxml, r));
 
         Scene scene = new Scene(root);
+        scene.getStylesheets().add("https://fonts.googleapis.com/css?family=Roboto");
+        scene.getStylesheets().add("https://fonts.googleapis.com/css?family=Aldrich");
 
         s.setScene(scene);
         s.show();
