@@ -1,0 +1,24 @@
+/*
+ * Empty Stylesheet file.
+ */
+
+.mainFxmlClass {
+    -fx-background-color: green;
+}
+.panes
+{
+    -fx-border-width: 2px;
+    -fx-border-color: white;
+}
+#numbers
+{
+    -fx-border-color: white;
+}
+#redbet
+{
+    -fx-background-color: red;
+}
+#blackbet
+{
+    -fx-background-color: black;
+}

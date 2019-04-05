@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="510.0" prefWidth="1329.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/10.0.1" fx:controller="ch.bbbaden.casino.roulette.RouletteController">
+    <stylesheets>
+        <URL value="@roulette.css" />
+    </stylesheets>
+   <children>
+      <GridPane fx:id="numbers" layoutX="546.0" layoutY="173.0" prefHeight="148.0" prefWidth="610.0">
+        <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints maxHeight="55.799981689453126" minHeight="10.0" prefHeight="50.200006103515626" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="64.79998779296875" minHeight="10.0" prefHeight="50.19999389648438" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="53.599993896484364" minHeight="6.399987792968744" prefHeight="47.20001220703125" vgrow="SOMETIMES" />
+        </rowConstraints>
+      </GridPane>
+      <Pane fx:id="low" layoutX="546.0" layoutY="107.0" prefHeight="66.0" prefWidth="306.0" styleClass="panes" stylesheets="@roulette.css">
+         <children>
+            <Label fx:id="lowlabel" layoutX="129.0" layoutY="19.0" text="1 TO 18" textFill="WHITE">
+               <font>
+                  <Font size="19.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <Pane fx:id="high" layoutX="852.0" layoutY="107.0" prefHeight="66.0" prefWidth="306.0" styleClass="panes">
+         <children>
+            <Label fx:id="highlabel" layoutX="120.0" layoutY="19.0" text="19 TO 36" textFill="WHITE">
+               <font>
+                  <Font size="19.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <Pane fx:id="col1" layoutX="1158.0" layoutY="173.0" prefHeight="50.0" prefWidth="54.0" styleClass="panes">
+         <children>
+            <Label fx:id="col1label" layoutX="7.0" layoutY="11.0" prefHeight="28.0" prefWidth="41.0" rotate="-90.0" text="2 TO 1" textFill="WHITE">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <Pane fx:id="col2" layoutX="1158.0" layoutY="223.0" prefHeight="50.0" prefWidth="54.0" styleClass="panes">
+         <children>
+            <Label fx:id="col2label" layoutX="7.0" layoutY="11.0" prefHeight="28.0" prefWidth="41.0" rotate="-90.0" text="2 TO 1" textFill="WHITE">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <Pane fx:id="col3" layoutX="1158.0" layoutY="273.0" prefHeight="50.0" prefWidth="54.0" styleClass="panes">
+         <children>
+            <Label fx:id="col3label" layoutX="7.0" layoutY="11.0" prefHeight="28.0" prefWidth="41.0" rotate="-90.0" text="2 TO 1" textFill="WHITE">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <Pane fx:id="third1" layoutX="546.0" layoutY="321.0" prefHeight="66.0" prefWidth="204.5" styleClass="panes">
+         <children>
+            <Label fx:id="third1label" layoutX="61.0" layoutY="20.0" text="1 TO 12" textFill="WHITE">
+               <font>
+                  <Font size="19.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <Pane fx:id="third2" layoutX="750.0" layoutY="321.0" prefHeight="66.0" prefWidth="204.5" styleClass="panes">
+         <children>
+            <Label fx:id="third2label" layoutX="64.0" layoutY="19.0" text="13 TO 24" textFill="WHITE">
+               <font>
+                  <Font size="19.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <Pane fx:id="third3" layoutX="954.0" layoutY="321.0" prefHeight="66.0" prefWidth="204.5" styleClass="panes">
+         <children>
+            <Label fx:id="third3label" layoutX="64.0" layoutY="19.0" text="24 TO 36" textFill="WHITE">
+               <font>
+                  <Font size="19.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <Pane fx:id="even" layoutX="546.0" layoutY="387.0" prefHeight="66.0" prefWidth="155.0" styleClass="panes">
+         <children>
+            <Label fx:id="evenlabel" layoutX="55.0" layoutY="19.0" text="EVEN" textFill="WHITE">
+               <font>
+                  <Font size="19.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <Pane fx:id="redbet" layoutX="699.0" layoutY="387.0" prefHeight="66.0" prefWidth="155.0" styleClass="panes">
+         <children>
+            <Label fx:id="redlabel" layoutX="60.0" layoutY="19.0" text="RED" textFill="WHITE">
+               <font>
+                  <Font size="19.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <Pane fx:id="blackbet" layoutX="853.0" layoutY="387.0" prefHeight="66.0" prefWidth="155.0" styleClass="panes">
+         <children>
+            <Label fx:id="blacklabel" layoutX="50.0" layoutY="19.0" text="BLACK" textFill="WHITE">
+               <font>
+                  <Font size="19.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <Pane fx:id="odd" layoutX="1008.0" layoutY="387.0" prefHeight="66.0" prefWidth="150.0" styleClass="panes">
+         <children>
+            <Label fx:id="oddlabel" layoutX="55.0" layoutY="19.0" text="ODD" textFill="WHITE">
+               <font>
+                  <Font size="19.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <Pane fx:id="doublezero" layoutX="474.0" layoutY="173.0" prefHeight="74.0" prefWidth="72.0" styleClass="panes">
+         <children>
+            <Label layoutX="25.0" layoutY="23.0" text="00" textFill="WHITE">
+               <font>
+                  <Font size="19.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <Pane fx:id="zero" layoutX="474.0" layoutY="247.0" prefHeight="74.0" prefWidth="72.0" styleClass="panes">
+         <children>
+            <Label layoutX="31.0" layoutY="23.0" text="0" textFill="WHITE">
+               <font>
+                  <Font size="19.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>
