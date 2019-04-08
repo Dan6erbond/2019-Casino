@@ -11,7 +11,7 @@
 
 <AnchorPane id="AnchorPane" prefHeight="510.0" prefWidth="1329.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/10.0.1" fx:controller="ch.bbbaden.casino.roulette.RouletteController">
     <stylesheets>
-        <URL value="@roulette.css" />
+        <URL value="@../styles/roulette.css" />
     </stylesheets>
    <children>
       <GridPane fx:id="numbers" layoutX="546.0" layoutY="173.0" prefHeight="148.0" prefWidth="610.0">

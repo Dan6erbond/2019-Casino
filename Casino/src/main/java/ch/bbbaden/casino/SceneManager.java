@@ -5,9 +5,7 @@
  */
 package ch.bbbaden.casino;
 
-import ch.bbbaden.casino.slotmachine.SlotMachineController;
 import java.io.IOException;
-import java.net.URL;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -57,8 +55,6 @@ public class SceneManager {
         Parent root = FXMLLoader.load(getClass().getResource(fxml));
 
         Scene scene = new Scene(root);
-        scene.getStylesheets().add("https://fonts.googleapis.com/css?family=Roboto");
-        scene.getStylesheets().add("https://fonts.googleapis.com/css?family=Aldrich");
 
         s.setTitle("Casino");
         s.setScene(scene);
