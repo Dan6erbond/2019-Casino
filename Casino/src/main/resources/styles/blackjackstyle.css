@@ -14,3 +14,7 @@ and open the template in the editor.
     -fx-background-repeat: no-repeat;
     -fx-background-size: cover, auto;
 }
+
+#wood{
+    -fx-background-image: url("../img/wood.jpg");
+}

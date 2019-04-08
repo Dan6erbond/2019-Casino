@@ -42,6 +42,7 @@ and open the template in the editor.
 
 .startButton:hover {
     -fx-background-color: #ff0000;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0), 2, 0, 0, 0);
 }
 
 .title{
