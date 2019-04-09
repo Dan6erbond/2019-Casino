@@ -21,7 +21,13 @@ public class MainApp extends Application {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        String gay = "gay";
         launch(args);
+        System.out.println("Genau");
+        System.out.println("de");
+        System.out.println("Ravi");
+        System.out.println("esch");
+        System.out.println(gay);
     }
 
 }

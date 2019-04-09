@@ -79,7 +79,10 @@ public class BlackJackController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
         lbalance.setText(Integer.toString(balance));
-        String v = "A";
+        
+        hit.setDisable(true);
+        doubledown.setDisable(true);
+        stand.setDisable(true);
 
         for (int i = 2; i <= 10; i++) {
             cards.add(new Image("/img/cards/" + i + "C.png"));
@@ -132,6 +135,7 @@ public class BlackJackController implements Initializable {
         iv.setScaleX(0.18);
         iv.setScaleY(0.18);
         ap.getChildren().add(iv);
+
     }
 
     private void setBankCards(int x) {
@@ -148,6 +152,10 @@ public class BlackJackController implements Initializable {
 
     @FXML
     private void clickPutChips(ActionEvent event) throws InterruptedException {
+        hit.setDisable(false);
+        doubledown.setDisable(false);
+        stand.setDisable(false);
+        
         chip100.setDisable(true);
         chip100.setOpacity(0.4);
         chip25.setDisable(true);
@@ -207,7 +215,7 @@ public class BlackJackController implements Initializable {
     }
 
     private void update() {
-
+        
         putchip.setDisable(false);
         deletechip.setDisable(false);
 
