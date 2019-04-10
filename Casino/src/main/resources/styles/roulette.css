@@ -1,0 +1,41 @@
+.mainFxmlClass {
+    -fx-background-image: url("../images/poolcloth.jpg");
+}
+.panes
+{
+    -fx-border-width: 1.5px;
+    -fx-border-color: white;
+}
+#numbers
+{
+    -fx-border-color: white;
+}
+#redbet
+{
+    -fx-background-color: red;
+}
+#blackbet
+{
+    -fx-background-color: black;
+}
+.Label
+{
+    -fx-text-fill: white;
+}
+.Pane
+{
+    -fx-border-width: 2px;
+    -fx-border-color: red;
+}
+.wheel
+{
+    -fx-background-image: url("../images/roulettewheel.png");
+}
+.wood
+{
+    -fx-background-image: url("../images/wood.jpg");
+}
+.ball
+{
+    -fx-background-image: url("../images/ball.png");
+}

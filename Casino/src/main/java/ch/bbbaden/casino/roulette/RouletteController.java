@@ -1,26 +1,24 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ch.bbbaden.casino.roulette;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
-import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.geometry.Pos;
-import javafx.scene.control.Label;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
-
+import java.util.*;
+import javafx.animation.*;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.event.*;
+import javafx.fxml.*;
+import javafx.geometry.Bounds;
+import javafx.scene.Node;
+import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.*;
+import javafx.scene.shape.*;
+import javafx.util.Duration;
 /**
  * FXML Controller class
  *
- * @author aless
+ * @author alessandro
  */
 public class RouletteController implements Initializable {
     @FXML
@@ -38,15 +36,9 @@ public class RouletteController implements Initializable {
     @FXML
     private Label highlabel;
     @FXML
-    private Pane col1;
-    @FXML
     private Label col1label;
     @FXML
-    private Pane col2;
-    @FXML
     private Label col2label;
-    @FXML
-    private Pane col3;
     @FXML
     private Label col3label;
     @FXML
@@ -77,18 +69,135 @@ public class RouletteController implements Initializable {
     private Pane doublezero;
     @FXML
     private Pane zero;
+    @FXML
+    private Label test;
+    @FXML
+    private Pane row1;
+    @FXML
+    private Pane row2;
+    @FXML
+    private Pane row3;
+    @FXML
+    private ImageView bet2;
+    @FXML
+    private ImageView bet5;
+    @FXML
+    private ImageView bet25;
+    @FXML
+    private ImageView bet100;
+    @FXML
+    private AnchorPane ap;
+    @FXML
+    private Pane wood;
+    @FXML
+    private Label balance;
+    @FXML
+    private Label totalbet;
+    @FXML
+    private Circle ball;
+    @FXML
+    private Rectangle rec00;
+    @FXML
+    private Rectangle rec27;
+    @FXML
+    private Rectangle rec10;
+    @FXML
+    private Rectangle rec25;
+    @FXML
+    private Rectangle rec29;
+    @FXML
+    private Rectangle rec12;
+    @FXML
+    private Rectangle rec8;
+    @FXML
+    private Rectangle rec19;
+    @FXML
+    private Rectangle rec31;
+    @FXML
+    private Rectangle rec18;
+    @FXML
+    private Rectangle rec6;
+    @FXML
+    private Rectangle rec21;
+    @FXML
+    private Rectangle rec33;
+    @FXML
+    private Rectangle rec16;
+    @FXML
+    private Rectangle rec4;
+    @FXML
+    private Rectangle rec23;
+    @FXML
+    private Rectangle rec35;
+    @FXML
+    private Rectangle rec14;
+    @FXML
+    private Rectangle rec2;
+    @FXML
+    private Rectangle rec0;
+    @FXML
+    private Rectangle rec28;
+    @FXML
+    private Rectangle rec9;
+    @FXML
+    private Rectangle rec26;
+    @FXML
+    private Rectangle rec30;
+    @FXML
+    private Rectangle rec11;
+    @FXML
+    private Rectangle rec7;
+    @FXML
+    private Rectangle rec20;
+    @FXML
+    private Rectangle rec32;
+    @FXML
+    private Rectangle rec17;
+    @FXML
+    private Rectangle rec5;
+    @FXML
+    private Rectangle rec22;
+    @FXML
+    private Rectangle rec34;
+    @FXML
+    private Rectangle rec15;
+    @FXML
+    private Rectangle rec3;
+    @FXML
+    private Rectangle rec24;
+    @FXML
+    private Rectangle rec36;
+    @FXML
+    private Rectangle rec13;
+    @FXML
+    private Rectangle rec1;
+    @FXML
+    private Pane wheel;
+    @FXML
+    private Button Bspin;
     
     private final Field[][] grid = new Field[12][3];
-    private final Pane[][] panes = new Pane[12][3];
-    
     private final List<Pane> otherpanes = new ArrayList<>();
-    private final List<Field> otherfields = new ArrayList<>();
-    /**
-     * Initializes the controller class.
-     */
+    private final RouletteModel model = new RouletteModel();
+    private final ImageView iv2 = new ImageView();
+    private boolean haschip = false;
+    private int chip;
+    private final List<ImageView> betchips = new ArrayList<>();
+    private double ballx;
+    private double bally;
+    private final Random r = new Random();
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-                int count = 0;
+        model.setbalance(1000);
+        balance.setText("Balance: " + model.getbalance());
+        totalbet.setText("Total Bet: " + model.getbetamount());
+        ball.setVisible(false);
+        ap.getChildren().add(iv2);
+        iv2.setVisible(false);
+        ballx = ball.getLayoutX();
+        bally = ball.getLayoutY();
+        int count = 0;
         for(int row = 0;row < 12;row++)
         {
             for(int col = 2;col >= 0;col--)
@@ -99,51 +208,463 @@ public class RouletteController implements Initializable {
             }
             
         }
-        
         otherpanes.add(low);
+        otherpanes.add(high);
         otherpanes.add(redbet);
         otherpanes.add(blackbet);
-        otherpanes.add(high);
+        otherpanes.add(zero);
+        otherpanes.add(doublezero);
         otherpanes.add(third1);
         otherpanes.add(third2);
         otherpanes.add(third3);
-        otherpanes.add(even);
+        otherpanes.add(row1);
+        otherpanes.add(row2);
+        otherpanes.add(row3);
         otherpanes.add(odd);
-        otherpanes.add(doublezero);
-        otherpanes.add(zero);
-    }    
+        otherpanes.add(even);
+        putHoverHandlerInPanes();
+    } 
     
-     private void addPane(int row, int col)
+    private void putHoverHandlerInPanes()
     {
-        BorderPane borderpane = new BorderPane();
-         Pane toppane = new Pane();
+        for(final Pane pane : otherpanes)
+        {
+            pane.hoverProperty().addListener((ChangeListener<Boolean>) new ChangeListener<Boolean>() {
+
+                @Override
+                public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                    switch (pane.getId()) {
+                        
+                        case "zero":
+                            test.setText("0");
+                            break;
+                        case "doublezero":
+                            test.setText("00");
+                            break;
+                        case "low":
+                            test.setText(forString(1,19,1));
+                            break;
+                            
+                        case "high":
+                            test.setText(forString(19,37,1));
+                            break;
+                        case "redbet":
+                            String result = "";
+                            for(int row = 0;row < 12;row++)
+                            {
+                                for(int col = 2;col >= 0;col--)
+                                {
+                                    result +=(grid[row][col].isblack() == false ? ","+grid[row][col].getnumber() : "");
+                                }
+                                test.setText(result.substring(1));
+                            }
+                            break;
+                        case "blackbet":
+                            result = "";
+                            for(int row = 0;row < 12;row++)
+                            {
+                                for(int col = 2;col >= 0;col--)
+                                {
+                                    result +=(grid[row][col].isblack() == true ? ","+grid[row][col].getnumber() : "");
+                                }
+                                test.setText(result.substring(1));
+                            }
+                            break;
+                        case "third1":
+                            test.setText(forString(1,13,1));
+                            break;
+                        case "third2":
+                            test.setText(forString(13,25,1));
+                            break;
+                        case "third3":
+                            test.setText(forString(25,37,1));
+                            break;
+                        case "row1":
+                            test.setText(forString(3,37,3));
+                            break;
+                        case "row2":
+                            test.setText(forString(2,37,3));
+                            break;
+                        case "row3":
+                            test.setText(forString(1,36,3));
+                            break;
+                        case "odd":
+                            result = "";
+                            for(int i = 1; i < 37; i++)
+                            {
+                                result += (i % 2 != 0 ? "," + i: "");
+                            }
+                            test.setText(result.substring(1));
+                            break;
+                        case "even":
+                            result = "";
+                            for(int i = 1; i < 37; i++)
+                            {
+                                result += (i % 2 == 0 ? "," + i: "");
+                            }
+                            test.setText(result.substring(1));
+                            break;
+                    }
+                }
+            });
+        }
+    }
+    
+    private String forString(int beginning,int number,int plus)
+    {
+        String result = "";
+        for(int i = beginning; i  < number;i += plus)
+        {
+            result += ","+i;
+        } 
+        return result.substring(1);
+    }
+    
+    private void addPane(final int row, final int col)
+    {
+         BorderPane borderpane = new BorderPane();
          Pane centerpane = new Pane();
-         Pane bottompane = new Pane();
          Pane rightpane = new Pane();
          Pane leftpane = new Pane();
          Label label = new Label();
+         BorderPane bottompane = new BorderPane();
+         BorderPane toppane = new BorderPane();
+         Pane bottomcenter = new Pane(); 
+         Pane bottomleft = new Pane();
+         Pane bottomright = new Pane();
+         Pane topcenter = new Pane();
+         Pane topleft = new Pane();
+         Pane topright = new Pane();
+         borderpane.getStyleClass().add("panes");
          label.setText(grid[row][col].getnumber()+""); 
-         label.setStyle("-fx-text-fill: white;");
-         centerpane.getChildren().add(label); // put label in pane to show it's number
-         BorderPane.setAlignment(toppane, Pos.TOP_CENTER);
-         BorderPane.setAlignment(bottompane, Pos.BOTTOM_CENTER);
-         BorderPane.setAlignment(leftpane, Pos.CENTER_LEFT);
-         BorderPane.setAlignment(rightpane, Pos.TOP_CENTER);
-         label.layoutXProperty().bind(centerpane.widthProperty().subtract(label.widthProperty()).divide(2)); // set label at center of pane's x location
-         label.layoutYProperty().bind(centerpane.heightProperty().subtract(label.heightProperty()).divide(2)); // set label at center of pane's y location
+         label.getStyleClass().add("Label");
+         
+         bottomcenter.hoverProperty().addListener((ChangeListener<Boolean>) new ChangeListener<Boolean>() {
+
+             @Override
+             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                 if(col == 2)
+                 {
+                     test.setText(grid[row][col].getnumber() +","+ grid[row][col-1].getnumber() +","+ grid[row][col-2].getnumber());
+                 }
+                 else
+                 {
+                     test.setText(grid[row][col].getnumber() +","+ grid[row][col+1].getnumber());
+                 }
+             }
+         });
+         bottomright.hoverProperty().addListener((ChangeListener<Boolean>) new ChangeListener<Boolean>() {
+
+             @Override
+             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                 if(col == 2 && row != 11)
+                 {
+                     test.setText(grid[row][col].getnumber() +","+ grid[row][col-1].getnumber() +","+ grid[row][col-2].getnumber()+","+grid[row+1][col].getnumber()+","+grid[row+1][col-1].getnumber()+","+grid[row+1][col-2].getnumber());
+                 }
+                 else if(col == 2)
+                 {
+                     test.setText(grid[row][col].getnumber() +","+ grid[row][col-1].getnumber() +","+ grid[row][col-2].getnumber());
+                 }
+                 else if(row != 11)
+                 {
+                     test.setText(grid[row][col].getnumber()+","+grid[row][col+1].getnumber()+","+grid[row+1][col].getnumber()+","+grid[row+1][col+1].getnumber());
+                 }
+                 else
+                 {
+                     test.setText(grid[row][col].getnumber()+","+grid[row][col+1].getnumber());
+                 }
+             }
+         });
+         bottomleft.hoverProperty().addListener((ChangeListener<Boolean>) new ChangeListener<Boolean>() {
+
+             @Override
+             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                 if(col == 2 && row != 0)
+                 {
+                     test.setText(grid[row][col].getnumber() +","+ grid[row][col-1].getnumber() +","+ grid[row][col-2].getnumber()+","+grid[row-1][col].getnumber()+","+grid[row-1][col-1].getnumber()+","+grid[row-1][col-2].getnumber());
+                 }
+                 else if(row != 0)
+                 {
+                     test.setText(grid[row][col].getnumber()+","+grid[row][col+1].getnumber()+","+grid[row-1][col].getnumber()+","+grid[row-1][col+1].getnumber());
+                 }
+                 else if(row == 0 && col == 2)
+                 {
+                     test.setText(grid[row][col].getnumber() +","+ grid[row][col-1].getnumber() +","+ grid[row][col-2].getnumber()+",00,0");
+                 }
+                 else if(row == 0 && col == 1)
+                 {
+                     test.setText(grid[row][col].getnumber() +","+ grid[row][col+1].getnumber() +",0");
+                 }
+                 else
+                 {
+                     test.setText(grid[row][col].getnumber() +","+ grid[row][col+1].getnumber() +",00");
+                 }
+             }
+         });
+         topcenter.hoverProperty().addListener((ChangeListener<Boolean>) new ChangeListener<Boolean>() {
+
+             @Override
+             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                 if(col == 0)
+                 {
+                     
+                     test.setText(grid[row][col].getnumber() +","+ grid[row][col+1].getnumber() +","+ grid[row][col+2].getnumber());
+                 }
+                 else
+                 {
+                     test.setText(grid[row][col].getnumber() +","+ grid[row][col-1].getnumber());
+                 }
+             }
+         });
+         topleft.hoverProperty().addListener((ChangeListener<Boolean>) new ChangeListener<Boolean>() {
+
+             @Override
+             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                 if(col == 0 && row != 0)
+                 {
+                     test.setText(grid[row][col].getnumber() +","+ grid[row][col+1].getnumber() +","+ grid[row][col+2].getnumber()+","+grid[row-1][col].getnumber()+","+grid[row-1][col+1].getnumber()+","+grid[row-1][col+2].getnumber());
+                 }
+                 else if(row != 0)
+                 {
+                     test.setText(grid[row][col].getnumber()+","+grid[row][col-1].getnumber()+","+grid[row-1][col].getnumber()+","+grid[row-1][col-1].getnumber());
+                 }
+                 else if(row == 0 && col == 0)
+                 {
+                     test.setText(grid[row][col].getnumber() +","+ grid[row][col+1].getnumber() +","+ grid[row][col+2].getnumber()+",00,0");
+                 }
+                 else if(row == 0 && col == 1)
+                 {
+                     test.setText(grid[row][col].getnumber() +","+ grid[row][col-1].getnumber() +",00");
+                 }
+                 else
+                 {
+                     test.setText(grid[row][col].getnumber() +","+ grid[row][col-1].getnumber() +",0");
+                 }
+             }
+         });
+         topright.hoverProperty().addListener((ChangeListener<Boolean>) new ChangeListener<Boolean>() {
+
+             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                 if(col == 0 && row != 11)
+                 {
+                     test.setText(grid[row][col].getnumber() +","+ grid[row][col+1].getnumber() +","+ grid[row][col+2].getnumber()+","+grid[row+1][col].getnumber()+","+grid[row+1][col+1].getnumber()+","+grid[row+1][col+2].getnumber());
+                 }
+                 else if(col == 2)
+                 {
+                     test.setText(grid[row][col].getnumber() +","+ grid[row][col-1].getnumber() +","+ grid[row][col-2].getnumber());
+                 }
+                 else if(row != 11)
+                 {
+                     test.setText(grid[row][col].getnumber()+","+grid[row][col-1].getnumber()+","+grid[row+1][col].getnumber()+","+grid[row+1][col-1].getnumber());
+                 }
+                 else
+                 {
+                     test.setText(grid[row][col].getnumber()+","+grid[row][col-1].getnumber());
+                 }
+             }
+         });
+         rightpane.hoverProperty().addListener((ChangeListener<Boolean>) new ChangeListener<Boolean>() {
+
+             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                 if(row != 11){
+                     test.setText(grid[row][col].getnumber() +","+grid[row+1][col].getnumber());
+                 }
+                 else
+                 {
+                     test.setText(grid[row][col].getnumber()+"");
+                 }
+             }
+         });
+         leftpane.hoverProperty().addListener((ChangeListener<Boolean>) new ChangeListener<Boolean>() {
+
+             @Override
+             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                 if(row != 0){
+                     test.setText(grid[row][col].getnumber() +","+grid[row-1][col].getnumber());
+                 }
+                 else if(col == 2)
+                 {
+                     test.setText(grid[row][col].getnumber()+",0");
+                 }
+                 else if(col == 1)
+                 {
+                     test.setText(grid[row][col].getnumber()+",0,00");
+                 }
+                 else
+                 { 
+                     test.setText(grid[row][col].getnumber()+",00");
+                 }
+             }
+         });
+         centerpane.hoverProperty().addListener((ChangeListener<Boolean>) new ChangeListener<Boolean>() {
+
+             @Override
+             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                 test.setText(grid[row][col].getnumber()+"");
+             }
+         });
+         bottomcenter.setPrefHeight(10);
+         bottomright.setPrefWidth(10);    
+         bottomleft.setPrefWidth(10);
+         topcenter.setPrefHeight(10);
+         topleft.setPrefWidth(10);
+         topright.setPrefWidth(10); //set pref height and width
+         toppane.setPrefHeight(10);
+         bottompane.setPrefHeight(10);
+         leftpane.setPrefWidth(10);
+         rightpane.setPrefWidth(10);
+         
+         borderpane.setBottom(bottompane);
+         centerpane.getChildren().add(label);
+         label.layoutXProperty().bind(centerpane.widthProperty().subtract(label.widthProperty()).divide(2));
+         label.layoutYProperty().bind(centerpane.widthProperty().subtract(label.heightProperty()).divide(2));
+         bottompane.setCenter(bottomcenter);
+         bottompane.setRight(bottomright); // put all together
+         bottompane.setLeft(bottomleft);
+         toppane.setLeft(topleft);
+         toppane.setRight(topright);
+         toppane.setCenter(topcenter);
+         borderpane.setCenter(centerpane);
+         borderpane.setLeft(leftpane);
+         borderpane.setRight(rightpane);
+         borderpane.setBottom(bottompane);
+         borderpane.setTop(toppane);
          if((grid[row][col].getnumber() < 11 || (grid[row][col].getnumber() <29 && grid[row][col].getnumber() > 18) ? grid[row][col].getnumber() % 2 == 0 : grid[row][col].getnumber() % 2 != 0)) // to look if cell should be red or black
          {
-             borderpane.setStyle("-fx-border-width: 1px; -fx-border-color: white; -fx-background-color: black;");
+             borderpane.setStyle("-fx-background-color: black;");
              grid[row][col].setisblack(true);
          }
          else
          {
-              borderpane.setStyle("-fx-border-width: 1px; -fx-border-color: white; -fx-background-color: red;");
+              borderpane.setStyle("-fx-background-color: red;");
               grid[row][col].setisblack(false);
          }
-         panes[row][col] = borderpane;
          
          numbers.add(borderpane, row, col);
     }
-    
+
+    @FXML
+    private void makebet(MouseEvent event) {
+        if(haschip == false || event.getSource().getClass().equals(iv2.getClass()))
+        {
+            try{
+        ImageView iv = (ImageView) event.getSource();
+        chip = Integer.parseInt(iv.getId().substring(3));
+        iv2.setImage(iv.getImage());
+        iv2.setScaleX(0.03125);
+        iv2.setScaleY(0.03125);
+        haschip = true;
+            }catch(Exception e){}
+        }
+        else if(haschip == true)
+        {
+            Pane pane  = (Pane) event.getSource();
+            ImageView iv = new ImageView(iv2.getImage());
+            iv.setScaleX(0.015625);
+            iv.setScaleY(0.015625);
+            iv.setSmooth(true);
+            iv.setLayoutX(event.getSceneX()-378);
+            iv.setLayoutY(event.getSceneY()-378);
+            ap.getChildren().add(iv);
+            betchips.add(iv);
+            model.makebet(test.getText()+":"+chip);
+            haschip = false;
+            iv2.setVisible(false);
+            totalbet.setText("Total Bet: "+model.getbetamount());
+            balance.setText("Balance: "+model.getbalance());
+        }
+    }
+
+    @FXML
+    private void move(MouseEvent event) {
+        if(haschip == true)
+        {
+            iv2.setVisible(true);
+            iv2.setX(event.getX()-355);
+            iv2.setY(event.getY()-355);
+        }
+    }
+    @FXML
+    private void spin(ActionEvent event) throws InterruptedException {
+        Bspin.setDisable(true);
+        RotateTransition RT1 = new RotateTransition(Duration.millis(16000), wheel);
+            RT1.setCycleCount(1);
+            RT1.setByAngle(500f+(1000f*Math.random()));
+            RT1.play();         
+
+            final Timeline timeline = new Timeline(new KeyFrame(Duration.ZERO, new EventHandler() {
+            int movingStep = 0;
+            boolean beginning = true;
+            int remove = 250;
+            @Override
+            public void handle(Event event) {
+                movingStep++;
+                double angleAlpha = movingStep * ( Math.PI / 30 );
+                double midPointx = wheel.getLayoutX() + (wheel.getWidth()/2)-215;
+                double midPointy = wheel.getLayoutY() + (wheel.getHeight()/2)-160;
+                double ballorbit = midPointy - ball.getCenterY();
+                    beginning = false;
+                
+                    moveBall(ball, midPointx + (ballorbit-remove) * Math.sin(angleAlpha), midPointy - (ballorbit-remove) * Math.cos(angleAlpha));
+                // Reset after one orbit.
+                if (movingStep == 360) {
+                    movingStep = 0;
+                }
+                if(remove > 207 && movingStep % 2 == 0){
+                    remove -= 1;
+                    ball.setVisible(true);
+                }
+            }
+        }), new KeyFrame(Duration.millis(60)));
+             timeline.setCycleCount(100+r.nextInt(50));
+             timeline.play();
+            Timeline pause = new Timeline(new KeyFrame(Duration.millis(17000), new EventHandler<ActionEvent>() {   
+            @Override
+            public void handle(ActionEvent event) {
+                System.out.println(landedin());
+                model.check(landedin());
+                balance.setText("Balance: "+model.getbalance());
+                for(ImageView iv : betchips)
+                {
+                ap.getChildren().remove(iv);
+                }
+                ball.setLayoutX(ballx);
+                ball.setLayoutY(bally);
+                ball.setRotate(0);
+                wheel.setRotate(0);
+                Bspin.setDisable(false);
+            }
+            }));
+            pause.setCycleCount(1);
+            pause.play();
+            
+    }
+     private void moveBall(Circle ball, double x, double y) {
+         
+        TranslateTransition move = TranslateTransitionBuilder.create()
+                .node(ball)
+                .toX(x)
+                .toY(y)
+                .duration(Duration.millis(60))
+                .build();
+ 
+        move.playFromStart();
+    }
+    private String landedin()
+    {
+        
+         Rectangle[] wheeldata = {rec00,rec27,rec10,rec25,rec29,rec12,rec8,rec19,rec31,rec18,rec6,rec21,rec33,rec16,rec4,rec23,rec35,rec14,rec2,rec0,rec28,rec9,rec26,rec30,rec11,rec7,rec20,rec32,rec17,rec5,rec22,rec34,rec15,rec3,rec24,rec36,rec13,rec1};      
+        for (Rectangle rec : wheeldata) {
+            Node node = rec;
+            Bounds b = node.localToScene(node.getBoundsInLocal());
+            Node node1 = ball;
+            Bounds a = node1.localToScene(node1.getBoundsInLocal());
+            if(a.intersects(b))
+            {
+                
+                return rec.getId().substring(3);
+            }
+        }
+        return "whoops ein Fehler!";
+    }
 }
