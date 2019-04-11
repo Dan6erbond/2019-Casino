@@ -27,10 +27,7 @@ public class RouletteModel {
         betbalance += Integer.parseInt(bet.split(":")[1]);
         balance -= Integer.parseInt(bet.split(":")[1]);
     }
-    public void spinwheel()
-    {
-        
-    }
+    
     public int getbalance()
     {
         return balance;

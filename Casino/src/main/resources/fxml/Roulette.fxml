@@ -230,7 +230,7 @@
             <Rectangle fx:id="rec36" arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="15.0" layoutX="108.0" layoutY="73.0" rotate="-23.7" stroke="#1eebb800" strokeType="INSIDE" width="10.0" />
             <Rectangle fx:id="rec13" arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="15.0" layoutX="119.0" layoutY="68.0" rotate="-16.4" stroke="#1eebb800" strokeType="INSIDE" width="10.0" />
             <Rectangle fx:id="rec1" arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="15.0" layoutX="132.0" layoutY="65.0" rotate="-5.2" stroke="#1eebb800" strokeType="INSIDE" width="10.0" />
-            <Circle fx:id="ball" fill="WHITE" layoutX="150.0" layoutY="26.0" radius="4.0" stroke="WHITE" strokeType="INSIDE" />
+            <Circle fx:id="ball" fill="WHITE" layoutX="150.0" layoutY="26.0" radius="3.5" stroke="WHITE" strokeType="INSIDE" />
          </children>
       </Pane>
    </children>

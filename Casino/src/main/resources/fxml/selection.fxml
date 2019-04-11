@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.net.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.bbbaden.casino.selection.SelesctionController">
-    <stylesheets>
-        <URL value="@/styles/selesction.css"/>
-    </stylesheets>
+<AnchorPane id="AnchorPane" prefHeight="547.0" prefWidth="598.0" styleClass="mainFxmlClass" stylesheets="@../styles/selection.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.bbbaden.casino.selection.SelectionController">
+   <children>
+      <ImageView fx:id="BlackJack" fitHeight="150.0" fitWidth="200.0" layoutX="27.0" layoutY="65.0" onMouseClicked="#startgame" pickOnBounds="true" preserveRatio="true" styleClass="games" />
+      <ImageView fx:id="SlotMachine" fitHeight="150.0" fitWidth="200.0" layoutX="363.0" layoutY="52.0" onMouseClicked="#startgame" pickOnBounds="true" preserveRatio="true" styleClass="games" />
+      <ImageView fx:id="Roulette" fitHeight="150.0" fitWidth="200.0" layoutX="27.0" layoutY="327.0" onMouseClicked="#startgame" pickOnBounds="true" preserveRatio="true" styleClass="games" />
+      <ImageView fx:id="bingo" fitHeight="150.0" fitWidth="200.0" layoutX="351.0" layoutY="327.0" onMouseClicked="#startgame" pickOnBounds="true" preserveRatio="true" styleClass="games" />
+   </children>
 </AnchorPane>

@@ -3,5 +3,10 @@
  */
 
 .mainFxmlClass {
-
+    -fx-background-image: url("../images/carpet.jpg");
+}
+.games
+{
+    -fx-border-color: red;
+    -fx-border-radius: 5px;
 }

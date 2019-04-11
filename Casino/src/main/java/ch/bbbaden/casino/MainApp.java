@@ -9,7 +9,7 @@ public class MainApp extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        SceneManager.getInstance().openWindow("/fxml/Login.fxml");
+        SceneManager.getInstance().openWindow("/fxml/selection.fxml");
     }
 
     /**
