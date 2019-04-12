@@ -52,7 +52,7 @@ public class SceneManager {
     }
 
     public Stage openWindow(String fxml) throws IOException {
-        Stage s = new Stage(StageStyle.UTILITY);
+        stage = new Stage(StageStyle.UTILITY);
 
         Parent root = FXMLLoader.load(getClass().getResource(fxml));
 
@@ -60,11 +60,11 @@ public class SceneManager {
         scene.getStylesheets().add("https://fonts.googleapis.com/css?family=Roboto");
         scene.getStylesheets().add("https://fonts.googleapis.com/css?family=Aldrich");
 
-        s.setTitle("Casino");
-        s.setScene(scene);
-        s.show();
+        stage.setTitle("Casino");
+        stage.setScene(scene);
+        stage.show();
 
-        return s;
+        return stage;
     }
 
 }
