@@ -89,6 +89,33 @@
             <Font name="SimSun-ExtB" size="24.0" />
          </font>
       </Label>
+      <Label fx:id="pval" layoutX="161.0" layoutY="79.0" textFill="WHITE">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="bval" layoutX="851.0" layoutY="79.0" textFill="WHITE">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="pmessage" layoutX="205.0" layoutY="79.0" textAlignment="CENTER" textFill="WHITE">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <ButtonBar layoutX="779.0" layoutY="409.0" prefHeight="40.0" prefWidth="209.0">
+        <buttons>
+          <Button fx:id="again" disable="true" mnemonicParsing="false" onAction="#clickAgain" prefHeight="26.0" prefWidth="147.0" text="Nochmal" />
+            <Button fx:id="leave" mnemonicParsing="false" onAction="#clickLeave" text="Verlassen" />
+        </buttons>
+      </ButtonBar>
+      <Label fx:id="bmessage" layoutX="608.0" layoutY="79.0" textFill="WHITE">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Pane fx:id="imgpane" layoutX="157.0" layoutY="147.0" prefHeight="246.0" prefWidth="824.0" />
    </children>
    <stylesheets>
       <URL value="@../styles/style.css" />
