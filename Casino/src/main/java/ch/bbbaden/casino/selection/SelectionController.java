@@ -5,10 +5,13 @@
  */
 package ch.bbbaden.casino.selection;
 
+import ch.bbbaden.casino.Databankmanager;
 import ch.bbbaden.casino.SceneManager;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.image.ImageView;
@@ -34,7 +37,7 @@ public class SelectionController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
+
     }    
 
     @FXML

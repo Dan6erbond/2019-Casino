@@ -1,13 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
 <AnchorPane id="AnchorPane" prefHeight="547.0" prefWidth="598.0" styleClass="mainFxmlClass" stylesheets="@../styles/selection.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.bbbaden.casino.selection.SelectionController">
    <children>
-      <ImageView fx:id="BlackJack" fitHeight="150.0" fitWidth="200.0" layoutX="27.0" layoutY="65.0" onMouseClicked="#startgame" pickOnBounds="true" preserveRatio="true" styleClass="games" />
+      <ImageView fx:id="BlackJack" fitHeight="167.0" fitWidth="235.0" layoutX="24.0" layoutY="27.0" onMouseClicked="#startgame" pickOnBounds="true" preserveRatio="true" styleClass="games">
+         <image>
+            <Image url="@../images/selectblackjack.png" />
+         </image></ImageView>
       <ImageView fx:id="SlotMachine" fitHeight="150.0" fitWidth="200.0" layoutX="363.0" layoutY="52.0" onMouseClicked="#startgame" pickOnBounds="true" preserveRatio="true" styleClass="games" />
-      <ImageView fx:id="Roulette" fitHeight="150.0" fitWidth="200.0" layoutX="27.0" layoutY="327.0" onMouseClicked="#startgame" pickOnBounds="true" preserveRatio="true" styleClass="games" />
-      <ImageView fx:id="bingo" fitHeight="150.0" fitWidth="200.0" layoutX="351.0" layoutY="327.0" onMouseClicked="#startgame" pickOnBounds="true" preserveRatio="true" styleClass="games" />
+      <ImageView fx:id="Roulette" fitHeight="124.0" fitWidth="307.0" layoutX="14.0" layoutY="353.0" onMouseClicked="#startgame" pickOnBounds="true" preserveRatio="true" styleClass="games">
+         <image>
+            <Image url="@../images/selectroulette.png" />
+         </image></ImageView>
+      <ImageView fx:id="bingo" fitHeight="150.0" fitWidth="200.0" layoutX="384.0" layoutY="340.0" onMouseClicked="#startgame" pickOnBounds="true" preserveRatio="true" styleClass="games" />
    </children>
 </AnchorPane>

@@ -624,6 +624,7 @@ public class RouletteController implements Initializable {
                 System.out.println(landedin());
                 model.check(landedin());
                 balance.setText("Balance: "+model.getbalance());
+                totalbet.setText("Total Bet: " + model.getbetamount());
                 for(ImageView iv : betchips)
                 {
                 ap.getChildren().remove(iv);

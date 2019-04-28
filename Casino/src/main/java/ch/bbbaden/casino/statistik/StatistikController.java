@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ch.bbbaden.casino;
+package ch.bbbaden.casino.statistik;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -12,9 +12,9 @@ import javafx.fxml.Initializable;
 /**
  * FXML Controller class
  *
- * @author User
+ * @author aless
  */
-public class LoginController implements Initializable {
+public class StatistikController implements Initializable {
 
     /**
      * Initializes the controller class.
