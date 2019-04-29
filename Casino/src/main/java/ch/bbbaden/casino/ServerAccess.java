@@ -21,15 +21,12 @@ public class ServerAccess extends Observable{
         private Socket socket;
         private OutputStream outputStream;
         private static ServerAccess sa= new ServerAccess();
+        private String message;
         public static ServerAccess getInstance()
         {
             return sa;
         }
-        public void addobserver(Observer o)
-        {
-            this.addObserver(o);
-            
-        }
+
         /** Create socket, and receiving thread */
         public void InitSocket(String server, int port) throws IOException {
             socket = new Socket(server, port);
@@ -44,8 +41,7 @@ public class ServerAccess extends Observable{
                         String line;
                         line = reader.readLine().trim();
                         while (line != null){
-                                setChanged();
-                                notifyObservers(line);
+                                message = line;
                         }
                     } catch (IOException ex) {
                         close();
@@ -56,7 +52,12 @@ public class ServerAccess extends Observable{
         }
 
         private static final String CRLF = "\r\n"; 
-
+        
+        public String getmessage()
+        {
+            return message;
+        }
+        
         /** Send a line of text */
         public void send(String text) {
             try {

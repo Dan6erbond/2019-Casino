@@ -6,6 +6,7 @@
 package ch.bbbaden.casino.loginregister;
 
 import ch.bbbaden.casino.Databankmanager;
+import ch.bbbaden.casino.Panemanager;
 import ch.bbbaden.casino.SceneManager;
 import ch.bbbaden.casino.ServerAccess;
 import java.io.BufferedReader;
@@ -24,6 +25,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javax.swing.JOptionPane;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 
@@ -32,7 +35,7 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
  *
  * @author User
  */
-public class LoginController implements Initializable,Observer {
+public class LoginController implements Initializable {
     @FXML
     private Label registerlabel;
     @FXML
@@ -57,10 +60,11 @@ public class LoginController implements Initializable,Observer {
     private Label title;
     @FXML
     private Label alertcheck;
+    @FXML
+    private AnchorPane ap;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        ServerAccess.getInstance().addobserver(this);
     }    
 
     @FXML
@@ -70,7 +74,11 @@ public class LoginController implements Initializable,Observer {
     }
 
     @FXML
-    private void login(ActionEvent event) {
+    private void login(ActionEvent event) throws IOException, InterruptedException {
+        if(count > 0)
+        {
+             SceneManager.getInstance().changeScene("/fxml/selection.fxml");
+        }
         if(namefield.getText().trim() == null || namefield.getText().trim() == "")
         {
             alertname.setText("This field must be filled out, without any special symbols and within the length of 50 characters");
@@ -86,20 +94,42 @@ public class LoginController implements Initializable,Observer {
             } catch (IOException ex) {
             Logger.getLogger(RegisterController.class.getName()).log(Level.SEVERE, null, ex);
             }
+            check();
         }
     }
 
-    @Override
-    public void update(Observable o, Object arg) {
-        title.setText((String)arg);
-        if(BCrypt.checkpw(passwordfield.getText(), (String) arg))
+    private void check()
+    {
+        Thread thread = new Thread()
         {
+            public void run()
+            {
+                while(true)
+                {
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    if(sa.getmessage() != null)
+                    {
+                        break;
+                    }
+
+                }
+            }
+        };
+        thread.run();
+        if(BCrypt.checkpw(passwordfield.getText(), sa.getmessage()))
+        {
+            ap.getChildren().add(Panemanager.createPane(ap.getWidth(),ap.getHeight(),"Login successfull","/fxml/selection.fxml"));
             sa.close();
-            JOptionPane.showMessageDialog(null, "Login successfull");
         }
         else
         {
-            alertpassword.setText("The username or password is incorrect");
+            ap.getChildren().add(Panemanager.createPane(ap.getWidth(),ap.getHeight(),"Password or Username is incorrect"));
         }
     }
+    private int count = 0;
+
 }

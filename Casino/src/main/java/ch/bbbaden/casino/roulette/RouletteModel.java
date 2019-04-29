@@ -5,6 +5,7 @@
  */
 package ch.bbbaden.casino.roulette;
 
+import ch.bbbaden.casino.Databankmanager;
 import java.util.*;
 
 /**
@@ -15,6 +16,7 @@ public class RouletteModel {
     
     private int balance = 0;
     private int betbalance = 0;
+    private Databankmanager dm = Databankmanager.getInstance();
     List<String> bets = new ArrayList<>();
     
     public void setbalance(int balance)
@@ -36,7 +38,7 @@ public class RouletteModel {
     {
         return betbalance;
     }
-    public void check(String number)
+    public int check(String number)
     {
         int won = 0;
         
@@ -56,9 +58,15 @@ public class RouletteModel {
                     }
                 }
             }
+            if(won == 0)
+            {
+                won -= bet;
+            }
         }
         balance += won;
+        //dm.setchipamount(dm.getchipamount()+won);
         betbalance = 0;
         bets.removeAll(bets);
+        return won;
     }
 }

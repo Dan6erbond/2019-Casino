@@ -51,7 +51,6 @@ public class RegisterController implements Initializable,Observer {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        ServerAccess.getInstance().addobserver(this);
     }    
 
     @FXML

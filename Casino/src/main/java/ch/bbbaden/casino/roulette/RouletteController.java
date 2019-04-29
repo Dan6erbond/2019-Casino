@@ -1,5 +1,6 @@
 package ch.bbbaden.casino.roulette;
 
+import ch.bbbaden.casino.Panemanager;
 import java.net.URL;
 import java.util.*;
 import javafx.animation.*;
@@ -622,7 +623,8 @@ public class RouletteController implements Initializable {
             @Override
             public void handle(ActionEvent event) {
                 System.out.println(landedin());
-                model.check(landedin());
+                int won = model.check(landedin());
+                ap.getChildren().add(Panemanager.createPane(ap.getWidth(), ap.getHeight(), "The ball landed in field:"+landedin()+" \r\n" + (won < 0 ? "You lost "+(won*-1): "You won "+won)));
                 balance.setText("Balance: "+model.getbalance());
                 totalbet.setText("Total Bet: " + model.getbetamount());
                 for(ImageView iv : betchips)
