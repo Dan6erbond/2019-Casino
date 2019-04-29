@@ -31,20 +31,12 @@ and open the template in the editor.
 }
 
 .button:hover {
-}
-
-.startButton {
-    -fx-background-color: #ff3333;
-    -fx-background-radius: 50px;
-    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 2, 0, 0, 0);
-    -fx-color: #ff3333;
-}
-
-.startButton:hover {
-    -fx-background-color: #ff0000;
+    -fx-background-color: #ebac0d;
+    -fx-text-fill: #ffffff;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0), 2, 0, 0, 0);
 }
 
 .title{
     -fx-font-family: 'Aldrich';
-    -fx-font-size: 16px;
+    -fx-font-size: 32px;
 }
