@@ -36,7 +36,7 @@
           <RowConstraints maxHeight="53.599993896484364" minHeight="6.399987792968744" prefHeight="47.20001220703125" vgrow="SOMETIMES" />
         </rowConstraints>
       </GridPane>
-      <Pane fx:id="low" layoutX="546.0" layoutY="107.0" onMouseClicked="#makebet" prefHeight="66.0" prefWidth="304.0" styleClass="panes" stylesheets="@roulette.css">
+      <Pane fx:id="low" layoutX="546.0" layoutY="107.0" onMouseClicked="#makebet" prefHeight="66.0" prefWidth="304.0" styleClass="panes">
          <children>
             <Label fx:id="lowlabel" layoutX="129.0" layoutY="19.0" text="1 TO 18" textFill="WHITE">
                <font>

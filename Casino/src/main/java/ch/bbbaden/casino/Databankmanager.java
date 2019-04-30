@@ -65,5 +65,44 @@ public class Databankmanager {
        
    }
    
-   
+   public String readstatistik(String table,String username)
+   {
+       sa.send("readstatistik:"+table+";");
+               Thread thread = new Thread()
+        {
+            public void run()
+            {
+                while(sa.getmessage() == null)
+                {
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException ex) {
+                       
+                    }
+                }
+            }
+        };
+        thread.run();
+       return sa.getmessage();
+   }
+   public String readuser(String table)
+   {
+       sa.send("readuser:"+table+";");
+               Thread thread = new Thread()
+        {
+            public void run()
+            {
+                while(sa.getmessage() == null)
+                {
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException ex) {
+                       
+                    }
+                }
+            }
+        };
+        thread.run();
+       return sa.getmessage();
+   }
 }

@@ -57,7 +57,6 @@ public class ServerAccess extends Observable{
         {
             return message;
         }
-        
         /** Send a line of text */
         public void send(String text) {
             try {
