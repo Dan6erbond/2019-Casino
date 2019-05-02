@@ -44,3 +44,29 @@ and open the template in the editor.
     -fx-background-radius: 50px;
     -fx-background-color: red;
 }
+
+.marked {
+    -fx-border-color: rgb(235, 172, 13, 0.5);
+    -fx-border-radius: 15px;
+    -fx-border-width: 25px;
+}
+
+.spinner .increment-arrow-button {
+    -fx-background-image: url("../img/slotmachine/plus.png");
+    -fx-background-size: stretch;
+    -fx-padding: 9px;
+}
+
+.spinner .increment-arrow-button .increment-arrow {
+    visibility: hidden;
+}
+
+.spinner .decrement-arrow-button {
+    -fx-background-image: url("../img/slotmachine/minus.png");
+    -fx-background-size: stretch;
+    -fx-padding: 9px;
+}
+
+.spinner .decrement-arrow-button .decrement-arrow {
+    visibility: hidden;
+}

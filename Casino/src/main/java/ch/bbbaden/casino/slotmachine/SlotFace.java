@@ -12,29 +12,52 @@ import javafx.scene.image.Image;
  * @author User
  */
 public enum SlotFace {
-
+    
     SPIN, GREENBAR, GREENSEVEN, GREENSTAR, REDSEVEN, YELLOWBAR, SCATTER, YELLOWSEVEN, SUPERCHERRY;
-
+    
+    public static Image[] images = {
+        new Image("/img/slotmachine/blue-spin.png"),
+        new Image("/img/slotmachine/green-bar.png"),
+        new Image("/img/slotmachine/green-seven.png"),
+        new Image("/img/slotmachine/green-star.png"),
+        new Image("/img/slotmachine/red-seven.png"),
+        new Image("/img/slotmachine/yellow-bar.png"),
+        new Image("/img/slotmachine/yellow-scatter.png"),
+        new Image("/img/slotmachine/super-cherry.png"),
+        new Image("/img/slotmachine/yellow-seven.png")
+    };
+    
     public Image getImage() {
+        Image image;
         switch (this) {
             case SPIN:
-                return new Image("/img/slotmachine/blue-spin.png");
+                image = images[0];
+                break;
             case GREENBAR:
-                return new Image("/img/slotmachine/green-bar.png");
+                image = images[1];
+                break;
             case GREENSEVEN:
-                return new Image("/img/slotmachine/green-seven.png");
+                image = images[2];
+                break;
             case GREENSTAR:
-                return new Image("/img/slotmachine/green-star.png");
+                image = images[3];
+                break;
             case REDSEVEN:
-                return new Image("/img/slotmachine/red-seven.png");
+                image = images[4];
+                break;
             case YELLOWBAR:
-                return new Image("/img/slotmachine/yellow-bar.png");
+                image = images[5];
+                break;
             case SCATTER:
-                return new Image("/img/slotmachine/yellow-scatter.png");
+                image = images[6];
+                break;
             case SUPERCHERRY:
-                return new Image("/img/slotmachine/super-cherry.png");
+                image = images[7];
+                break;
             default:
-                return new Image("/img/slotmachine/yellow-seven.png");
+                image = images[8];
+                break;
         }
+        return image;
     }
 }

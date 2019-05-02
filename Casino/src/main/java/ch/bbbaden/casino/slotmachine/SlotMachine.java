@@ -7,28 +7,49 @@ package ch.bbbaden.casino.slotmachine;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Optional;
 import java.util.Random;
 
 /**
  *
  * @author User
  */
-public class SlotMachine {
+public final class SlotMachine {
 
     public static final int EXTRA = 50;
+
     private final SlotFace[][] faces = new SlotFace[5][SlotFace.values().length + EXTRA];
 
-    public SlotFace[][] getStart() {
-        SlotFace[][] fs = rotate();
+    private int bank = 200;
+    private int bet = 0;
+    private int multiplier = 1;
 
-        for (int i = 0; i < fs.length; i++) {
-            fs[i][fs[i].length - 2] = SlotFace.SUPERCHERRY;
+    public SlotMachine() {
+        rotate();
+        for (int i = 0; i < faces.length; i++) {
+            faces[i][faces[i].length - 2] = SlotFace.SUPERCHERRY;
         }
-
-        return fs;
     }
 
-    public SlotFace[][] rotate() {
+    public int getBank() {
+        return bank;
+    }
+
+    public int getMultiplier() {
+        return multiplier;
+    }
+
+    public int getBet() {
+        return bet;
+    }
+
+    public void setBet(int bet) {
+        int diff = bet - this.bet;
+        this.bet = bet;
+        bank -= diff;
+    }
+
+    public void rotate() {
         Random random = new Random();
 
         for (int i = 0; i < faces.length; i++) {
@@ -48,56 +69,106 @@ public class SlotMachine {
             }
         }
 
+        evaluateFace();
+    }
+
+    public SlotFace[][] getFaces() {
         return faces;
     }
 
-    public SlotFace[][] getDisplayed() {
-        SlotFace[][] fs = new SlotFace[5][3];
+    public Optional<Tuple<SlotFace, Tuple<Integer, Integer>>[]> getDiagonal() {
+        Tuple<SlotFace, Tuple<Integer, Integer>>[] tuples = new Tuple[3];
+        for (int i = 1; i < faces.length - 1; i++) {
+            int x = faces[i].length - 2;
+            SlotFace face = faces[i][x];
+            tuples[0] = new Tuple(face, new Tuple(x, i));
 
-        for (int i = 0; i < fs.length; i++) {
-            for (int j = 0; j < fs[i].length; j++) {
-                fs[i][j] = faces[i][faces[i].length - j - 1];
+            Tuple pos1 = new Tuple(x - 1, i - 1);
+            SlotFace face1 = faces[(int) pos1.y][(int) pos1.x];
+            Tuple pos2 = new Tuple(x + 1, i + 1);
+            SlotFace face2 = faces[(int) pos2.y][(int) pos2.x];
+            Tuple pos3 = new Tuple(x + 1, i - 1);
+            SlotFace face3 = faces[(int) pos3.y][(int) pos3.x];
+            Tuple pos4 = new Tuple(x - 1, i + 1);
+            SlotFace face4 = faces[(int) pos4.y][(int) pos4.x];
+
+            if (face1 == face && face2 == face) {
+                tuples[1] = new Tuple(face, pos1);
+                tuples[2] = new Tuple(face, pos2);
+                return Optional.of(tuples);
+            } else if (face3 == face && face4 == face) {
+                tuples[1] = new Tuple(face, pos3);
+                tuples[2] = new Tuple(face, pos4);
+                return Optional.of(tuples);
             }
         }
 
-        return fs;
+        return Optional.empty();
     }
 
-    public boolean getDiagonal() {
-        SlotFace[][] fs = getDisplayed();
-
-        for (int i = 0; i < fs.length; i++) {
-            if (i > 0 && i < fs.length-1){
-                SlotFace face = fs[i][1];
-                if (fs[i-1][0] == face && fs[i+1][2] == face){
-                    return true;
-                } else if (fs[i-1][2] == face && fs[i+1][0] == face){
-                    return true;
+    public Optional<ArrayList<Tuple<SlotFace, Tuple<Integer, Integer>>>> getStraight() {
+        ArrayList<Tuple<SlotFace, Tuple<Integer, Integer>>> tuples = new ArrayList<>();
+        int[] js = {2,1,3};
+        for (int j : js) {
+            for (int i = 0; i < faces.length; i++) {
+                int x = faces[i].length - j;
+                if (tuples.isEmpty() || faces[i][x] == tuples.get(tuples.size() - 1).x && tuples.get(tuples.size() - 1).y.y == i-1) {
+                    Tuple tuple = new Tuple(faces[i][x], new Tuple(x, i));
+                    tuples.add(tuple);
+                } else if (tuples.size() < 3) {
+                    tuples.clear();
                 }
             }
+            if (tuples.size() >= 3) {
+                break;
+            } else {
+                tuples.clear();
+            }
         }
 
-        return false;
-    }
-    
-    public boolean getStraight(){
-        SlotFace[][] fs = getDisplayed();
-        
-        SlotFace previous = null;
-        int count = 0;
-        for (int i = 0; i < fs.length; i++) {
-            if (fs[i][1] == previous){
-                count++;
-            } else {
-                count = 0;
-            }
-            previous = fs[i][1];
-        }
-        
-        if (count >= 3){
-            return true;
+        if (tuples.size() >= 3) {
+            return Optional.of(tuples);
         } else {
-            return false;
+            return Optional.empty();
+        }
+    }
+
+    private void evaluateFace() {
+        if (getDiagonal().isPresent()) {
+            SlotFace face = getDiagonal().get()[0].x;
+            switch (face) {
+                case SPIN:
+                    multiplier = 2;
+                    break;
+                case REDSEVEN:
+                    multiplier = 5;
+                    break;
+                case GREENSTAR:
+                    multiplier = 3;
+                    break;
+                case YELLOWBAR:
+                    multiplier = 10;
+                    break;
+            }
+        } else if (getStraight().isPresent()) {
+            SlotFace face = getStraight().get().get(0).x;
+            switch (face) {
+                case GREENSEVEN:
+                    multiplier = 5;
+                    break;
+                case GREENBAR:
+                    multiplier = 3;
+                    break;
+                case SCATTER:
+                    multiplier = 10;
+                    break;
+                case YELLOWSEVEN:
+                    multiplier = 2;
+                    break;
+                case SUPERCHERRY:
+                    bank += bet * multiplier;
+                    break;
+            }
         }
     }
 
