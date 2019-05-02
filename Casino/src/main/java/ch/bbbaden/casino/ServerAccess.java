@@ -55,7 +55,9 @@ public class ServerAccess extends Observable{
         
         public String getmessage()
         {
-            return message;
+            String message2 = message;
+            message = null;
+            return message2;
         }
         /** Send a line of text */
         public void send(String text) {

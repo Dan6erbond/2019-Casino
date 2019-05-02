@@ -62,7 +62,7 @@ public class StatistikController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        playerlist.getItems().addAll(Arrays.asList(dm.readuser("username").split(";")));
+        playerlist.getItems().addAll(Arrays.asList(dm.readusername("username").split(";")));
     }    
 
     @FXML
@@ -72,7 +72,7 @@ public class StatistikController implements Initializable {
         datatitle.setVisible(true);
         if(playerlist.getSelectionModel().getSelectedItem() != null){
             String[] statistik = dm.readstatistik("*",playerlist.getSelectionModel().getSelectedItem()).split(";");
-            for(int i = 0; i < statistik.length; i++)
+            for(int i = 0; i < statistik.length-1; i++)
             {
                 labels[i].setText(labels[i].getText()+statistik[i]);
             }

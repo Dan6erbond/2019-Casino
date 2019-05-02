@@ -31,41 +31,17 @@ public class RouletteController implements Initializable {
     @FXML
     private Pane low;
     @FXML
-    private Label lowlabel;
-    @FXML
     private Pane high;
-    @FXML
-    private Label highlabel;
-    @FXML
-    private Label col1label;
-    @FXML
-    private Label col2label;
-    @FXML
-    private Label col3label;
     @FXML
     private Pane third1;
     @FXML
-    private Label third1label;
-    @FXML
     private Pane third2;
-    @FXML
-    private Label third2label;
     @FXML
     private Pane third3;
     @FXML
-    private Label third3label;
-    @FXML
     private Pane even;
     @FXML
-    private Label evenlabel;
-    @FXML
-    private Label redlabel;
-    @FXML
-    private Label blacklabel;
-    @FXML
     private Pane odd;
-    @FXML
-    private Label oddlabel;
     @FXML
     private Pane doublezero;
     @FXML
@@ -79,17 +55,7 @@ public class RouletteController implements Initializable {
     @FXML
     private Pane row3;
     @FXML
-    private ImageView bet2;
-    @FXML
-    private ImageView bet5;
-    @FXML
-    private ImageView bet25;
-    @FXML
-    private ImageView bet100;
-    @FXML
     private AnchorPane ap;
-    @FXML
-    private Pane wood;
     @FXML
     private Label balance;
     @FXML

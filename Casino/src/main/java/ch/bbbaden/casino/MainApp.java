@@ -12,7 +12,7 @@ public class MainApp extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        SceneManager.getInstance().openWindow("/fxml/Roulette.fxml");
+        SceneManager.getInstance().openWindow("/fxml/statistik.fxml");
     }
 
     /**

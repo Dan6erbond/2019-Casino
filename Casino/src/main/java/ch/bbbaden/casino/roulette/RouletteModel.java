@@ -14,25 +14,20 @@ import java.util.*;
  */
 public class RouletteModel {
     
-    private int balance = 0;
     private int betbalance = 0;
     private Databankmanager dm = Databankmanager.getInstance();
     List<String> bets = new ArrayList<>();
-    
-    public void setbalance(int balance)
-    {
-        this.balance = balance;
-    }
+
     public void makebet(String bet)
     {
         bets.add(bet);
         betbalance += Integer.parseInt(bet.split(":")[1]);
-        balance -= Integer.parseInt(bet.split(":")[1]);
+        dm.setchipamount(dm.getchipamount() - Integer.parseInt(bet.split(":")[1]));
     }
     
     public int getbalance()
     {
-        return balance;
+        return dm.getchipamount();
     }
     public int getbetamount()
     {
@@ -41,30 +36,47 @@ public class RouletteModel {
     public int check(String number)
     {
         int won = 0;
-        
         for(String s: bets)
         {
+            int currentwin = 0;
             int bet = Integer.parseInt(s.split(":")[1]);
             for(String string : s.split(","))
             {
                 if(string.equals(number))
                 {
+                    
                     if(s.split(",").length != 5){
-                    won += (bet* ((int) 35/s.split(",").length))+bet;
+                    currentwin += (bet* ((int) 35/s.split(",").length))+bet;
                     }
                     else
                     {
-                        won += (bet* ((int) 35/s.split(",").length-1))+bet;
+                        currentwin += (bet* ((int) 35/s.split(",").length-1))+bet;
                     }
                 }
             }
-            if(won == 0)
+            dm.updatestatistik("totalbet", bet);
+            dm.updatestatistik("roulettebet", bet);
+            if(currentwin == 0)
             {
                 won -= bet;
             }
+            else
+            {
+                won += currentwin;
+            }
         }
-        balance += won;
-        //dm.setchipamount(dm.getchipamount()+won);
+        if(won > 0)
+        {
+             dm.setchipamount(dm.getchipamount()+won);
+             dm.updatestatistik("totalwon", won);
+             dm.updatestatistik("roulettewon", won);
+        }
+        else
+        {
+            dm.updatestatistik("totallost", won*-1);
+            dm.updatestatistik("roulettelost", won*-1);
+        }
+        
         betbalance = 0;
         bets.removeAll(bets);
         return won;

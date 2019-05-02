@@ -57,17 +57,38 @@ public class Databankmanager {
    
    private void updatechipamount(int chipamount)
    {
-       sa.send("updatechipamount:"+chipamount+";"+currentuser);
+       sa.send("updateplayer:"+chipamount+";"+currentuser);
    }
    
-   public void updatestatistik() // test
+   public void updatestatistik(String table,int amount) 
    {
-       
+       sa.send("updatestatistik:"+table+";"+amount+";"+currentuser);
    }
    
    public String readstatistik(String table,String username)
    {
-       sa.send("readstatistik:"+table+";");
+       sa.send("readstatistik:"+table+";"+username);
+               Thread thread = new Thread()
+        {
+            public void run()
+            {
+                while(sa.getmessage() == null)
+                {
+                    
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException ex) {
+                       
+                    }
+                }
+            }
+        };
+        thread.run();
+       return sa.getmessage();
+   }
+   public String readchipamount(String table)
+   {
+       sa.send("readuser:"+table+";"+currentuser);
                Thread thread = new Thread()
         {
             public void run()
@@ -82,12 +103,12 @@ public class Databankmanager {
                 }
             }
         };
-        thread.run();
+       thread.run();
        return sa.getmessage();
    }
-   public String readuser(String table)
+   public String readusername(String table)
    {
-       sa.send("readuser:"+table+";");
+       sa.send("readusername:"+table+";");
                Thread thread = new Thread()
         {
             public void run()

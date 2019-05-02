@@ -5,6 +5,8 @@
  */
 package ch.bbbaden.casino.loginregister;
 
+import ch.bbbaden.casino.Databankmanager;
+import ch.bbbaden.casino.Panemanager;
 import ch.bbbaden.casino.SceneManager;
 import ch.bbbaden.casino.ServerAccess;
 import java.io.BufferedReader;
@@ -22,6 +24,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.layout.AnchorPane;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 
 /**
@@ -48,6 +51,8 @@ public class RegisterController implements Initializable,Observer {
     ServerAccess sa = ServerAccess.getInstance();
     @FXML
     private Button back;
+    @FXML
+    private AnchorPane ap;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -71,22 +76,46 @@ public class RegisterController implements Initializable,Observer {
             Logger.getLogger(RegisterController.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+        check();
     }
 
-    @Override
-    public void update(Observable o, Object arg) {
-        if("User added".equals((String)arg)){
-            try {
-                sa.close();
-                SceneManager.getInstance().changeScene("/fxml/selection.fxml");
-            } catch (IOException ex) {
-            Logger.getLogger(RegisterController.class.getName()).log(Level.SEVERE, null, ex);
+    public void check()
+    {
+                Thread thread = new Thread()
+        {
+            public void run()
+            {
+                while(true)
+                {
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    if(sa.getmessage() != null)
+                    {
+                        break;
+                    }
+
+                }
             }
+        };
+        thread.run();
+        
+        if("User added".equals(sa.getmessage())){
+            sa.close();
+            Databankmanager.getInstance().setcurrentuser(namefield.getText());
+            ap.getChildren().add(Panemanager.createPane(ap.getWidth(),ap.getHeight(),"User added successfully","/fxml/selection.fxml"));
+            
         }
         else
         {
-            //show panel
+             ap.getChildren().add(Panemanager.createPane(ap.getWidth(),ap.getHeight(),"Username already taken"));
         }
+    }
+    @Override
+    public void update(Observable o, Object arg) {
+        
     }
 
     @FXML

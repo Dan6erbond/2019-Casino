@@ -69,7 +69,6 @@ public class LoginController implements Initializable {
 
     @FXML
     private void register(MouseEvent event) throws IOException {
-        sa.close();
         SceneManager.getInstance().changeScene("/fxml/register.fxml");
     }
 
@@ -122,6 +121,7 @@ public class LoginController implements Initializable {
         thread.run();
         if(BCrypt.checkpw(passwordfield.getText(), sa.getmessage()))
         {
+            Databankmanager.getInstance().setcurrentuser(namefield.getText());
             ap.getChildren().add(Panemanager.createPane(ap.getWidth(),ap.getHeight(),"Login successfull","/fxml/selection.fxml"));
             sa.close();
         }
