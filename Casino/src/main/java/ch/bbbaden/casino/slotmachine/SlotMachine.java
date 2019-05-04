@@ -20,12 +20,14 @@ public final class SlotMachine {
 
     private final SlotFace[][] faces = new SlotFace[5][SlotFace.values().length + EXTRA];
 
+    private boolean won;
     private int bank = 200;
     private int bet = 0;
     private int multiplier = 1;
 
     public SlotMachine() {
         rotate();
+        won = false;
         for (int i = 0; i < faces.length; i++) {
             faces[i][faces[i].length - 2] = SlotFace.SUPERCHERRY;
         }
@@ -49,6 +51,10 @@ public final class SlotMachine {
         bank -= diff;
     }
 
+    public boolean getWon() {
+        return won;
+    }
+
     public void rotate() {
         Random random = new Random();
 
@@ -69,7 +75,7 @@ public final class SlotMachine {
             }
         }
 
-        evaluateFace();
+        evaluate();
     }
 
     public SlotFace[][] getFaces() {
@@ -108,11 +114,11 @@ public final class SlotMachine {
 
     public Optional<ArrayList<Tuple<SlotFace, Tuple<Integer, Integer>>>> getStraight() {
         ArrayList<Tuple<SlotFace, Tuple<Integer, Integer>>> tuples = new ArrayList<>();
-        int[] js = {2,1,3};
+        int[] js = {2, 1, 3};
         for (int j : js) {
             for (int i = 0; i < faces.length; i++) {
                 int x = faces[i].length - j;
-                if (tuples.isEmpty() || faces[i][x] == tuples.get(tuples.size() - 1).x && tuples.get(tuples.size() - 1).y.y == i-1) {
+                if (tuples.isEmpty() || faces[i][x] == tuples.get(tuples.size() - 1).x && tuples.get(tuples.size() - 1).y.y == i - 1) {
                     Tuple tuple = new Tuple(faces[i][x], new Tuple(x, i));
                     tuples.add(tuple);
                 } else if (tuples.size() < 3) {
@@ -133,42 +139,63 @@ public final class SlotMachine {
         }
     }
 
-    private void evaluateFace() {
+    private void evaluate() {
+        won = false;
+
         if (getDiagonal().isPresent()) {
             SlotFace face = getDiagonal().get()[0].x;
             switch (face) {
                 case SPIN:
                     multiplier = 2;
+                    won = true;
                     break;
                 case REDSEVEN:
                     multiplier = 5;
+                    won = true;
                     break;
                 case GREENSTAR:
                     multiplier = 3;
+                    won = true;
                     break;
                 case YELLOWBAR:
                     multiplier = 10;
+                    won = true;
                     break;
             }
         } else if (getStraight().isPresent()) {
-            SlotFace face = getStraight().get().get(0).x;
+            Tuple<SlotFace,Tuple<Integer,Integer>> first = getStraight().get().get(0);
+            SlotFace face = first.x;
             switch (face) {
                 case GREENSEVEN:
                     multiplier = 5;
+                    won = true;
                     break;
                 case GREENBAR:
                     multiplier = 3;
+                    won = true;
                     break;
                 case SCATTER:
                     multiplier = 10;
+                    won = true;
                     break;
                 case YELLOWSEVEN:
                     multiplier = 2;
+                    won = true;
                     break;
                 case SUPERCHERRY:
-                    bank += bet * multiplier;
+                    if (first.y.x == faces[0].length - 2) {
+                        bank += bet * multiplier;
+                        bet = 1;
+                        multiplier = 1;
+                        won = true;
+                    }
                     break;
             }
+        }
+
+        if (!won) {
+            multiplier = 1;
+            bank -= bet;
         }
     }
 
