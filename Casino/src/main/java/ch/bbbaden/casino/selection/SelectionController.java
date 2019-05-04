@@ -10,14 +10,11 @@ import ch.bbbaden.casino.SceneManager;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 
 /**
  * FXML Controller class
@@ -30,17 +27,20 @@ public class SelectionController implements Initializable {
     @FXML
     private ImageView SlotMachine;
     @FXML
-    private ImageView Roulette;
-    @FXML
     private ImageView bingo;
     @FXML
     private ImageView statistik;
+    @FXML
+    private AnchorPane ap;
+    @FXML
+    private ImageView roulettemenu;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        SceneManager.getInstance().setAnchorPane(ap);
         if(Databankmanager.getInstance().getcurrentuser().equals("admin"))
         {
             statistik.setVisible(true);

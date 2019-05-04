@@ -6,9 +6,12 @@
 package ch.bbbaden.casino.statistik;
 
 import ch.bbbaden.casino.Databankmanager;
+import ch.bbbaden.casino.SceneManager;
+import java.io.IOException;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -55,29 +58,50 @@ public class StatistikController implements Initializable {
     private Label roulettebet;
     @FXML
     private Label totalbet;
+    @FXML
+    private Label playertitle;
+    @FXML
+    private AnchorPane ap;
     
     Databankmanager dm = Databankmanager.getInstance();
+    @FXML
+    private Label bingowon;
+    @FXML
+    private Label bingolost;
+    @FXML
+    private Label bingobet;
+
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        playerlist.getItems().addAll(Arrays.asList(dm.readusername("username").split(";")));
+        SceneManager.getInstance().setAnchorPane(ap);
+        addnames();
     }    
-
+    
+    private void addnames()
+    {
+        playerlist.getItems().addAll(Arrays.asList(dm.readusername("username").split(";")));   
+    }
     @FXML
     private void playerselected(MouseEvent event) {
-        Label [] labels = {totalwin,totallost,totalbet,blackjackwon,blackjacklost,blackjackbet,slotwon,slotlost,slotbet,roulettewon,roulettelost,roulettebet};
+        Label [] labels = {totalwin,totallost,totalbet,roulettewon,roulettelost,roulettebet,slotwon,slotlost,slotbet,bingowon,bingolost,bingobet,blackjackwon,blackjacklost,blackjackbet};
         table.setVisible(true);
         datatitle.setVisible(true);
         if(playerlist.getSelectionModel().getSelectedItem() != null){
             String[] statistik = dm.readstatistik("*",playerlist.getSelectionModel().getSelectedItem()).split(";");
-            for(int i = 0; i < statistik.length-1; i++)
+            for(int i = 0; i < statistik.length; i++)
             {
                 labels[i].setText(labels[i].getText()+statistik[i]);
             }
         }
         
+    }
+
+    @FXML
+    private void back(ActionEvent event) throws IOException {
+        SceneManager.getInstance().changeScene("/fxml/selection.fxml");
     }
     
 }

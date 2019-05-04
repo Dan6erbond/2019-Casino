@@ -10,14 +10,12 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.Socket;
-import java.util.Observable;
-import java.util.Observer;
 
 /**
  *
  * @author aless
  */
-public class ServerAccess extends Observable{
+public class ServerAccess{
         private Socket socket;
         private OutputStream outputStream;
         private static ServerAccess sa= new ServerAccess();
@@ -39,8 +37,7 @@ public class ServerAccess extends Observable{
                         BufferedReader reader = new BufferedReader(
                                 new InputStreamReader(socket.getInputStream()));
                         String line;
-                        line = reader.readLine().trim();
-                        while (line != null){
+                        while ((line = reader.readLine()) != null){
                                 message = line;
                         }
                     } catch (IOException ex) {
@@ -55,9 +52,7 @@ public class ServerAccess extends Observable{
         
         public String getmessage()
         {
-            String message2 = message;
-            message = null;
-            return message2;
+            return message;
         }
         /** Send a line of text */
         public void send(String text) {
@@ -65,12 +60,13 @@ public class ServerAccess extends Observable{
                 outputStream.write((text + CRLF).getBytes());
                 outputStream.flush();
             } catch (IOException ex) {
+                 
             }
         }
 
-        /** Close the socket */
         public void close() {
             try {
+                
                 socket.close();
             } catch (IOException ex) {
             }

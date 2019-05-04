@@ -65,6 +65,7 @@ public class LoginController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        SceneManager.getInstance().setAnchorPane(ap);
     }    
 
     @FXML
@@ -90,13 +91,13 @@ public class LoginController implements Initializable {
             try {
             sa.InitSocket("84.74.61.42", 1757);
             sa.send("login:"+namefield.getText());// send username and hashed password to server
-            } catch (IOException ex) {
-            Logger.getLogger(RegisterController.class.getName()).log(Level.SEVERE, null, ex);
-            }
             check();
+            } catch (IOException ex) {
+                SceneManager.getInstance().getAnchorPane().getChildren().add(Panemanager.createPane(SceneManager.getInstance().getAnchorPane().getWidth(),SceneManager.getInstance().getAnchorPane().getHeight(),"Sorry, but we coulnd't \r\n connect to the Server. \r\n When you are in a school, \r\n try using a vpn"));
+            }
         }
     }
-
+private String message;
     private void check()
     {
         Thread thread = new Thread()
@@ -110,7 +111,8 @@ public class LoginController implements Initializable {
                     } catch (InterruptedException ex) {
                         Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                    if(sa.getmessage() != null)
+                    message = sa.getmessage();
+                    if(message != null)
                     {
                         break;
                     }
@@ -119,7 +121,7 @@ public class LoginController implements Initializable {
             }
         };
         thread.run();
-        if(BCrypt.checkpw(passwordfield.getText(), sa.getmessage()))
+        if(BCrypt.checkpw(passwordfield.getText(), message))
         {
             Databankmanager.getInstance().setcurrentuser(namefield.getText());
             ap.getChildren().add(Panemanager.createPane(ap.getWidth(),ap.getHeight(),"Login successfull","/fxml/selection.fxml"));

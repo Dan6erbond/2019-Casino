@@ -11,6 +11,7 @@ import java.net.URL;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -22,7 +23,7 @@ public class SceneManager {
 
     private static SceneManager sceneManager;
     private Stage stage;
-
+    private AnchorPane ap;
     private SceneManager() {
         sceneManager = this;
     }
@@ -50,7 +51,14 @@ public class SceneManager {
     public Stage getStage() {
         return stage;
     }
-
+    public void setAnchorPane(AnchorPane ap)
+    {
+        this.ap = ap;
+    }
+    public AnchorPane getAnchorPane()
+    {
+        return ap;
+    }
     public Stage openWindow(String fxml) throws IOException {
         stage = new Stage(StageStyle.UTILITY);
 

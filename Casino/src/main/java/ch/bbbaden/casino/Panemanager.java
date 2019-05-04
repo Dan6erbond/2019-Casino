@@ -23,7 +23,7 @@ public class Panemanager {
     {
         //create pane
         final Pane pane = new Pane();
-        pane.setStyle("-fx-background-color: violet; -fx-background-radius: 18 18 18 18;");
+        pane.setStyle("-fx-background-color: blueviolet; -fx-background-radius: 15 15 15 15;");
         pane.setMinSize(height/2,width/2);
         pane.setVisible(true);
         pane.setLayoutX(150);
@@ -32,7 +32,7 @@ public class Panemanager {
         //create label
         Label label = new Label();
         label.setText(text);
-        label.layoutXProperty().bind(pane.widthProperty().subtract(pane.getWidth()+100).divide(2));
+        label.layoutXProperty().bind(pane.widthProperty().subtract(pane.getWidth()+(width/13.3)).divide(6));
         label.layoutYProperty().bind(pane.heightProperty().subtract(label.heightProperty()).divide(2));
         pane.getChildren().add(label);
         //create button
@@ -43,7 +43,7 @@ public class Panemanager {
                 pane.setVisible(false);
             }
         });
-        continuebutton.layoutYProperty().bind(pane.heightProperty().subtract(pane.getHeight()-100).divide(2));
+        continuebutton.layoutYProperty().bind(pane.heightProperty().subtract(pane.getHeight()-150).divide(2));
         continuebutton.layoutXProperty().bind(pane.widthProperty().subtract(continuebutton.widthProperty()).divide(2));
         pane.getChildren().add(continuebutton);
         
@@ -53,7 +53,7 @@ public class Panemanager {
     {
 
         final Pane pane = new Pane();
-        pane.setStyle("-fx-background-color: violet; -fx-background-radius: 18 18 18 18;");
+        pane.setStyle("-fx-background-color: blueviolet; -fx-background-radius: 18 18 18 18;");
         pane.setMinSize(height/2,width/2);
         pane.setVisible(true);
         pane.setLayoutX(150);

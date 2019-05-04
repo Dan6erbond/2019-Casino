@@ -165,22 +165,22 @@
       <Label fx:id="test" layoutX="546.0" layoutY="25.0" textFill="WHITE" />
       <Pane fx:id="wood" layoutY="556.0" prefHeight="89.0" prefWidth="1330.0" styleClass="wood" stylesheets="@../styles/roulette.css">
          <children>
-            <ImageView fx:id="bet2" fitHeight="103.0" fitWidth="84.0" layoutX="423.0" layoutY="4.0" onMouseClicked="#makebet" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="bet2" fitHeight="103.0" fitWidth="84.0" layoutX="425.0" onMouseClicked="#makebet" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../images/casino%20chip%202.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="bet5" fitHeight="84.0" fitWidth="84.0" layoutX="527.0" layoutY="4.0" onMouseClicked="#makebet" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="bet5" fitHeight="84.0" fitWidth="84.0" layoutX="527.0" onMouseClicked="#makebet" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../images/casino%20chip%205.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="bet25" fitHeight="84.0" fitWidth="84.0" layoutX="635.0" layoutY="4.0" onMouseClicked="#makebet" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="bet25" fitHeight="84.0" fitWidth="84.0" layoutX="637.0" onMouseClicked="#makebet" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../images/casino%20chip%2025.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="bet100" fitHeight="82.0" fitWidth="84.0" layoutX="762.0" layoutY="5.0" onMouseClicked="#makebet" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="bet100" fitHeight="82.0" fitWidth="84.0" layoutX="762.0" layoutY="1.0" onMouseClicked="#makebet" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../images/casino%20chip%20100.png" />
                </image>
@@ -188,6 +188,7 @@
             <Button fx:id="Bspin" layoutX="1014.0" layoutY="29.0" mnemonicParsing="false" onAction="#spin" text="Spin" />
             <Label fx:id="balance" layoutX="1114.0" layoutY="14.0" text="Balance:" textFill="WHITE" />
             <Label fx:id="totalbet" layoutX="1114.0" layoutY="46.0" text="Total Bet: " textFill="WHITE" />
+            <Button layoutX="28.0" layoutY="32.0" mnemonicParsing="false" onAction="#back" text="Back" />
          </children>
       </Pane>
       <Pane fx:id="wheel" layoutX="63.0" layoutY="135.0" prefHeight="297.0" prefWidth="304.0" styleClass="wheel">
@@ -230,7 +231,7 @@
             <Rectangle fx:id="rec36" arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="15.0" layoutX="108.0" layoutY="73.0" rotate="-23.7" stroke="#1eebb800" strokeType="INSIDE" width="10.0" />
             <Rectangle fx:id="rec13" arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="15.0" layoutX="119.0" layoutY="68.0" rotate="-16.4" stroke="#1eebb800" strokeType="INSIDE" width="10.0" />
             <Rectangle fx:id="rec1" arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="15.0" layoutX="132.0" layoutY="65.0" rotate="-5.2" stroke="#1eebb800" strokeType="INSIDE" width="10.0" />
-            <Circle fx:id="ball" fill="WHITE" layoutX="150.0" layoutY="26.0" radius="3.5" stroke="WHITE" strokeType="INSIDE" />
+            <Circle fx:id="ball" fill="WHITE" layoutX="150.0" layoutY="26.0" radius="3.5" stroke="WHITE" strokeType="INSIDE" visible="false" />
          </children>
       </Pane>
    </children>

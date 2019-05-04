@@ -14,15 +14,18 @@ import java.util.*;
  */
 public class RouletteModel {
     
+    
     private int betbalance = 0;
     private Databankmanager dm = Databankmanager.getInstance();
-    List<String> bets = new ArrayList<>();
+    private List<String> bets = new ArrayList<>();
 
     public void makebet(String bet)
     {
         bets.add(bet);
         betbalance += Integer.parseInt(bet.split(":")[1]);
         dm.setchipamount(dm.getchipamount() - Integer.parseInt(bet.split(":")[1]));
+        dm.updatestatistik("totalbet", Integer.parseInt(bet.split(":")[1]));
+        dm.updatestatistik("roulettebet", Integer.parseInt(bet.split(":")[1]));
     }
     
     public int getbalance()
@@ -54,8 +57,6 @@ public class RouletteModel {
                     }
                 }
             }
-            dm.updatestatistik("totalbet", bet);
-            dm.updatestatistik("roulettebet", bet);
             if(currentwin == 0)
             {
                 won -= bet;

@@ -1,6 +1,8 @@
 package ch.bbbaden.casino.roulette;
 
 import ch.bbbaden.casino.Panemanager;
+import ch.bbbaden.casino.SceneManager;
+import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 import javafx.animation.*;
@@ -153,13 +155,45 @@ public class RouletteController implements Initializable {
     private double ballx;
     private double bally;
     private final Random r = new Random();
-    
+    @FXML
+    private Label lowlabel;
+    @FXML
+    private Label highlabel;
+    @FXML
+    private Label col1label;
+    @FXML
+    private Label col2label;
+    @FXML
+    private Label col3label;
+    @FXML
+    private Label third1label;
+    @FXML
+    private Label third2label;
+    @FXML
+    private Label third3label;
+    @FXML
+    private Label evenlabel;
+    @FXML
+    private Label redlabel;
+    @FXML
+    private Label blacklabel;
+    @FXML
+    private Label oddlabel;
+    @FXML
+    private Pane wood;
+    @FXML
+    private ImageView bet2;
+    @FXML
+    private ImageView bet5;
+    @FXML
+    private ImageView bet25;
+    @FXML
+    private ImageView bet100;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        model.setbalance(1000);
         balance.setText("Balance: " + model.getbalance());
         totalbet.setText("Total Bet: " + model.getbetamount());
-        ball.setVisible(false);
         ap.getChildren().add(iv2);
         iv2.setVisible(false);
         ballx = ball.getLayoutX();
@@ -190,6 +224,25 @@ public class RouletteController implements Initializable {
         otherpanes.add(odd);
         otherpanes.add(even);
         putHoverHandlerInPanes();
+        MenuBar menu = new MenuBar();
+        Menu info = new Menu("Info");
+        MenuItem help = new MenuItem("Help");
+        help.setOnAction(new EventHandler<ActionEvent>() {
+            @Override public void handle(ActionEvent e) {
+                ap.getChildren().add(Panemanager.createPane(ap.getWidth(),ap.getHeight(), "1) You click on one of the chips. A mini version of it now follows you \r\n 2) You click on a field \r\n 3) You can always see which fields you are selecting in the text above the fields \r\n 4) You press the Button \"spin\" \r\n 5) Hope you win"));
+            }
+        });
+        MenuItem bet = new MenuItem("Bets");
+        bet.setOnAction(new EventHandler<ActionEvent>() {
+            @Override public void handle(ActionEvent e) {
+                ap.getChildren().add(Panemanager.createPane(ap.getWidth(),ap.getHeight(), "Column - You select one of the \"2 TO 1\" fields 2: 1 \r\n Dozen - You select twelve numbers 2:1 \r\n Even/Odd - You select the field \"Even/ODD\" 1:1 \r\n Red/Black - You select the field \"RED/BLACK\" 1:1 \r\n Low/High - You select the field \"1-18/19-36\" 1:1 \r\n 2:1 means, when you place 10 you get 20 plus your original 10"));
+                ap.getChildren().add(Panemanager.createPane(ap.getWidth(),ap.getHeight(), "Straight up bets - You select one number 35:1 \r\n Split bets - You select two numbers 17:1 \r\n Street bets - You select three numbers 11:1 \r\n corner bets - You select four numbers 8:1 \r\n 5 number bets - You select five numbers  \r\n  6 number bets - You select six numbers 5:1"));
+            }
+        });
+        info.getItems().add(help);
+        info.getItems().add(bet);
+        menu.getMenus().add(info);
+        ap.getChildren().add(menu);
     } 
     
     private void putHoverHandlerInPanes()
@@ -416,13 +469,13 @@ public class RouletteController implements Initializable {
                  {
                      test.setText(grid[row][col].getnumber() +","+ grid[row][col+1].getnumber() +","+ grid[row][col+2].getnumber()+","+grid[row+1][col].getnumber()+","+grid[row+1][col+1].getnumber()+","+grid[row+1][col+2].getnumber());
                  }
-                 else if(col == 2)
-                 {
-                     test.setText(grid[row][col].getnumber() +","+ grid[row][col-1].getnumber() +","+ grid[row][col-2].getnumber());
-                 }
                  else if(row != 11)
                  {
                      test.setText(grid[row][col].getnumber()+","+grid[row][col-1].getnumber()+","+grid[row+1][col].getnumber()+","+grid[row+1][col-1].getnumber());
+                 }
+                 else if(col == 0 && row == 11)
+                 {
+                      test.setText(grid[row][col].getnumber() +","+ grid[row][col+1].getnumber() +","+ grid[row][col+2].getnumber());
                  }
                  else
                  {
@@ -517,10 +570,16 @@ public class RouletteController implements Initializable {
             try{
         ImageView iv = (ImageView) event.getSource();
         chip = Integer.parseInt(iv.getId().substring(3));
+        if(model.getbalance() >= chip){
         iv2.setImage(iv.getImage());
         iv2.setScaleX(0.03125);
         iv2.setScaleY(0.03125);
         haschip = true;
+        }
+        else
+        {
+            ap.getChildren().add(Panemanager.createPane(ap.getWidth(), ap.getHeight(),"Sorry, but you don't have enough Money"));
+        }
             }catch(Exception e){}
         }
         else if(haschip == true)
@@ -635,5 +694,10 @@ public class RouletteController implements Initializable {
             }
         }
         return "whoops ein Fehler!";
+    }
+
+    @FXML
+    private void back(ActionEvent event) throws IOException {
+        SceneManager.getInstance().changeScene("/fxml/selection.fxml");
     }
 }

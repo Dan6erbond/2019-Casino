@@ -5,10 +5,6 @@
  */
 package ch.bbbaden.casino;
 import java.io.IOException;
-import java.sql.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import org.springframework.security.crypto.bcrypt.*;
 /**
  *
  * @author aless
@@ -30,13 +26,15 @@ public class Databankmanager {
        try {
            sa.InitSocket("84.74.61.42", 1756);
        } catch (IOException ex) {
-           System.out.println("Can't connect to server. Try later");
+            SceneManager.getInstance().getAnchorPane().getChildren().add(Panemanager.createPane(SceneManager.getInstance().getAnchorPane().getWidth(),SceneManager.getInstance().getAnchorPane().getHeight(),"Sorry, but we coulnd't \r\n connect to the Server. \r\n When you are in a school, \r\n try using a vpn"));
        }
+       
    }
    
    public void setcurrentuser(String currentuser)
    {
        this.currentuser = currentuser;
+       chipamount = Integer.parseInt(readchipamount("chipamount"));
    }
    
    public String getcurrentuser()
@@ -57,7 +55,7 @@ public class Databankmanager {
    
    private void updatechipamount(int chipamount)
    {
-       sa.send("updateplayer:"+chipamount+";"+currentuser);
+       sa.send("updateplayer:chipamount;"+chipamount+";"+currentuser);
    }
    
    public void updatestatistik(String table,int amount) 
@@ -72,13 +70,17 @@ public class Databankmanager {
         {
             public void run()
             {
-                while(sa.getmessage() == null)
+                while(true)
                 {
                     
                     try {
-                        Thread.sleep(100);
+                        Thread.sleep(200);
                     } catch (InterruptedException ex) {
                        
+                    }
+                    if(sa.getmessage() != null)
+                    {
+                        break;
                     }
                 }
             }
@@ -88,17 +90,20 @@ public class Databankmanager {
    }
    public String readchipamount(String table)
    {
-       sa.send("readuser:"+table+";"+currentuser);
+       sa.send("readchipamount:"+table+";"+currentuser);
                Thread thread = new Thread()
         {
             public void run()
             {
-                while(sa.getmessage() == null)
+                while(true)
                 {
                     try {
                         Thread.sleep(100);
                     } catch (InterruptedException ex) {
                        
+                    }
+                    if(sa.getmessage() != null){
+                    break;
                     }
                 }
             }
@@ -113,12 +118,15 @@ public class Databankmanager {
         {
             public void run()
             {
-                while(sa.getmessage() == null)
+                while(true)
                 {
                     try {
                         Thread.sleep(100);
-                    } catch (InterruptedException ex) {
-                       
+                    } catch (InterruptedException ex) { 
+                    }
+                    if(sa.getmessage() != null)
+                    {
+                        break;
                     }
                 }
             }

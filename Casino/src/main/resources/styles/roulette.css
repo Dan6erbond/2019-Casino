@@ -35,3 +35,7 @@
 {
     -fx-background-image: url("../images/wood.jpg");
 }
+.Title {
+    -fx-font-size: 50px;
+    -fx-font: cursive;
+}

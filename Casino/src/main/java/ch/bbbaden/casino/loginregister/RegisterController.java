@@ -56,6 +56,7 @@ public class RegisterController implements Initializable,Observer {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        SceneManager.getInstance().setAnchorPane(ap);
     }    
 
     @FXML
@@ -72,11 +73,11 @@ public class RegisterController implements Initializable,Observer {
             try {
             sa.InitSocket("84.74.61.42", 1757);
             sa.send("register:"+namefield.getText()+";"+BCrypt.hashpw(passwordfield.getText(), BCrypt.gensalt(12)));// send username and hashed password to server
+            check();
             } catch (IOException ex) {
-            Logger.getLogger(RegisterController.class.getName()).log(Level.SEVERE, null, ex);
+             SceneManager.getInstance().getAnchorPane().getChildren().add(Panemanager.createPane(SceneManager.getInstance().getAnchorPane().getWidth(),SceneManager.getInstance().getAnchorPane().getHeight(),"Sorry, but we coulnd't \r\n connect to the Server. \r\n When you are in a school, \r\n try using a vpn"));
             }
         }
-        check();
     }
 
     public void check()
@@ -120,7 +121,6 @@ public class RegisterController implements Initializable,Observer {
 
     @FXML
     private void back(ActionEvent event) throws IOException {
-        sa.close();
         SceneManager.getInstance().changeScene("/fxml/Login.fxml");
     }
 }
