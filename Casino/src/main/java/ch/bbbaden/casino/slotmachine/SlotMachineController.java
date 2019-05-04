@@ -5,6 +5,7 @@
  */
 package ch.bbbaden.casino.slotmachine;
 
+import ch.bbbaden.casino.Tuple;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -32,6 +33,7 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollBar;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Spinner;
@@ -43,7 +45,6 @@ import javafx.scene.input.DragEvent;
 import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
-import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderStroke;
 import javafx.scene.layout.BorderStrokeStyle;
 import javafx.scene.layout.BorderWidths;
@@ -65,7 +66,7 @@ import javafx.util.Duration;
  */
 public class SlotMachineController implements Initializable {
 
-    private final SlotMachine machine = new SlotMachine();
+    private final SlotMachine machine = new SlotMachine(this);
 
     @FXML
     private VBox vBoxA;
@@ -93,6 +94,7 @@ public class SlotMachineController implements Initializable {
     private ScrollPane[] scrollPanes;
     private boolean listenScroll;
     private boolean setup = true;
+    private boolean animateLights = true;
     private ArrayList<Object> lights = new ArrayList<>();
 
     @FXML
@@ -115,6 +117,8 @@ public class SlotMachineController implements Initializable {
     private HBox lightrow2;
     @FXML
     private VBox lightrow1;
+    @FXML
+    private TextField freespinsText;
 
     /**
      * Initializes the controller class.
@@ -129,25 +133,23 @@ public class SlotMachineController implements Initializable {
 
         lights.addAll(Arrays.asList(lightrow.getChildren().toArray()));
         lights.addAll(Arrays.asList(lightrow1.getChildren().toArray()));
-        
+
         ArrayList<Object> lightsList3 = new ArrayList<>(lights);
-        animateLights(lightsList3, 2);
 
         Object[] lights1 = lightrow3.getChildren().toArray();
         ArrayList<Object> lights1List = new ArrayList<>(Arrays.asList(lights1));
 
         Object[] lights2 = lightrow2.getChildren().toArray();
         ArrayList<Object> lights2List = new ArrayList<>(Arrays.asList(lights2));
-        
+
         ArrayList<Object> lightsList = new ArrayList<>(lights1List);
         lightsList.addAll(lights2List);
-        animateLights(lightsList, 2);
-        
+
         Collections.reverse(lights1List);
         Collections.reverse(lights2List);
         lights.addAll(lights2List);
         lights.addAll(lights1List);
-        
+
         for (ScrollPane pane : scrollPanes) {
             pane.addEventFilter(ScrollEvent.SCROLL, event -> {
                 event.consume();
@@ -164,11 +166,11 @@ public class SlotMachineController implements Initializable {
 
         final double startWidth = scrollBar.getPrefWidth();
         final double startVisible = scrollBar.getVisibleAmount();
-        final double startX = scrollBar.getLayoutX() - 25;
+        final double startX = scrollBar.getLayoutX() - 40;
 
         scrollBar.valueProperty().addListener((ObservableValue<? extends Number> ov, Number oldVal, Number newVal) -> {
             if (setup) {
-                double startY = scrollBar.getPrefHeight() / 2 + scrollBar.getLayoutY() - 50;
+                double startY = scrollBar.getPrefHeight() / 2 + scrollBar.getLayoutY() - 100;
                 barLine.setStartY(startY);
                 setup = false;
             }
@@ -177,7 +179,7 @@ public class SlotMachineController implements Initializable {
             barLine.setStartX(x);
             barLine.setEndX(x);
 
-            double newEndY = ((scrollBar.getValue() / scrollBar.getMax()) * (scrollBar.getHeight() - 100)) + scrollBar.getLayoutY();
+            double newEndY = ((scrollBar.getValue() / scrollBar.getMax()) * (scrollBar.getHeight() - 75)) + scrollBar.getLayoutY() - 65;
             barLine.setEndY(newEndY);
 
             double normalized = (scrollBar.getMax() - Math.abs(scrollBar.getMax() * 0.75 / 2 - scrollBar.getValue() * 0.75)) / scrollBar.getMax();
@@ -191,6 +193,16 @@ public class SlotMachineController implements Initializable {
             double diff = newVal.doubleValue() - oldVal.doubleValue();
             if (diff > 0.4) {
                 play();
+            } else if (scrollBar.getValue() > scrollBar.getMax() / 2) {
+                listenScroll = false;
+                Timeline timeline = new Timeline();
+                double time = 1 - scrollBar.getValue() / 10;
+                KeyValue endValue = new KeyValue(scrollBar.valueProperty(), 0);
+                timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(time), endValue));
+                timeline.setOnFinished((event) -> {
+                    listenScroll = true;
+                });
+                timeline.play();
             }
         });
 
@@ -198,23 +210,39 @@ public class SlotMachineController implements Initializable {
             Circle light = (Circle) l;
             light.setOpacity(0.25);
         }
+
+        PauseTransition transition = new PauseTransition(Duration.seconds(1));
+        transition.setOnFinished((event) -> {
+            int reps = 2;
+            animateLights(lightsList3, reps);
+            animateLights(lightsList, reps);
+        });
+        transition.play();
+    }
+
+    public void setVars(boolean animateLights) {
+        this.animateLights = animateLights;
     }
 
     private void animateLights(ArrayList<Object> lts, int reps) {
-        final double anTime = 0.125;
+        if (!animateLights) {
+            return;
+        }
+
+        final double anTime = 0.075;
         double totalTime = lts.size() * anTime;
 
         for (int i = 0; i < reps; i++) {
             PauseTransition transition = new PauseTransition(Duration.seconds(i * totalTime));
             transition.setOnFinished((event) -> {
                 for (int j = 0; j < lts.size(); j++) {
-                    Circle light = (Circle) lts.get(j);
+                    Node element = (Node) lts.get(j);
                     PauseTransition transition1 = new PauseTransition(Duration.seconds(j * anTime));
                     transition1.setOnFinished((e) -> {
-                        light.setOpacity(1.0);
+                        element.setOpacity(1.0);
                         PauseTransition transition2 = new PauseTransition(Duration.seconds(anTime));
                         transition2.setOnFinished((evt) -> {
-                            light.setOpacity(0.25);
+                            element.setOpacity(0.25);
                         });
                         transition2.play();
                     });
@@ -225,6 +253,21 @@ public class SlotMachineController implements Initializable {
         }
     }
 
+    private void flashNode(Node node, double anTime, int reps) {
+        for (int i = 0; i < reps; i++) {
+            PauseTransition trans = new PauseTransition(Duration.seconds(i * anTime * 2));
+            trans.setOnFinished((e) -> {
+                freespinsText.getStyleClass().add("freespinsBorder");
+                PauseTransition transition = new PauseTransition(Duration.seconds(anTime));
+                transition.setOnFinished((event) -> {
+                    freespinsText.getStyleClass().remove("freespinsBorder");
+                });
+                transition.play();
+            });
+            trans.play();
+        }
+    }
+
     private void setBet(int bet) {
         machine.setBet(bet);
         updateGUI();
@@ -232,6 +275,7 @@ public class SlotMachineController implements Initializable {
 
     private void play() {
         machine.rotate();
+        machine.evaluate();
         updateImages();
     }
 
@@ -318,10 +362,10 @@ public class SlotMachineController implements Initializable {
                     }
                 }
                 tl.play();
-                
+
                 SlotFace face = tuples.get(0).x;
-                if (face == SlotFace.SUPERCHERRY){
-                    animateLights(lights, 8);
+                if (face == SlotFace.SUPERCHERRY) {
+                    animateLights(lights, 2);
                 }
             }
         });
@@ -332,6 +376,11 @@ public class SlotMachineController implements Initializable {
         multiplierLabel.setText("x" + Integer.toString(machine.getMultiplier()));
         betText.setText(Integer.toString(machine.getBet() * machine.getMultiplier()));
         bankText.setText(Integer.toString(machine.getBank()));
+        freespinsText.setText(Integer.toString(machine.getFreespins()));
+
+        if (machine.getUpdateFreespins()) {
+            flashNode(freespinsText, 0.75, 5);
+        }
     }
 
     @FXML
@@ -339,7 +388,9 @@ public class SlotMachineController implements Initializable {
         machine.rotate();
         while (!machine.getStraight().isPresent() || !machine.getWon()) {
             machine.rotate();
+            machine.evaluateWon();
         }
+        machine.evaluate();
         updateImages();
     }
 
@@ -348,7 +399,9 @@ public class SlotMachineController implements Initializable {
         machine.rotate();
         while (!machine.getDiagonal().isPresent() || !machine.getWon()) {
             machine.rotate();
+            machine.evaluateWon();
         }
+        machine.evaluate();
         updateImages();
     }
 
@@ -360,32 +413,15 @@ public class SlotMachineController implements Initializable {
         updateGUI();
     }
 
-    @FXML
-    private void scroll1(MouseEvent event) {
-    }
-
-    @FXML
-    private void scroll2(MouseEvent event) {
-    }
-
-    @FXML
-    private void scroll3(MouseEvent event) {
-    }
-
-    @FXML
-    private void scroll4(MouseEvent event) {
-    }
-
-    @FXML
-    private void scroll5(MouseEvent event) {
-    }
 
     @FXML
     private void superCherry(ActionEvent event) {
         machine.rotate();
         while (!machine.getStraight().isPresent() || !machine.getWon() || machine.getStraight().get().get(0).x != SlotFace.SUPERCHERRY) {
             machine.rotate();
+            machine.evaluateWon();
         }
+        machine.evaluate();
         updateImages();
     }
 }

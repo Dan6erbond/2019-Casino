@@ -5,6 +5,7 @@
  */
 package ch.bbbaden.casino.slotmachine;
 
+import ch.bbbaden.casino.Tuple;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Optional;
@@ -21,16 +22,24 @@ public final class SlotMachine {
     private final SlotFace[][] faces = new SlotFace[5][SlotFace.values().length + EXTRA];
 
     private boolean won;
+    private boolean updateFreespins;
+    
+    private int spinnable = -1;
+    
     private int bank = 200;
     private int bet = 0;
     private int multiplier = 1;
+    private int freespins = 0;
+    
+    private final SlotMachineController controller;
 
-    public SlotMachine() {
+    public SlotMachine(SlotMachineController controller) {
         rotate();
         won = false;
         for (int i = 0; i < faces.length; i++) {
             faces[i][faces[i].length - 2] = SlotFace.SUPERCHERRY;
         }
+        this.controller = controller;
     }
 
     public int getBank() {
@@ -51,8 +60,43 @@ public final class SlotMachine {
         bank -= diff;
     }
 
-    public boolean getWon() {
+    public boolean getWon(){
         return won;
+    }
+    
+    public boolean getUpdateFreespins(){
+        boolean returnVal = updateFreespins;
+        updateFreespins = false;
+        return returnVal;
+    }
+    
+    public int getSpinnable(){
+        int returnVal = spinnable;
+        spinnable = -1;
+        return returnVal;
+    }
+    
+    public int getFreespins(){
+        return freespins;
+    }
+    
+    public void evaluateWon() {
+        won = false;
+
+        if (getDiagonal().isPresent()) {
+            SlotFace face = getDiagonal().get()[0].x;
+            if (face == SlotFace.SPIN || face == SlotFace.REDSEVEN || face == SlotFace.YELLOWBAR || face == SlotFace.GREENSTAR) {
+                won = true;
+            }
+        } else if (getStraight().isPresent()) {
+            Tuple<SlotFace, Tuple<Integer, Integer>> first = getStraight().get().get(0);
+            int y = first.y.x;
+            SlotFace face = first.x;
+            if (face == SlotFace.GREENSEVEN || face == SlotFace.GREENBAR || face == SlotFace.SCATTER
+                    || face == SlotFace.YELLOWSEVEN || face == SlotFace.SUPERCHERRY && y == faces[0].length - 2) {
+                won = true;
+            }
+        }
     }
 
     public void rotate() {
@@ -74,8 +118,6 @@ public final class SlotMachine {
                 }
             }
         }
-
-        evaluate();
     }
 
     public SlotFace[][] getFaces() {
@@ -139,63 +181,58 @@ public final class SlotMachine {
         }
     }
 
-    private void evaluate() {
-        won = false;
-
-        if (getDiagonal().isPresent()) {
-            SlotFace face = getDiagonal().get()[0].x;
-            switch (face) {
-                case SPIN:
-                    multiplier = 2;
-                    won = true;
-                    break;
-                case REDSEVEN:
-                    multiplier = 5;
-                    won = true;
-                    break;
-                case GREENSTAR:
-                    multiplier = 3;
-                    won = true;
-                    break;
-                case YELLOWBAR:
-                    multiplier = 10;
-                    won = true;
-                    break;
-            }
-        } else if (getStraight().isPresent()) {
-            Tuple<SlotFace,Tuple<Integer,Integer>> first = getStraight().get().get(0);
-            SlotFace face = first.x;
-            switch (face) {
-                case GREENSEVEN:
-                    multiplier = 5;
-                    won = true;
-                    break;
-                case GREENBAR:
-                    multiplier = 3;
-                    won = true;
-                    break;
-                case SCATTER:
-                    multiplier = 10;
-                    won = true;
-                    break;
-                case YELLOWSEVEN:
-                    multiplier = 2;
-                    won = true;
-                    break;
-                case SUPERCHERRY:
-                    if (first.y.x == faces[0].length - 2) {
-                        bank += bet * multiplier;
-                        bet = 1;
-                        multiplier = 1;
-                        won = true;
-                    }
-                    break;
-            }
+    public void evaluate() {
+        evaluateWon();
+        if (freespins > 0){
+            freespins--;
         }
-
-        if (!won) {
+        if (!won && freespins == 0) {
             multiplier = 1;
             bank -= bet;
+        } else {
+            if (getDiagonal().isPresent()) {
+                SlotFace face = getDiagonal().get()[0].x;
+                switch (face) {
+                    case SPIN:
+                        multiplier = 2;
+                        break;
+                    case REDSEVEN:
+                        multiplier = 5;
+                        break;
+                    case GREENSTAR:
+                        multiplier = 3;
+                        break;
+                    case YELLOWBAR:
+                        freespins += 2;
+                        updateFreespins = true;
+                        break;
+                }
+            } else if (getStraight().isPresent()) {
+                Tuple<SlotFace, Tuple<Integer, Integer>> first = getStraight().get().get(0);
+                SlotFace face = first.x;
+                switch (face) {
+                    case GREENSEVEN:
+                        multiplier = 5;
+                        break;
+                    case GREENBAR:
+                        multiplier = 3;
+                        break;
+                    case SCATTER:
+                        freespins += 3;
+                        updateFreespins = true;
+                        break;
+                    case YELLOWSEVEN:
+                        multiplier = 2;
+                        break;
+                    case SUPERCHERRY:
+                        if (first.y.x == faces[0].length - 2) {
+                            bank += bet * multiplier;
+                            bet = 1;
+                            multiplier = 1;
+                        }
+                        break;
+                }
+            }
         }
     }
 

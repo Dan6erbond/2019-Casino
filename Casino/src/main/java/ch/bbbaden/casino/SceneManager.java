@@ -34,28 +34,36 @@ public class SceneManager {
         return sceneManager;
     }
 
-    public void changeScene(String fxml) throws IOException {
+    public Object changeScene(String fxml) throws IOException {
+        Tuple<Stage,Object> window;
         if (stage == null) {
-            stage = openWindow(fxml);
-            return;
+            window = openWindow(fxml);
+            stage = window.x;
+            return window.y;
         }
 
-        Parent root = FXMLLoader.load(getClass().getResource(fxml));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(fxml));
+        Parent root = loader.load();
+        Object controller = loader.getController();
 
         Scene scene = new Scene(root);
 
         stage.setScene(scene);
+        
+        return controller;
     }
 
     public Stage getStage() {
         return stage;
     }
 
-    public Stage openWindow(String fxml) throws IOException {
+    public Tuple<Stage,Object> openWindow(String fxml) throws IOException {
         Stage s = new Stage(StageStyle.UTILITY);
         s.setResizable(false);
 
-        Parent root = FXMLLoader.load(getClass().getResource(fxml));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(fxml));
+        Parent root = loader.load();
+        Object controller = loader.getController();
 
         Scene scene = new Scene(root);
         scene.getStylesheets().add("https://fonts.googleapis.com/css?family=Roboto");
@@ -65,7 +73,7 @@ public class SceneManager {
         s.setScene(scene);
         s.show();
 
-        return s;
+        return new Tuple(s, controller);
     }
 
 }
