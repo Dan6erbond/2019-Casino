@@ -325,14 +325,20 @@ public class BingoController implements Initializable {
                 if (bereitsgezogen.contains(Integer.valueOf(b.getText()))) {
                     b.setStyle("-fx-background-color:#000000");
                 }
-                if () {
-                    
-                }
-                
-            }
-            
-        }
 
+                int key = 0;
+                for (int j = 0; j < btn.size(); j++) {
+                    for (int l = btn.size(); l < 7; l = l - 7) {
+                        b = btn.get(j - i);
+                        if (b.getStyle().equals("-fx-background-color:#000000")) {
+
+                        }
+
+                    }
+
+                }
+            }
+        }
     }
 
     @FXML
