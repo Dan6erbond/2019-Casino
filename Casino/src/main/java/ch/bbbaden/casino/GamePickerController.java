@@ -59,7 +59,7 @@ public class GamePickerController implements Initializable {
     @FXML
     private void playSlotMachine(ActionEvent event) {
         try {
-            SceneManager.getInstance().changeScene("/fxml/SlotMachine.fxml");
+            SceneManager.getInstance().changeScene("/fxml/SlotMachineIntro.fxml");
         } catch (IOException ex) {
             Logger.getLogger(GamePickerController.class.getName()).log(Level.SEVERE, null, ex);
         }

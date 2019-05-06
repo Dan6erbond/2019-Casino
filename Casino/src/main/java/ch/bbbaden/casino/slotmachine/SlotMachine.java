@@ -19,23 +19,23 @@ public final class SlotMachine {
 
     public static final int EXTRA = 50;
 
-    private final SlotFace[][] faces = new SlotFace[5][SlotFace.values().length + EXTRA];
+    private final SlotFace[][] faces;
 
-    private boolean won;
     private boolean updateFreespins;
-    
+    private boolean firstGame = true;
+
     private int spinnable = -1;
-    
+
     private int bank = 200;
     private int bet = 0;
     private int multiplier = 1;
     private int freespins = 0;
-    
+
     private final SlotMachineController controller;
 
     public SlotMachine(SlotMachineController controller) {
+        faces = new SlotFace[5][SlotFace.values().length + EXTRA];
         rotate();
-        won = false;
         for (int i = 0; i < faces.length; i++) {
             faces[i][faces[i].length - 2] = SlotFace.SUPERCHERRY;
         }
@@ -60,71 +60,96 @@ public final class SlotMachine {
         bank -= diff;
     }
 
-    public boolean getWon(){
-        return won;
-    }
-    
-    public boolean getUpdateFreespins(){
+    public boolean getUpdateFreespins() {
         boolean returnVal = updateFreespins;
         updateFreespins = false;
         return returnVal;
     }
-    
-    public int getSpinnable(){
-        int returnVal = spinnable;
-        spinnable = -1;
-        return returnVal;
+
+    public int getSpinnable() {
+        return spinnable;
     }
-    
-    public int getFreespins(){
+
+    public int getFreespins() {
         return freespins;
     }
-    
-    public void evaluateWon() {
-        won = false;
 
-        if (getDiagonal().isPresent()) {
-            SlotFace face = getDiagonal().get()[0].x;
-            if (face == SlotFace.SPIN || face == SlotFace.REDSEVEN || face == SlotFace.YELLOWBAR || face == SlotFace.GREENSTAR) {
-                won = true;
-            }
+    public Optional<ArrayList<Tuple<SlotFace, Tuple<Integer, Integer>>>> getWinTuples() {
+        if (!getWinState().isPresent() || firstGame) {
+            firstGame = false;
+            return Optional.empty();
+        }
+
+        ArrayList<Tuple<SlotFace, Tuple<Integer, Integer>>> tuples = new ArrayList<>();
+        if (getScatter().isPresent()) {
+            tuples.addAll(getScatter().get());
+        } else if (getDiagonal().isPresent()) {
+            tuples.addAll(Arrays.asList(getDiagonal().get()));
         } else if (getStraight().isPresent()) {
-            Tuple<SlotFace, Tuple<Integer, Integer>> first = getStraight().get().get(0);
-            int y = first.y.x;
-            SlotFace face = first.x;
-            if (face == SlotFace.GREENSEVEN || face == SlotFace.GREENBAR || face == SlotFace.SCATTER
-                    || face == SlotFace.YELLOWSEVEN || face == SlotFace.SUPERCHERRY && y == faces[0].length - 2) {
-                won = true;
+            tuples.addAll(getStraight().get());
+        }
+
+        if (tuples.size() >= 3) {
+            return Optional.of(tuples);
+        } else {
+            return Optional.empty();
+        }
+    }
+
+    private Optional<ArrayList<Tuple<SlotFace, Tuple<Integer, Integer>>>> getScatter() {
+        ArrayList<Tuple<SlotFace, Tuple<Integer, Integer>>> tuples = new ArrayList<>();
+        for (int i = 0; i < faces.length; i++) {
+            for (int j = 1; j < 4; j++) {
+                int x = faces[i].length - j;
+                SlotFace face = faces[i][x];
+                if (face == SlotFace.SCATTER) {
+                    tuples.add(new Tuple(face, new Tuple(x, i)));
+                }
             }
+        }
+        if (tuples.size() >= 3) {
+            return Optional.of(tuples);
+        } else {
+            return Optional.empty();
         }
     }
 
     public void rotate() {
-        Random random = new Random();
-
         for (int i = 0; i < faces.length; i++) {
-            ArrayList<Integer> numbers = new ArrayList<>();
-            for (int j = 0; j < faces[i].length; j++) {
-                if (j <= EXTRA) {
-                    int rand = random.nextInt(SlotFace.values().length);
-                    faces[i][j] = SlotFace.values()[rand];
-                } else {
-                    int rand;
-                    do {
-                        rand = random.nextInt(SlotFace.values().length);
-                    } while (numbers.contains(rand));
-                    numbers.add(rand);
-                    faces[i][j] = SlotFace.values()[rand];
-                }
+            generateRoll(i);
+        }
+    }
+
+    public void generateRoll(int index) {
+        Random random = new Random();
+        ArrayList<Integer> numbers = new ArrayList<>();
+
+        for (int j = 0; j < faces[index].length; j++) {
+            if (j <= EXTRA) {
+                int rand = random.nextInt(SlotFace.values().length);
+                faces[index][j] = SlotFace.values()[rand];
+            } else {
+                int rand;
+                do {
+                    rand = random.nextInt(SlotFace.values().length);
+                } while (numbers.contains(rand));
+                numbers.add(rand);
+                faces[index][j] = SlotFace.values()[rand];
             }
         }
+    }
+
+    public void spinSpinnable() {
+        int spinRoll = spinnable;
+        spinnable = -1;
+        generateRoll(spinRoll);
     }
 
     public SlotFace[][] getFaces() {
         return faces;
     }
 
-    public Optional<Tuple<SlotFace, Tuple<Integer, Integer>>[]> getDiagonal() {
+    private Optional<Tuple<SlotFace, Tuple<Integer, Integer>>[]> getDiagonal() {
         Tuple<SlotFace, Tuple<Integer, Integer>>[] tuples = new Tuple[3];
         for (int i = 1; i < faces.length - 1; i++) {
             int x = faces[i].length - 2;
@@ -154,7 +179,7 @@ public final class SlotMachine {
         return Optional.empty();
     }
 
-    public Optional<ArrayList<Tuple<SlotFace, Tuple<Integer, Integer>>>> getStraight() {
+    private Optional<ArrayList<Tuple<SlotFace, Tuple<Integer, Integer>>>> getStraight() {
         ArrayList<Tuple<SlotFace, Tuple<Integer, Integer>>> tuples = new ArrayList<>();
         int[] js = {2, 1, 3};
         for (int j : js) {
@@ -181,58 +206,131 @@ public final class SlotMachine {
         }
     }
 
-    public void evaluate() {
-        evaluateWon();
-        if (freespins > 0){
+    public void handleWinState() {
+        Optional<WinState> state = getWinState();
+
+        if (freespins > 0) {
             freespins--;
         }
-        if (!won && freespins == 0) {
+        if (!state.isPresent() && freespins == 0) {
             multiplier = 1;
             bank -= bet;
-        } else {
-            if (getDiagonal().isPresent()) {
-                SlotFace face = getDiagonal().get()[0].x;
-                switch (face) {
-                    case SPIN:
-                        multiplier = 2;
-                        break;
-                    case REDSEVEN:
-                        multiplier = 5;
-                        break;
-                    case GREENSTAR:
+        } else if (state.isPresent()) {
+            switch (state.get()) {
+                case CHERRY:
+                    bank += bet * multiplier;
+                    bet = 1;
+                    multiplier = 1;
+                    break;
+                case GREENBAR:
+                    multiplier = 3;
+                    break;
+                case GREENSEVEN:
+                    multiplier = 5;
+                    break;
+                case GREENSTAR:
+                    if (multiplier < 3) {
                         multiplier = 3;
-                        break;
-                    case YELLOWBAR:
-                        freespins += 2;
-                        updateFreespins = true;
-                        break;
-                }
-            } else if (getStraight().isPresent()) {
-                Tuple<SlotFace, Tuple<Integer, Integer>> first = getStraight().get().get(0);
-                SlotFace face = first.x;
-                switch (face) {
-                    case GREENSEVEN:
+                    }
+                    break;
+                case REDSEVEN:
+                    if (multiplier < 5) {
                         multiplier = 5;
-                        break;
-                    case GREENBAR:
-                        multiplier = 3;
-                        break;
-                    case SCATTER:
-                        freespins += 3;
-                        updateFreespins = true;
-                        break;
-                    case YELLOWSEVEN:
-                        multiplier = 2;
-                        break;
-                    case SUPERCHERRY:
-                        if (first.y.x == faces[0].length - 2) {
-                            bank += bet * multiplier;
-                            bet = 1;
-                            multiplier = 1;
-                        }
-                        break;
-                }
+                    }
+                    break;
+                case SCATTER:
+                    bank += getScatter().get().size();
+                    break;
+                case SPIN:
+                    Random random = new Random();
+                    spinnable = random.nextInt(5);
+                    break;
+                case SUPERCHERRY:
+                    bank += bet * multiplier + 5;
+                    bet = 1;
+                    multiplier = 1;
+                    break;
+                case YELLOWBAR:
+                    freespins += 2;
+                    updateFreespins = true;
+                    break;
+                case YELLOWSEVEN:
+                    multiplier = 2;
+                    break;
             }
+        }
+    }
+
+    public Optional<WinState> getWinState() {
+        WinState state = null;
+
+        Optional<Tuple<SlotFace, Tuple<Integer, Integer>>[]> diagonalResult = getDiagonal();
+        Optional<ArrayList<Tuple<SlotFace, Tuple<Integer, Integer>>>> straightResult = getStraight();
+        Optional<ArrayList<Tuple<SlotFace, Tuple<Integer, Integer>>>> scatter = getScatter();
+
+        if (scatter.isPresent()) {
+            state = WinState.SCATTER;
+        } else if (diagonalResult.isPresent()) {
+            SlotFace face = diagonalResult.get()[0].x;
+            switch (face) {
+                case SPIN:
+                    state = WinState.SPIN;
+                    break;
+                case REDSEVEN:
+                    state = WinState.REDSEVEN;
+                    break;
+                case GREENSTAR:
+                    state = WinState.GREENSTAR;
+                    break;
+                case YELLOWBAR:
+                    state = WinState.YELLOWBAR;
+                    break;
+            }
+        } else if (straightResult.isPresent()) {
+            Tuple<SlotFace, Tuple<Integer, Integer>> first = straightResult.get().get(0);
+            SlotFace face = first.x;
+            switch (face) {
+                case GREENSEVEN:
+                    state = WinState.GREENSEVEN;
+                    break;
+                case GREENBAR:
+                    state = WinState.GREENBAR;
+                    break;
+                case YELLOWSEVEN:
+                    state = WinState.YELLOWSEVEN;
+                    break;
+                case SUPERCHERRY:
+                    if (first.y.x == faces[0].length - 2) {
+                        state = WinState.CHERRY;
+                        if (straightResult.get().size() == 5) {
+                            state = WinState.SUPERCHERRY;
+                        }
+                    }
+                    break;
+            }
+        }
+
+        if (state == null) {
+            return Optional.empty();
+        } else {
+            return Optional.of(state);
+        }
+    }
+
+    public boolean evaluateFace(int i) {
+        boolean w = false;
+        SlotFace face = faces[i][faces[i].length - 2];
+        if (face == SlotFace.SUPERCHERRY) {
+            w = true;
+        }
+        return w;
+    }
+
+    public void handleFace(int i) {
+        if (evaluateFace(i)) {
+            bank += bet * multiplier;
+            bet = 1;
+            multiplier = 1;
         }
     }
 

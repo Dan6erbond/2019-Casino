@@ -12,6 +12,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -23,6 +24,7 @@ import javafx.animation.PauseTransition;
 import javafx.animation.Timeline;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
@@ -32,6 +34,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollBar;
@@ -39,21 +42,12 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.DragEvent;
-import javafx.scene.input.MouseDragEvent;
-import javafx.scene.input.MouseEvent;
+import static javafx.scene.input.KeyCode.SPACE;
 import javafx.scene.input.ScrollEvent;
-import javafx.scene.layout.BorderStroke;
-import javafx.scene.layout.BorderStrokeStyle;
-import javafx.scene.layout.BorderWidths;
-import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
@@ -92,10 +86,10 @@ public class SlotMachineController implements Initializable {
 
     private VBox[] vBoxes;
     private ScrollPane[] scrollPanes;
-    private boolean listenScroll;
+    private boolean playable;
     private boolean setup = true;
     private boolean animateLights = true;
-    private ArrayList<Object> lights = new ArrayList<>();
+    private final ArrayList<Object> lights = new ArrayList<>();
 
     @FXML
     private ScrollBar scrollBar;
@@ -172,7 +166,17 @@ public class SlotMachineController implements Initializable {
             if (setup) {
                 double startY = scrollBar.getPrefHeight() / 2 + scrollBar.getLayoutY() - 100;
                 barLine.setStartY(startY);
-                setup = false;
+                Scene scene = bankText.getScene();
+                if (scene != null) {
+                    scene.setOnKeyPressed((event) -> {
+                        System.out.println(event.getCode());
+                        switch (event.getCode()) {
+                            case SPACE:
+                                play(false);
+                        }
+                    });
+                    setup = false;
+                }
             }
 
             double x = scrollBar.getPrefWidth() / 2 + scrollBar.getLayoutX() - 25;
@@ -187,22 +191,15 @@ public class SlotMachineController implements Initializable {
             scrollBar.setPrefWidth(normalized * startWidth);
             scrollBar.setLayoutX(startX + (startWidth - scrollBar.getPrefWidth() / 2));
 
-            if (!listenScroll) {
+            if (!playable) {
                 return;
             }
+
             double diff = newVal.doubleValue() - oldVal.doubleValue();
             if (diff > 0.4) {
-                play();
+                play(false);
             } else if (scrollBar.getValue() > scrollBar.getMax() / 2) {
-                listenScroll = false;
-                Timeline timeline = new Timeline();
-                double time = 1 - scrollBar.getValue() / 10;
-                KeyValue endValue = new KeyValue(scrollBar.valueProperty(), 0);
-                timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(time), endValue));
-                timeline.setOnFinished((event) -> {
-                    listenScroll = true;
-                });
-                timeline.play();
+                animateLever(1.5);
             }
         });
 
@@ -214,8 +211,8 @@ public class SlotMachineController implements Initializable {
         PauseTransition transition = new PauseTransition(Duration.seconds(1));
         transition.setOnFinished((event) -> {
             int reps = 2;
-            animateLights(lightsList3, reps);
-            animateLights(lightsList, reps);
+            blinkRow(lightsList3, reps);
+            blinkRow(lightsList, reps);
         });
         transition.play();
     }
@@ -224,9 +221,33 @@ public class SlotMachineController implements Initializable {
         this.animateLights = animateLights;
     }
 
-    private void animateLights(ArrayList<Object> lts, int reps) {
+    private void animateLever(double timeUp) {
+        scrollBar.setDisable(true);
+        scrollBar.setOpacity(1.0);
+        betSpinner.setDisable(true);
+        playable = false;
+
+        Timeline timeline = new Timeline();
+        double time = 1 - scrollBar.getValue() / scrollBar.getMax();
+
+        KeyValue down = new KeyValue(scrollBar.valueProperty(), scrollBar.getMax());
+        timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(time), down));
+
+        KeyValue up = new KeyValue(scrollBar.valueProperty(), 0);
+        timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(time + timeUp), up));
+
+        timeline.setOnFinished((event) -> {
+            playable = true;
+            betSpinner.setDisable(false);
+            scrollBar.setDisable(false);
+        });
+
+        timeline.play();
+    }
+
+    private Optional<Double> blinkRow(ArrayList<Object> lts, int reps) {
         if (!animateLights) {
-            return;
+            Optional.empty();
         }
 
         final double anTime = 0.075;
@@ -251,10 +272,12 @@ public class SlotMachineController implements Initializable {
             });
             transition.play();
         }
+        return Optional.of(totalTime * reps);
     }
 
-    private void flashNode(Node node, double anTime, int reps) {
-        for (int i = 0; i < reps; i++) {
+    private void flashFreespinsText() {
+        double anTime = 0.5;
+        for (int i = 0; i < 4; i++) {
             PauseTransition trans = new PauseTransition(Duration.seconds(i * anTime * 2));
             trans.setOnFinished((e) -> {
                 freespinsText.getStyleClass().add("freespinsBorder");
@@ -268,107 +291,140 @@ public class SlotMachineController implements Initializable {
         }
     }
 
+    private void breathNode(Node node) {
+        int reps = 6;
+        double anTime = 0.25;
+        double startOpac = 0.25;
+        double endOpac = 1;
+        breathNode(node, reps, anTime, startOpac, endOpac);
+    }
+
+    private void breathNode(Node node, int reps, double anTime, double startOpac, double endOpac) {
+        Timeline tl = new Timeline();
+
+        KeyValue ev1 = new KeyValue(node.opacityProperty(), startOpac);
+        KeyValue ev2 = new KeyValue(node.opacityProperty(), endOpac);
+
+        for (double i = anTime; i <= anTime * reps; i += anTime) {
+            KeyValue ev = i % (anTime * 2) == 0 ? reps % 2 == 0 ? ev2 : ev1 : reps % 2 == 0 ? ev1 : ev2;
+            tl.getKeyFrames().add(new KeyFrame(Duration.seconds(i), ev));
+        }
+
+        tl.play();
+    }
+
     private void setBet(int bet) {
         machine.setBet(bet);
         updateGUI();
     }
 
-    private void play() {
-        machine.rotate();
-        machine.evaluate();
-        updateImages();
+    private void play(boolean developer) {
+        if (!playable) {
+            return;
+        }
+
+        int spinnable = machine.getSpinnable();
+
+        if (spinnable == -1) {
+            if (!developer) {
+                machine.rotate();
+            }
+            machine.handleWinState();
+            updateImages();
+        } else {
+            ScrollPane pane = scrollPanes[spinnable];
+            double t = SlotMachine.EXTRA / 15;
+            machine.spinSpinnable();
+            if (developer) {
+                while (!machine.evaluateFace(spinnable)) {
+                    machine.generateRoll(spinnable);
+                }
+            }
+            animateLever(t - 1);
+            spinPane(spinnable, t);
+            PauseTransition transition = new PauseTransition(Duration.seconds(t));
+            transition.setOnFinished((e) -> {
+                if (machine.evaluateFace(spinnable)) {
+                    machine.handleFace(spinnable);
+                    ObservableList<Node> children = vBoxes[spinnable].getChildren();
+                    breathNode(children.get(children.size() - 2));
+                }
+                updateGUI();
+            });
+            transition.play();
+        }
     }
 
     private void updateImages() {
-        scrollBar.setDisable(true);
-        scrollBar.setOpacity(1.0);
-        betSpinner.setDisable(true);
+        double highestTime = SlotMachine.EXTRA / 15 + 0.75 * (scrollPanes.length - 1);
 
-        SlotFace[][] faces = machine.getFaces();
-        listenScroll = false;
+        animateLever(highestTime - 1);
+        PauseTransition transition = new PauseTransition(Duration.seconds(highestTime));
 
-        for (ScrollPane pane : scrollPanes) {
-            pane.setVvalue(0);
-        }
-
-        for (VBox vBox : vBoxes) {
-            vBox.getChildren().removeAll(vBox.getChildren());
-        }
-
-        for (int i = 0; i < faces.length; i++) {
-            for (int j = 0; j < faces[i].length; j++) {
-                StackPane p = new StackPane();
-                p.setMinSize(0, 150);
-                ImageView iv = new ImageView(faces[i][j].getImage());
-                StackPane.setAlignment(iv, Pos.CENTER);
-                p.getChildren().add(iv);
-                iv.fitWidthProperty().bind(p.widthProperty());
-                vBoxes[i].getChildren().add(p);
-            }
-        }
-
-        Timeline timeline = new Timeline();
-        double lowestTime = 10;
-        double highestTime = 0;
         for (int i = 0; i < scrollPanes.length; i++) {
-            ScrollPane pane = scrollPanes[i];
-            KeyValue endValue = new KeyValue(pane.vvalueProperty(), 1);
-            // Random random = new Random();
-            double time = SlotMachine.EXTRA / 15 + 0.75 * i; // increase number to speed up animation
-            if (time > highestTime) {
-                highestTime = time;
-            }
-            if (time < lowestTime) {
-                lowestTime = time;
-            }
-            timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(time), endValue));
+            double time = SlotMachine.EXTRA / 15 + 0.75 * i;
+            spinPane(i, time);
         }
-        KeyValue endValue1 = new KeyValue(scrollBar.valueProperty(), 10);
-        double time = 1 - scrollBar.getValue() / 10;
-        timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(time), endValue1));
-        KeyValue endValue2 = new KeyValue(scrollBar.valueProperty(), 0);
-        timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(highestTime), endValue2));
 
-        timeline.setOnFinished((event) -> {
-            scrollBar.setDisable(false);
-            betSpinner.setDisable(false);
-
+        transition.setOnFinished((event) -> {
             updateGUI();
 
-            listenScroll = true;
-
-            if (machine.getWon()) {
-                Timeline tl = new Timeline();
-                ArrayList<Tuple<SlotFace, Tuple<Integer, Integer>>> tuples = new ArrayList<>();
-                if (machine.getDiagonal().isPresent()) {
-                    tuples.addAll(Arrays.asList(machine.getDiagonal().get()));
-                } else if (machine.getStraight().isPresent()) {
-                    tuples.addAll(machine.getStraight().get());
+            Optional<WinState> winState = machine.getWinState();
+            if (winState.isPresent() && winState.get() == WinState.SPIN) {
+                Object[] lights2 = lightrow2.getChildren().toArray();
+                ArrayList<Object> lights2List = new ArrayList<>(Arrays.asList(lights2));
+                Collections.reverse(lights2List);
+                Optional<Double> waitTime = blinkRow(lights2List, 1);
+                if (waitTime.isPresent()) {
+                    PauseTransition trans = new PauseTransition(Duration.seconds(waitTime.get()));
+                    trans.setOnFinished((e) -> {
+                        Collections.reverse(lights2List);
+                        blinkRow(lights2List, 1);
+                    });
+                    trans.play();
                 }
-                for (Tuple tuple : tuples) {
+            }
+
+            Optional<ArrayList<Tuple<SlotFace, Tuple<Integer, Integer>>>> winTuples = machine.getWinTuples();
+            if (winTuples.isPresent()) {
+                for (Tuple tuple : winTuples.get()) {
                     Tuple pos = (Tuple) tuple.y;
                     int x = (int) pos.x;
                     int y = (int) pos.y;
                     StackPane pane = (StackPane) vBoxes[y].getChildren().get(x);
 
-                    KeyValue ev1 = new KeyValue(pane.opacityProperty(), 0.25);
-                    KeyValue ev2 = new KeyValue(pane.opacityProperty(), 1.0);
-
-                    double anTime = 0.25;
-                    double reps = 6;
-                    for (double i = anTime; i <= anTime * reps; i += anTime) {
-                        KeyValue ev = i % (anTime * 2) == 0 ? reps % 2 == 0 ? ev2 : ev1 : reps % 2 == 0 ? ev1 : ev2;
-                        tl.getKeyFrames().add(new KeyFrame(Duration.seconds(i), ev));
-                    }
+                    breathNode(pane);
                 }
-                tl.play();
 
-                SlotFace face = tuples.get(0).x;
+                SlotFace face = winTuples.get().get(0).x;
                 if (face == SlotFace.SUPERCHERRY) {
-                    animateLights(lights, 2);
+                    blinkRow(lights, 2);
                 }
             }
         });
+        transition.play();
+    }
+
+    private void spinPane(int index, double time) {
+        ScrollPane pane = scrollPanes[index];
+        pane.setVvalue(0);
+        VBox vBox = vBoxes[index];
+        vBox.getChildren().removeAll(vBox.getChildren());
+
+        SlotFace[][] faces = machine.getFaces();
+        for (SlotFace face : faces[index]) {
+            StackPane p = new StackPane();
+            p.setMinSize(0, 150);
+            ImageView iv = new ImageView(face.getImage());
+            StackPane.setAlignment(iv, Pos.CENTER);
+            p.getChildren().add(iv);
+            iv.fitWidthProperty().bind(p.widthProperty());
+            vBox.getChildren().add(p);
+        }
+
+        Timeline timeline = new Timeline();
+        KeyValue endValue = new KeyValue(pane.vvalueProperty(), 1);
+        timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(time), endValue));
         timeline.play();
     }
 
@@ -379,30 +435,18 @@ public class SlotMachineController implements Initializable {
         freespinsText.setText(Integer.toString(machine.getFreespins()));
 
         if (machine.getUpdateFreespins()) {
-            flashNode(freespinsText, 0.75, 5);
+            flashFreespinsText();
         }
     }
 
     @FXML
     private void straight(ActionEvent event) {
-        machine.rotate();
-        while (!machine.getStraight().isPresent() || !machine.getWon()) {
-            machine.rotate();
-            machine.evaluateWon();
-        }
-        machine.evaluate();
-        updateImages();
+        toWinState(WinState.GREENSEVEN, WinState.GREENBAR, WinState.YELLOWSEVEN, WinState.CHERRY);
     }
 
     @FXML
     private void diagonal(ActionEvent event) {
-        machine.rotate();
-        while (!machine.getDiagonal().isPresent() || !machine.getWon()) {
-            machine.rotate();
-            machine.evaluateWon();
-        }
-        machine.evaluate();
-        updateImages();
+        toWinState(WinState.REDSEVEN, WinState.GREENSTAR, WinState.YELLOWBAR);
     }
 
     @FXML
@@ -413,15 +457,23 @@ public class SlotMachineController implements Initializable {
         updateGUI();
     }
 
-
     @FXML
     private void superCherry(ActionEvent event) {
+        toWinState(WinState.SUPERCHERRY);
+    }
+
+    @FXML
+    private void spin(ActionEvent event) {
+        toWinState(WinState.SPIN);
+    }
+
+    private void toWinState(WinState... states) {
         machine.rotate();
-        while (!machine.getStraight().isPresent() || !machine.getWon() || machine.getStraight().get().get(0).x != SlotFace.SUPERCHERRY) {
+        Optional<WinState> state = machine.getWinState();
+        while (!state.isPresent() || !Arrays.asList(states).contains(state.get())) {
             machine.rotate();
-            machine.evaluateWon();
+            state = machine.getWinState();
         }
-        machine.evaluate();
-        updateImages();
+        play(true);
     }
 }

@@ -73,6 +73,11 @@ and open the template in the editor.
     -fx-border-radius: 3px;
 }
 
+.scrollBorder {
+    -fx-border-color: transparent transparent red transparent;
+    -fx-border-width: 2px;
+}
+
 .spinner .decrement-arrow-button .decrement-arrow {
     visibility: hidden;
 }
