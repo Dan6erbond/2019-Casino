@@ -147,7 +147,7 @@ public class BingoController implements Initializable {
         ButtonList.clear();
         Integer[] card = new Integer[75];
 
-        for (int i = 0; i < 75; i++) {
+        for (int i = 0; i <= 74; i++) {
             card[i] = i;
         }
 
@@ -196,13 +196,12 @@ public class BingoController implements Initializable {
 
             @Override
             public void handle(ActionEvent event) {
-                zahl++;
-                showNumber(zahl);
+                showNumber(zahl++);
                 checkgegner(2);
             }
         }));
 
-        pause.setCycleCount(74);
+        pause.setCycleCount(75);
 
         pause.play();
 
@@ -210,7 +209,7 @@ public class BingoController implements Initializable {
 
     public void Kugelziehen() {
 
-        for (int i = 0; alleziehungen.size() < 75; i++) {
+        while (alleziehungen.size() < 75) {
             Kugel = rand.nextInt(75);
             if (!alleziehungen.contains(Kugel)) {
                 alleziehungen.add(Kugel);
@@ -221,8 +220,9 @@ public class BingoController implements Initializable {
     }
 
     public void showNumber(int zahl) {
-        bereitsgezogen.add((Integer) alleziehungen.get(zahl));
-        lblziehung.setText(lblziehung.getText() + " " + Integer.toString(bereitsgezogen.get(zahl - 1)));
+        Integer nummer = (Integer) alleziehungen.get(zahl);
+        bereitsgezogen.add(nummer);
+        lblziehung.setText(lblziehung.getText() + " " + Integer.toString(nummer));
         if (zahl % 10 == 0) {
             lblziehung.setText(lblziehung.getText() + "\r\n");
         }
@@ -317,15 +317,20 @@ public class BingoController implements Initializable {
         }
 
         for (int i = 0; i < gridpanes.size(); i++) {
-            btn.add((Button) gridpanes.get(i).getChildren().get(i));
-        }
-
-        for (int i = 0; i < btn.size() - 5; i = i + 5) {
-            Button b = btn.get(i);
-            if (bereitsgezogen.contains(Integer.valueOf(b.getText()))) {
-                b.setStyle("-fx-background-color:#214bbc");
+            for (int j = 0; j < gridpanes.get(i).getChildren().size(); j++) {
+                btn.add((Button) gridpanes.get(i).getChildren().get(j));
             }
-
+            for (int k = 0; k < btn.size(); k++) {
+                Button b = btn.get(k);
+                if (bereitsgezogen.contains(Integer.valueOf(b.getText()))) {
+                    b.setStyle("-fx-background-color:#000000");
+                }
+                if () {
+                    
+                }
+                
+            }
+            
         }
 
     }
