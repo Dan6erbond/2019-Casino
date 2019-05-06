@@ -13,6 +13,7 @@ import java.util.logging.Logger;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -23,8 +24,10 @@ import javafx.stage.StageStyle;
 public class SceneManager {
 
     private static SceneManager sceneManager;
+
     private static Stage stage;
     private static Scene homeScene;
+    private static AnchorPane ap;
 
     private SceneManager() {
         sceneManager = this;
@@ -54,16 +57,16 @@ public class SceneManager {
         
         return controller;
     }
-    
-    public static Stage getStage(){
+
+    public static Stage getStage() {
         return stage;
     }
-    
-    public static Scene getHomeScene(){
+
+    public static Scene getHomeScene() {
         return homeScene;
     }
 
-    public Tuple<Stage,Object> openWindow(String fxml) throws IOException {
+    public Tuple<Stage, Object> openWindow(String fxml) throws IOException {
         Stage s = new Stage(StageStyle.UTILITY);
         s.setResizable(false);
         s.setOnCloseRequest((event) -> {
@@ -95,4 +98,11 @@ public class SceneManager {
         return new Tuple(s, controller);
     }
 
+    public void setAnchorPane(AnchorPane ap) {
+        SceneManager.ap = ap;
+    }
+
+    public AnchorPane getAnchorPane() {
+        return ap;
+    }
 }

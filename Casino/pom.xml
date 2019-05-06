@@ -103,6 +103,13 @@
                 </configuration>
             </plugin>
         </plugins>
+        
     </build>
-
+    <dependencies>
+        <dependency>
+    <groupId>org.springframework.security</groupId>
+    <artifactId>spring-security-core</artifactId>
+    <version>5.1.5.RELEASE</version>
+        </dependency>
+    </dependencies>
 </project>
