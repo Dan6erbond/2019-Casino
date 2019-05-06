@@ -33,7 +33,6 @@ public class BingoController implements Initializable {
 
     public int boards;
 
-    private int startset;
     private List<Button> ButtonList = new ArrayList<Button>();
     private List tabs = new ArrayList();
     private Random rand = new Random();
@@ -223,7 +222,10 @@ public class BingoController implements Initializable {
 
     public void showNumber(int zahl) {
         bereitsgezogen.add((Integer) alleziehungen.get(zahl));
-        lblziehung.setText(lblziehung.getText() + Integer.toString(bereitsgezogen.get(zahl - 1)));
+        lblziehung.setText(lblziehung.getText() + " " + Integer.toString(bereitsgezogen.get(zahl - 1)));
+        if (zahl % 10 == 0) {
+            lblziehung.setText(lblziehung.getText() + "\r\n");
+        }
     }
 
     public void checkbingo() {
@@ -265,11 +267,12 @@ public class BingoController implements Initializable {
                         }
                     }
                 }
+                if (key >= 7) {
+                    System.out.println("erreicht");
+                    key = 0;
+                }
+            }
 
-            }
-            if (key >= 7) {
-                System.out.println("erreicht");
-            }
         }
 
     }
@@ -302,6 +305,7 @@ public class BingoController implements Initializable {
             grids.add(i, fillgrid(creategrid(5, 7, new GridPane()), getButtonList()));
             (tabpane.getTabs().get(boards + i)).setContent((GridPane) grids.get(i));
         }
+        lblanzahl.setText(String.valueOf(anz));
 
     }
 

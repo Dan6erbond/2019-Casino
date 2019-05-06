@@ -14,7 +14,7 @@
 <AnchorPane id="AnchorPane" maxHeight="476.0" maxWidth="1015.0" minHeight="400.0" minWidth="1000.0" prefHeight="476.0" prefWidth="1015.0" style="-fx-background-color: #081b51; -fx-border-width: 2; -fx-background-radius: 10; -fx-border-color: red;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.bbbaden.casino.bingo.BingoController">
   
     <children>
-        <Label fx:id="lblziehung" layoutX="653.0" layoutY="31.0" prefHeight="25.0" prefWidth="343.0" textFill="WHITE" />
+        <Label fx:id="lblziehung" layoutX="606.0" layoutY="31.0" prefHeight="160.0" prefWidth="249.0" textFill="WHITE" wrapText="true" />
         <TabPane fx:id="tabpane" layoutX="38.0" layoutY="80.0" prefHeight="338.0" prefWidth="402.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="36.0" AnchorPane.rightAnchor="577.0" AnchorPane.topAnchor="78.0" />
         <MenuBar layoutX="14.0" layoutY="2.0" style="-fx-background-color: blue;">
             <menus>
@@ -49,10 +49,10 @@
             </content>
         </TitledPane>
         <Button fx:id="btnstart" layoutX="226.0" layoutY="31.0" mnemonicParsing="false" onAction="#Kugelziehenstart" prefHeight="33.0" prefWidth="172.0" style="-fx-background-color: blue;" text="Start" textFill="WHITE" visible="false" />
-        <Label fx:id="label" layoutX="595.0" layoutY="27.0" prefHeight="33.0" prefWidth="49.0" style="-fx-border-radius: 3;" text="Ziehung:" textFill="WHITE" />
+        <Label fx:id="label" layoutX="542.0" layoutY="31.0" prefHeight="33.0" prefWidth="49.0" style="-fx-border-radius: 3;" text="Ziehung:" textFill="WHITE" />
       <Button fx:id="btnbingo" layoutX="263.0" layoutY="395.0" mnemonicParsing="false" onAction="#btnbingo" prefHeight="44.0" prefWidth="77.0" style="-fx-background-color: blue;" text="Bingo" textFill="WHITE" visible="false" />
-      <Label layoutX="535.0" layoutY="60.0" text="Anzahl Gegenspieler:" textFill="WHITE" />
-      <Label fx:id="lblanzahl" layoutX="659.0" layoutY="60.0" prefHeight="17.0" prefWidth="343.0" textFill="WHITE" />
+      <Label layoutX="548.0" layoutY="204.0" text="Anzahl Gegenspieler:" textFill="WHITE" />
+      <Label fx:id="lblanzahl" layoutX="672.0" layoutY="204.0" prefHeight="17.0" prefWidth="343.0" textAlignment="JUSTIFY" textFill="WHITE" />
     </children>
 
 
