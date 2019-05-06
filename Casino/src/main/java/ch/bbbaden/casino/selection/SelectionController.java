@@ -22,6 +22,7 @@ import javafx.scene.layout.AnchorPane;
  * @author aless
  */
 public class SelectionController implements Initializable {
+
     @FXML
     private ImageView BlackJack;
     @FXML
@@ -41,16 +42,15 @@ public class SelectionController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         SceneManager.getInstance().setAnchorPane(ap);
-        if(Databankmanager.getInstance().getcurrentuser().equals("admin"))
-        {
+        if (Databankmanager.getInstance().getcurrentuser().equals("admin")) {
             statistik.setVisible(true);
         }
-    }    
+    }
 
     @FXML
     private void startgame(MouseEvent event) throws IOException {
         ImageView iv = (ImageView) event.getSource(); // get the ImageView of the image that was clicked that has the same name as the fxml files
-        SceneManager.getInstance().changeScene("/fxml/"+iv.getId()+".fxml");
+        SceneManager.getInstance().changeScene("/fxml/" + iv.getId() + ".fxml");
     }
-    
+
 }

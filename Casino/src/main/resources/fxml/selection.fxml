@@ -10,7 +10,10 @@
          <image>
             <Image url="@../images/selectblackjack.png" />
          </image></ImageView>
-      <ImageView fx:id="SlotMachine" fitHeight="150.0" fitWidth="200.0" layoutX="363.0" layoutY="52.0" onMouseClicked="#startgame" pickOnBounds="true" preserveRatio="true" styleClass="games" />
+      <ImageView fx:id="SlotMachineIntro" fitHeight="150.0" fitWidth="200.0" layoutX="363.0" layoutY="52.0" onMouseClicked="#startgame" pickOnBounds="true" preserveRatio="true" styleClass="games">
+         <image>
+            <Image url="@../images/slotmachine.jpg" />
+         </image></ImageView>
       <ImageView fx:id="roulettemenu" fitHeight="124.0" fitWidth="307.0" layoutX="14.0" layoutY="353.0" onMouseClicked="#startgame" pickOnBounds="true" preserveRatio="true" styleClass="games">
          <image>
             <Image url="@../images/selectroulette.png" />

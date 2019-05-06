@@ -10,7 +10,7 @@ public class MainApp extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        SceneManager.getInstance().changeScene("/fxml/GamePicker.fxml");
+        SceneManager.getInstance().openStart();
     }
 
     /**

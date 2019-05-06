@@ -5,9 +5,7 @@
  */
 package ch.bbbaden.casino;
 
-import ch.bbbaden.casino.slotmachine.SlotMachineController;
 import java.io.IOException;
-import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.fxml.FXMLLoader;
@@ -23,6 +21,7 @@ import javafx.stage.StageStyle;
  */
 public class SceneManager {
 
+    private static final String startFXML = "/fxml/selection.fxml";
     private static SceneManager sceneManager;
 
     private static Stage stage;
@@ -38,6 +37,10 @@ public class SceneManager {
             sceneManager = new SceneManager();
         }
         return sceneManager;
+    }
+    
+    public void openStart() throws IOException{
+        changeScene(startFXML);
     }
 
     public Object changeScene(String fxml) throws IOException {
@@ -72,7 +75,7 @@ public class SceneManager {
         s.setOnCloseRequest((event) -> {
             try {
                 if (s.getScene() != homeScene){
-                    stage = openWindow("/fxml/GamePicker.fxml").x;
+                    stage = openWindow(startFXML).x;
                 }
             } catch (IOException ex) {
                 Logger.getLogger(SceneManager.class.getName()).log(Level.SEVERE, null, ex);
@@ -87,7 +90,7 @@ public class SceneManager {
         scene.getStylesheets().add("https://fonts.googleapis.com/css?family=Roboto");
         scene.getStylesheets().add("https://fonts.googleapis.com/css?family=Aldrich");        
         
-        if (fxml.contains("GamePicker.fxml")){
+        if (fxml.equals(startFXML)){
             homeScene = scene;
         }
 
