@@ -197,7 +197,7 @@ public class BingoController implements Initializable {
             @Override
             public void handle(ActionEvent event) {
                 showNumber(zahl++);
-                checkgegner(2);
+                showgegner(2);
             }
         }));
 
@@ -309,7 +309,7 @@ public class BingoController implements Initializable {
 
     }
 
-    private void checkgegner(int anz) {
+    private void showgegner(int anz) {
         ArrayList<GridPane> gridpanes = new ArrayList<GridPane>();
         ArrayList<Button> btn = new ArrayList<Button>();
         for (int i = 0; i < tabpane.getTabs().size() - boards; i++) {
@@ -325,20 +325,13 @@ public class BingoController implements Initializable {
                 if (bereitsgezogen.contains(Integer.valueOf(b.getText()))) {
                     b.setStyle("-fx-background-color:#000000");
                 }
-
-                int key = 0;
-                for (int j = 0; j < btn.size(); j++) {
-                    for (int l = btn.size(); l < 7; l = l - 7) {
-                        b = btn.get(j - i);
-                        if (b.getStyle().equals("-fx-background-color:#000000")) {
-
-                        }
-
-                    }
-
-                }
             }
+
         }
+
+    }
+    private void checkgegner(){
+        
     }
 
     @FXML
