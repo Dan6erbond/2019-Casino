@@ -151,7 +151,7 @@ public class BingoController implements Initializable {
             card[i] = i;
         }
 
-        ArrayList<Integer> shuffled = new ArrayList<Integer>(Arrays.asList(card));
+        ArrayList<Integer> shuffled = new ArrayList<>(Arrays.asList(card));
 
         Collections.shuffle(shuffled);
 
@@ -309,7 +309,7 @@ public class BingoController implements Initializable {
 
     }
 
-    private void showgegner(int anz) {
+    private void showgegner(int cnt) {
         ArrayList<GridPane> gridpanes = new ArrayList<GridPane>();
         ArrayList<Button> btn = new ArrayList<Button>();
         for (int i = 0; i < tabpane.getTabs().size() - boards; i++) {
@@ -330,8 +330,9 @@ public class BingoController implements Initializable {
         }
 
     }
-    private void checkgegner(){
-        
+
+    private void checkgegner() {
+
     }
 
     @FXML

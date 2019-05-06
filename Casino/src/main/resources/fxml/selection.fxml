@@ -18,7 +18,7 @@
          <image>
             <Image url="@../images/selectroulette.png" />
          </image></ImageView>
-      <ImageView fx:id="bingo" fitHeight="150.0" fitWidth="200.0" layoutX="384.0" layoutY="340.0" onMouseClicked="#startgame" pickOnBounds="true" preserveRatio="true" styleClass="games" />
+      <ImageView fx:id="Bingo" fitHeight="150.0" fitWidth="200.0" layoutX="384.0" layoutY="340.0" onMouseClicked="#startgame" pickOnBounds="true" preserveRatio="true" styleClass="games" />
       <ImageView fx:id="statistik" fitHeight="124.0" fitWidth="100.0" layoutX="249.0" layoutY="224.0" onMouseClicked="#startgame" pickOnBounds="true" preserveRatio="true" visible="false">
          <image>
             <Image url="@../images/statistik.png" />
