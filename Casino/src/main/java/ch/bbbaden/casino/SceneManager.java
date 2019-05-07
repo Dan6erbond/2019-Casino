@@ -11,7 +11,6 @@ import java.util.logging.Logger;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -26,7 +25,6 @@ public class SceneManager {
 
     private static Stage stage;
     private static Scene homeScene;
-    private static AnchorPane ap;
 
     private SceneManager() {
         sceneManager = this;
@@ -96,13 +94,5 @@ public class SceneManager {
         s.show();
 
         return new Tuple(s, controller);
-    }
-
-    public void setAnchorPane(AnchorPane ap) {
-        SceneManager.ap = ap;
-    }
-
-    public AnchorPane getAnchorPane() {
-        return ap;
     }
 }

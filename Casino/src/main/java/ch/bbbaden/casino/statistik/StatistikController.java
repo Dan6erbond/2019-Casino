@@ -76,7 +76,6 @@ public class StatistikController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        SceneManager.getInstance().setAnchorPane(ap);
         addnames();
     }    
     
