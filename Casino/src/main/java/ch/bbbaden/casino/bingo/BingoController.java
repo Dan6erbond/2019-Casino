@@ -31,6 +31,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import javax.swing.JButton;
 
 public class BingoController implements Initializable {
 
@@ -324,8 +325,9 @@ public class BingoController implements Initializable {
     }
 
     private void showgegner(int cnt) {
-        int[] row = new int[6];
-        int[] col = new int[7];
+        int[][] btnset = new int[6][7];
+        int[][] row = new int[2][6];
+        int[][] col = new int[2][7];
 
         ArrayList<GridPane> gridpanes = new ArrayList<GridPane>();
         ArrayList<Button> btn = new ArrayList<Button>();
@@ -341,35 +343,45 @@ public class BingoController implements Initializable {
             }
 
             for (Button b : btn) {
-
                 if (bereitsgezogen.contains(Integer.valueOf(b.getText()))) {
                     b.setStyle("-fx-background-color:#000000");
                 }
             }
 
             for (int j = 0; j < gridpanes.get(i).getChildren().size(); j++) {
+
                 Button b = (Button) gridpanes.get(i).getChildren().get(j);
 
                 if (b.getStyle().equals("-fx-background-color:#000000") && bereitsgezogen.contains(Integer.valueOf(b.getText()))) {
-                    row[GridPane.getRowIndex(b)] += 1;
-                }
-
-                if (b.getStyle().equals("-fx-background-color:#000000") && bereitsgezogen.contains(Integer.valueOf(b.getText()))) {
-                    col[GridPane.getColumnIndex(b)] += 1;
-                }
-
-                if (row[GridPane.getRowIndex(b)] == gridpanes.get(i).getRowConstraints().size() && bingorow[GridPane.getRowIndex(b)] == false) {
-                    bingorow[GridPane.getRowIndex(b)] = true;
-                    System.out.println("Bingogegner");
-                    setMoney(0);
+                    row[i][GridPane.getRowIndex(b)] += 1;
+                    col[i][GridPane.getColumnIndex(b)] += 1;
                 }
                 
-//                if (row[GridPane.getColumnIndex(b)] == gridpanes.get(i).getColumnConstraints().size() && bingorow[GridPane.getColumnIndex(b)] == false) {
+                int num = 0;
+                for (int k = 0; k < 5; k++) {
+                    if (row[i][k] == 7) {
+                        for (int l = 0; l < 6; l++) {
+                            if (col[i][l] == 1) {
+                                num++;
+                            }
+                            if (num==7) {
+                                System.out.println("Bingogegner");
+                            }
+                        }
+                    }
+                }
+//
+//                if (row[i][GridPane.getRowIndex(b)] == gridpanes.get(i).getRowConstraints().size() && bingorow[GridPane.getRowIndex(b)] == false) {
 //                    bingorow[GridPane.getRowIndex(b)] = true;
 //                    System.out.println("Bingogegner");
 //                    setMoney(0);
 //                }
 
+//                if (row[GridPane.getColumnIndex(b)] == gridpanes.get(i).getColumnConstraints().size() && bingorow[GridPane.getColumnIndex(b)] == false) {
+//                    bingorow[GridPane.getRowIndex(b)] = true;
+//                    System.out.println("Bingogegner");
+//                    setMoney(0);
+//                }
             }
 
         }
