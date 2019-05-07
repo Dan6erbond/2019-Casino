@@ -5,7 +5,7 @@
  */
 package ch.bbbaden.casino.selection;
 
-import ch.bbbaden.casino.Databankmanager;
+import ch.bbbaden.casino.DataManager;
 import ch.bbbaden.casino.SceneManager;
 import java.io.IOException;
 import java.net.URL;
@@ -24,28 +24,27 @@ import javafx.scene.layout.AnchorPane;
 public class SelectionController implements Initializable {
 
     @FXML
-    private ImageView BlackJack;
+    private ImageView blackJack;
     @FXML
-    private ImageView statistik;
+    private ImageView statistic;
     @FXML
-    private AnchorPane ap;
+    private AnchorPane anchorPanert;
     @FXML
-    private ImageView roulettemenu;
+    private ImageView rouletteMenu;
     @FXML
-    private ImageView SlotMachineIntro;
+    private ImageView slotMachineIntro;
     @FXML
-    private ImageView Bingo;
+    private ImageView bingo;
     @FXML
-    private ImageView Bank;
+    private ImageView bank;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        SceneManager.getInstance().setAnchorPane(ap);
-        if (Databankmanager.getInstance().getcurrentuser().equals("admin")) {
-            statistik.setVisible(true);
+        if (DataManager.getInstance().getcurrentuser().equals("admin")) {
+            statistic.setVisible(true);
         }
     }
 

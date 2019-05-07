@@ -17,7 +17,7 @@ import javafx.scene.layout.*;
  *
  * @author aless
  */
-public class Panemanager {
+public class PaneManager {
 
     public static Pane createPane(double height, double width, String text) {
         //create pane
@@ -51,7 +51,6 @@ public class Panemanager {
     }
 
     public static Pane createPane(double height, double width, String text, final String fxml) {
-
         final Pane pane = new Pane();
         pane.setStyle("-fx-background-color: blueviolet; -fx-background-radius: 18 18 18 18;");
         pane.setMinSize(height / 2, width / 2);
@@ -74,7 +73,7 @@ public class Panemanager {
                 try {
                     SceneManager.getInstance().changeScene(fxml);
                 } catch (IOException ex) {
-                    Logger.getLogger(Panemanager.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(PaneManager.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         });

@@ -5,8 +5,8 @@
  */
 package ch.bbbaden.casino.bank;
 
-import ch.bbbaden.casino.Databankmanager;
-import ch.bbbaden.casino.Panemanager;
+import ch.bbbaden.casino.DataManager;
+import ch.bbbaden.casino.PaneManager;
 import ch.bbbaden.casino.SceneManager;
 import java.io.IOException;
 import java.net.URL;
@@ -14,7 +14,6 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
@@ -32,7 +31,7 @@ public class BankController implements Initializable {
     private AnchorPane ap;
     @FXML
     private Label amount;
-        Databankmanager dm = Databankmanager.getInstance();
+        DataManager dm = DataManager.getInstance();
     /**
      * Initializes the controller class.
      */
@@ -47,7 +46,7 @@ public class BankController implements Initializable {
         if(chips.getValue() > 0)
         {
             dm.setchipamount(dm.getchipamount() + (Integer)chips.getValue());
-            ap.getChildren().add(Panemanager.createPane(ap.getHeight(), ap.getWidth(), "We added "+(Integer) chips.getValue()+"\r\nYour current amount of chips is "+dm.getchipamount()));
+            ap.getChildren().add(PaneManager.createPane(ap.getHeight(), ap.getWidth(), "We added "+(Integer) chips.getValue()+"\r\nYour current amount of chips is "+dm.getchipamount()));
             amount.setText("Your chips: "+dm.getchipamount());
         }
     }
