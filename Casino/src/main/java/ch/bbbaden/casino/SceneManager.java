@@ -38,13 +38,13 @@ public class SceneManager {
         }
         return sceneManager;
     }
-    
-    public void openStart() throws IOException{
+
+    public void openStart() throws IOException {
         changeScene(startFXML);
     }
 
     public Object changeScene(String fxml) throws IOException {
-        Tuple<Stage,Object> window;
+        Tuple<Stage, Object> window;
         if (stage == null) {
             window = openWindow(fxml);
             stage = window.x;
@@ -57,7 +57,7 @@ public class SceneManager {
 
         Scene scene = new Scene(root);
         stage.setScene(scene);
-        
+
         return controller;
     }
 
@@ -72,9 +72,9 @@ public class SceneManager {
     public Tuple<Stage, Object> openWindow(String fxml) throws IOException {
         Stage s = new Stage(StageStyle.UTILITY);
         s.setResizable(false);
-        s.setOnCloseRequest((event) -> {
+        s.setOnHidden((event) -> {
             try {
-                if (s.getScene() != homeScene){
+                if (s.getScene() != homeScene) {
                     stage = openWindow(startFXML).x;
                 }
             } catch (IOException ex) {
@@ -87,10 +87,11 @@ public class SceneManager {
         Object controller = loader.getController();
 
         Scene scene = new Scene(root);
+
         scene.getStylesheets().add("https://fonts.googleapis.com/css?family=Roboto");
-        scene.getStylesheets().add("https://fonts.googleapis.com/css?family=Aldrich");        
-        
-        if (fxml.equals(startFXML)){
+        scene.getStylesheets().add("https://fonts.googleapis.com/css?family=Aldrich");
+
+        if (fxml.equals(startFXML)) {
             homeScene = scene;
         }
 

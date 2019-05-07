@@ -1,10 +1,8 @@
 package ch.bbbaden.casino;
 
-
 import javafx.application.Application;
 import static javafx.application.Application.launch;
 import javafx.stage.Stage;
-
 
 public class MainApp extends Application {
 
