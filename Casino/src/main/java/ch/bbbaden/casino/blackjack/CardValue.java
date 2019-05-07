@@ -21,20 +21,4 @@ public enum CardValue {
     public int getValue() {
         return value;
     }
-
-    public int getPValue() {
-        if (value == 11 && value > 21) {
-            return value - 10;
-        } else {
-            return value;
-        }
-    }
-
-    public int getBValue() {
-        if (value == 11 && value > 21) {
-            return value - 10;
-        } else {
-            return value;
-        }
-    }
 }

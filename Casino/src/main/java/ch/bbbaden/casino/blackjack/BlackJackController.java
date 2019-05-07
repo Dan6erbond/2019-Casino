@@ -49,10 +49,18 @@ public class BlackJackController implements Initializable {
     int rand1;
     int rand2;
     int rand3;
-    final int pxcoordinate = -300;
-    final int bxcoordinate = 220;
+    int pxcoordinate = -230;
+    int bxcoordinate = 150;
     int pvalue;
     int bvalue;
+    boolean pace = false;
+    boolean bace = false;
+    ArrayList<ImageView> cardimages = new ArrayList<>();
+    int btolerance = 40;
+    int ptolerance = 50;
+    boolean insurepress = false;
+    boolean doubleloss = false;
+    boolean hitdouble = false;
 
     @FXML
     private Button putchip;
@@ -96,6 +104,8 @@ public class BlackJackController implements Initializable {
     private Label bmessage;
     @FXML
     private Pane imgpane;
+    @FXML
+    private Button insure;
 
     /**
      * Initializes the controller class.
@@ -142,59 +152,81 @@ public class BlackJackController implements Initializable {
         Random rnd = new Random();
         int random;
 
-        rand1 = rnd.nextInt(cards.size() / 3 * 2);
-        rand2 = rnd.nextInt(cards.size() / 3);
-        rand3 = rnd.nextInt(100);
+        do {
+            rand1 = rnd.nextInt(cards.size() / 3 * 2);
+            rand2 = rnd.nextInt(cards.size() / 3);
+            rand3 = rnd.nextInt(100);
 
-        if (rand3 > 10) {
-            random = (int) (rand1 + rand2);
-            rand3 -= 20;
-        } else {
-            random = (int) rand3;
-            rand3 += 20;
-        }
+            if (rand3 > ptolerance) {
+                random = (int) (rand1 + rand2);
+                ptolerance = 30;
+            } else {
+                random = (int) rand3;
+                ptolerance = 40;
+            }
+        } while (random >= cards.size());
 
         Card card = cards.get(random);
-        pvalue += card.getValue().getPValue();
+        pvalue += card.getValue().getValue();
         pcards.add(card);
 
         ImageView iv = new ImageView(card.getImage());
         iv.setLayoutX(x);
-        iv.setLayoutY(-400);
+        iv.setLayoutY(-435);
         iv.setScaleX(0.18);
         iv.setScaleY(0.18);
         imgpane.getChildren().add(iv);
+        cardimages.add(iv);
 
         cards.remove(card);
     }
+
+    boolean firstcard = true;
+    int firstcardvalue;
+    int hiddenvalue;
 
     private void setBankCards(int x) {
         Random rnd = new Random();
         int random;
 
-        rand1 = rnd.nextInt(cards.size() / 3 * 2);
-        rand2 = rnd.nextInt(cards.size() / 3);
-        rand3 = rnd.nextInt(100);
+        do {
+            rand1 = rnd.nextInt(cards.size() / 3 * 2);
+            rand2 = rnd.nextInt(cards.size() / 3);
+            rand3 = rnd.nextInt(100);
 
-        if (rand3 > 15) {
-            random = (int) rand1 + rand2;
-            rand3 += 25;
-
-        } else {
-            random = (int) rand3;
-            rand3 -= 25;
-        }
+            if (rand3 > btolerance) {
+                random = (int) rand1 + rand2;
+                btolerance = 50;
+            } else {
+                random = (int) rand3;
+                btolerance = 20;
+            }
+        } while (random >= cards.size());
 
         Card card = cards.get(random);
-        bvalue += card.getValue().getBValue();
-        bcards.add(card);
 
-        ImageView iv = new ImageView(card.getImage());
+        if (firstcard) {
+            firstcardvalue = card.getValue().getValue();
+            bcards.add(card);
+        } else {
+            hiddenvalue += card.getValue().getValue();
+            bcards.add(card);
+        }
+        bvalue = firstcardvalue + hiddenvalue;
+
+        ImageView iv;
+        if (firstcard) {
+            iv = new ImageView("/img/cards/cardback.png");
+            firstcard = false;
+        } else {
+            iv = new ImageView(card.getImage());
+        }
         iv.setLayoutX(x);
-        iv.setLayoutY(-400);
+        iv.setLayoutY(-435);
         iv.setScaleX(0.18);
         iv.setScaleY(0.18);
         imgpane.getChildren().add(iv);
+        cardimages.add(iv);
 
         cards.remove(card);
     }
@@ -227,10 +259,10 @@ public class BlackJackController implements Initializable {
 
         pause.setOnFinished((ActionEvent e)
                 -> {
-            setPlayerCards(pxcoordinate + 40);
-            setBankCards(bxcoordinate + 40);
+            setPlayerCards(pxcoordinate += 40);
+            setBankCards(bxcoordinate += 40);
             pval.setText(Integer.toString(pvalue));
-            bval.setText(Integer.toString(bvalue));
+            bval.setText(Integer.toString(hiddenvalue));
 
             if (pvalue == bvalue && pvalue == 21) {
                 Draw();
@@ -238,14 +270,16 @@ public class BlackJackController implements Initializable {
             } else if (pvalue == 21) {
                 WinBJ();
                 HideButtAction();
-            } else if (bvalue == 21) {
-                LoseBJ();
-                HideButtAction();
+            }
+            if (bcards.get(1).getValue().equals(CardValue.ACE)) {
+                insure.setVisible(true);
+                insure.setDisable(false);
             }
         });
         pause.play();
+
         pval.setText(Integer.toString(pvalue));
-        bval.setText(Integer.toString(bvalue));
+        bval.setText(Integer.toString(hiddenvalue));
 
         if (pool > balance) {
             doubledown.setDisable(true);
@@ -274,77 +308,19 @@ public class BlackJackController implements Initializable {
 
     @FXML
     private void clickHit(ActionEvent event) {
-        setPlayerCards(pxcoordinate + 80);
-        pval.setText(Integer.toString(pvalue));
 
-        boolean pace = false;
-        boolean bace = false;
-        for (Card c : pcards) {
-            if (c.getValue().equals(CardValue.ACE)) {
-                pace = true;
-            }
-        }
-        for (Card c : bcards) {
-            if (c.getValue().equals(CardValue.ACE)) {
-                bace = true;
-            }
-        }
-        if (pvalue > 21 && pace == true) {
-            pvalue -= 10;
-            pval.setText(Integer.toString(pvalue));
-            pcards.clear();
-        }
-        if (bvalue > 21 && bace == true) {
-            bvalue -= 10;
-            bval.setText(Integer.toString(bvalue));
-            bcards.clear();
-        }
-        if (pvalue > 21) {
-            Lose();
-            HideButtAction();
-        }
-        if (bvalue <= 16) {
-            setBankCards(bxcoordinate + 80);
-            bval.setText(Integer.toString(bvalue));
-        }
-        if (pvalue == bvalue && bvalue == 21) {
-            Draw();
-            HideButtAction();
-        } else if (pvalue == 21 || bvalue > 21) {
-            Win();
-            HideButtAction();
-        }
+        calculatePlayerCard();
     }
 
     @FXML
     private void clickStand(ActionEvent event) {
 
-        do {
-            if (bvalue <= 16) {
-                setBankCards(bxcoordinate + 80);
-                bval.setText(Integer.toString(bvalue));
-                if (pvalue < bvalue && bvalue < 22) {
-                    Lose();
-                    HideButtAction();
-                } else if (bvalue > 21) {
-                    Win();
-                }
-            }
-            if (pvalue > bvalue && pvalue < 22) {
-                Win();
-                HideButtAction();
-            } else if (pvalue < bvalue && bvalue < 22) {
-                Lose();
-                HideButtAction();
-            } else if (pvalue == bvalue && bvalue < 22) {
-                Draw();
-                HideButtAction();
-            }
-        } while (bvalue < 16);
+        bankAction();
     }
 
     @FXML
     private void clickDouble(ActionEvent event) {
+        hitdouble = true;
         balance -= pool;
         pool *= 2;
 
@@ -353,36 +329,121 @@ public class BlackJackController implements Initializable {
         lpool.setText(Integer.toString(pool));
         lbalance.setText(Integer.toString(balance));
 
-        setPlayerCards(pxcoordinate + 80);
+        calculatePlayerCard();
+
+        if (doubleloss == true) {
+            bankAction();
+        }
+    }
+
+    @FXML
+    private void clickInsure(ActionEvent event) {
+        insurepress = true;
+        insure.setDisable(true);
+        pool += pool / 2;
+        lpool.setText("" + pool);
+
+        imgpane.getChildren().remove(cardimages.get(1));
+
+        bval.setText(Integer.toString(bvalue));
+
+        ImageView iv = new ImageView(bcards.get(0).getImage());
+        iv.setLayoutX(bxcoordinate += 40);
+        iv.setLayoutY(-435);
+        iv.setScaleX(0.18);
+        iv.setScaleY(0.18);
+        imgpane.getChildren().add(iv);
+        cardimages.add(iv);
+
+        if (bvalue == 21 || bvalue == 22) {
+            LoseBJ();
+            HideButtAction();
+        }
+    }
+
+    private void calculatePlayerCard() {
+        setPlayerCards(pxcoordinate += 40);
         pval.setText(Integer.toString(pvalue));
 
-        do {
-            if (pvalue > 21) {
-                Lose();
-                break;
+        for (int i = pcards.size() - 1; i >= 0; i--) {
+            Card c = pcards.get(i);
+            if (c.getValue().equals(CardValue.ACE)) {
+                pace = true;
+                pcards.remove(c);
+                i--;
             }
-            if (bvalue <= 16) {
-                setBankCards(bxcoordinate + 80);
+        }
+        if (pvalue > 21 && pace == true) {
+            pvalue -= 10;
+            pace = false;
+            pval.setText(Integer.toString(pvalue));
+        }
+        if (pvalue > 21) {
+            Lose();
+            HideButtAction();
+        } else if (pvalue == 21) {
+            bankAction();
+        }
+        if (hitdouble && pvalue <= 21) {
+            doubleloss = true;
+        }
+    }
+
+    private void bankPickCard() {
+
+        PauseTransition transition = new PauseTransition(Duration.seconds(1.5));
+        transition.setOnFinished(e -> {
+            while (bvalue <= 16) {
+                setBankCards(bxcoordinate += 40);
                 bval.setText(Integer.toString(bvalue));
-                if (pvalue < bvalue && bvalue < 22) {
-                    Lose();
-                    HideButtAction();
-                } else if (bvalue > 21) {
-                    Win();
+
+                for (int i = bcards.size() - 1; i >= 0; i--) {
+                    Card c = bcards.get(i);
+                    if (c.getValue().equals(CardValue.ACE)) {
+                        bace = true;
+                        bcards.remove(c);
+                    }
+                    i--;
                 }
+                if (bvalue > 21 && bace == true) {
+                    bvalue -= 10;
+                    bace = false;
+                    bval.setText(Integer.toString(bvalue));
+                }
+                bankPickCard();
             }
-            if (pvalue > bvalue && pvalue < 22) {
-                Win();
-                HideButtAction();
-            } else if (pvalue < bvalue && bvalue < 22) {
-                Lose();
-                HideButtAction();
-            } else if (pvalue == bvalue && bvalue < 22) {
+
+            if (pvalue == bvalue && bvalue > 16) {
                 Draw();
                 HideButtAction();
+            } else if (pvalue == 21 || bvalue < pvalue || bvalue > 21) {
+                Win();
+                HideButtAction();
+            } else if (bvalue > pvalue || pvalue > 21) {
+                Lose();
+                HideButtAction();
             }
-        } while (bvalue < 16);
+        });
+        transition.play();
+    }
 
+    private void bankAction() {
+
+        HideButtAction();
+
+        imgpane.getChildren().remove(cardimages.get(1));
+
+        bval.setText(Integer.toString(bvalue));
+
+        ImageView iv = new ImageView(bcards.get(0).getImage());
+        iv.setLayoutX(bxcoordinate += 40);
+        iv.setLayoutY(-435);
+        iv.setScaleX(0.18);
+        iv.setScaleY(0.18);
+        imgpane.getChildren().add(iv);
+        cardimages.add(iv);
+
+        bankPickCard();
     }
 
     private void update() {
@@ -468,7 +529,12 @@ public class BlackJackController implements Initializable {
     private void LoseBJ() {
         bmessage.setText("Black Jack!");
         pmessage.setText("Verloren");
-        balance += pool * 2.5;
+        if (insurepress) {
+            balance += pool;
+            pool = 0;
+        } else {
+            pool = 0;
+        }
         pool = 0;
         again.setDisable(false);
     }
@@ -488,6 +554,8 @@ public class BlackJackController implements Initializable {
         hit.setDisable(true);
         doubledown.setDisable(true);
         stand.setDisable(true);
+        insure.setDisable(true);
+        insure.setVisible(false);
     }
 
     @FXML
@@ -499,15 +567,23 @@ public class BlackJackController implements Initializable {
 
         pvalue = 0;
         bvalue = 0;
+        hiddenvalue = 0;
+        pace = false;
+        bace = false;
+        doubleloss = false;
+        hitdouble = false;
+        pxcoordinate = -230;
+        bxcoordinate = 150;
+        btolerance = 40;
+        ptolerance = 50;
 
         cards.clear();
         pcards.clear();
         bcards.clear();
-        
-        for (int i = 0; i < imgpane.getChildren().size(); i++) {
-            imgpane.getChildren().remove(i);
-        }
-        
+
+        imgpane.getChildren().removeAll(cardimages);
+        cardimages.clear();
+
         setAllCards();
 
         hit.setDisable(true);
@@ -528,6 +604,7 @@ public class BlackJackController implements Initializable {
 
         putchip.setDisable(true);
         deletechip.setDisable(true);
+        firstcard = true;
     }
 
     @FXML
