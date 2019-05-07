@@ -1,6 +1,6 @@
 package ch.bbbaden.casino.roulette;
 
-import ch.bbbaden.casino.Panemanager;
+import ch.bbbaden.casino.PaneManager;
 import ch.bbbaden.casino.SceneManager;
 import java.io.IOException;
 import java.net.URL;
@@ -229,14 +229,14 @@ public class RouletteController implements Initializable {
         MenuItem help = new MenuItem("Help");
         help.setOnAction(new EventHandler<ActionEvent>() {
             @Override public void handle(ActionEvent e) {
-                ap.getChildren().add(Panemanager.createPane(ap.getWidth(),ap.getHeight(), "1) You click on one of the chips. A mini version of it now follows you \r\n 2) You click on a field \r\n 3) You can always see which fields you are selecting in the text above the fields \r\n 4) You press the Button \"spin\" \r\n 5) Hope you win"));
+                ap.getChildren().add(PaneManager.createPane(ap.getWidth(),ap.getHeight(), "1) You click on one of the chips. A mini version of it now follows you \r\n 2) You click on a field \r\n 3) You can always see which fields you are selecting in the text above the fields \r\n 4) You press the Button \"spin\" \r\n 5) Hope you win"));
             }
         });
         MenuItem bet = new MenuItem("Bets");
         bet.setOnAction(new EventHandler<ActionEvent>() {
             @Override public void handle(ActionEvent e) {
-                ap.getChildren().add(Panemanager.createPane(ap.getWidth(),ap.getHeight(), "Column - You select one of the \"2 TO 1\" fields 2: 1 \r\n Dozen - You select twelve numbers 2:1 \r\n Even/Odd - You select the field \"Even/ODD\" 1:1 \r\n Red/Black - You select the field \"RED/BLACK\" 1:1 \r\n Low/High - You select the field \"1-18/19-36\" 1:1 \r\n 2:1 means, when you place 10 you get 20 plus your original 10"));
-                ap.getChildren().add(Panemanager.createPane(ap.getWidth(),ap.getHeight(), "Straight up bets - You select one number 35:1 \r\n Split bets - You select two numbers 17:1 \r\n Street bets - You select three numbers 11:1 \r\n corner bets - You select four numbers 8:1 \r\n 5 number bets - You select five numbers  \r\n  6 number bets - You select six numbers 5:1"));
+                ap.getChildren().add(PaneManager.createPane(ap.getWidth(),ap.getHeight(), "Column - You select one of the \"2 TO 1\" fields 2: 1 \r\n Dozen - You select twelve numbers 2:1 \r\n Even/Odd - You select the field \"Even/ODD\" 1:1 \r\n Red/Black - You select the field \"RED/BLACK\" 1:1 \r\n Low/High - You select the field \"1-18/19-36\" 1:1 \r\n 2:1 means, when you place 10 you get 20 plus your original 10"));
+                ap.getChildren().add(PaneManager.createPane(ap.getWidth(),ap.getHeight(), "Straight up bets - You select one number 35:1 \r\n Split bets - You select two numbers 17:1 \r\n Street bets - You select three numbers 11:1 \r\n corner bets - You select four numbers 8:1 \r\n 5 number bets - You select five numbers  \r\n  6 number bets - You select six numbers 5:1"));
             }
         });
         info.getItems().add(help);
@@ -578,7 +578,7 @@ public class RouletteController implements Initializable {
         }
         else
         {
-            ap.getChildren().add(Panemanager.createPane(ap.getWidth(), ap.getHeight(),"Sorry, but you don't have enough Money"));
+            ap.getChildren().add(PaneManager.createPane(ap.getWidth(), ap.getHeight(),"Sorry, but you don't have enough Money"));
         }
             }catch(Exception e){}
         }
@@ -649,7 +649,7 @@ public class RouletteController implements Initializable {
             public void handle(ActionEvent event) {
                 System.out.println(landedin());
                 int won = model.check(landedin());
-                ap.getChildren().add(Panemanager.createPane(ap.getWidth(), ap.getHeight(), "The ball landed in field:"+landedin()+" \r\n" + (won < 0 ? "You lost "+(won*-1): "You won "+won)));
+                ap.getChildren().add(PaneManager.createPane(ap.getWidth(), ap.getHeight(), "The ball landed in field:"+landedin()+" \r\n" + (won < 0 ? "You lost "+(won*-1): "You won "+won)));
                 balance.setText("Balance: "+model.getbalance());
                 totalbet.setText("Total Bet: " + model.getbetamount());
                 for(ImageView iv : betchips)

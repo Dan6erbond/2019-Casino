@@ -28,7 +28,7 @@ public class SelectionController implements Initializable {
     @FXML
     private ImageView statistic;
     @FXML
-    private AnchorPane anchorPane;
+    private AnchorPane anchorPanert;
     @FXML
     private ImageView rouletteMenu;
     @FXML
@@ -43,7 +43,6 @@ public class SelectionController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        SceneManager.getInstance().setAnchorPane(anchorPane);
         if (DataManager.getInstance().getcurrentuser().equals("admin")) {
             statistic.setVisible(true);
         }

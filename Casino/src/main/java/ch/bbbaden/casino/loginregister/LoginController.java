@@ -6,7 +6,7 @@
 package ch.bbbaden.casino.loginregister;
 
 import ch.bbbaden.casino.DataManager;
-import ch.bbbaden.casino.Panemanager;
+import ch.bbbaden.casino.PaneManager;
 import ch.bbbaden.casino.SceneManager;
 import ch.bbbaden.casino.ServerAccess;
 import java.io.BufferedReader;
@@ -65,7 +65,6 @@ public class LoginController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        SceneManager.getInstance().setAnchorPane(ap);
     }    
 
     @FXML
@@ -93,7 +92,7 @@ public class LoginController implements Initializable {
             sa.send("login:"+namefield.getText());// send username and hashed password to server
             check();
             } catch (IOException ex) {
-                SceneManager.getInstance().getAnchorPane().getChildren().add(Panemanager.createPane(SceneManager.getInstance().getAnchorPane().getWidth(),SceneManager.getInstance().getAnchorPane().getHeight(),"Sorry, but we coulnd't \r\n connect to the Server. \r\n When you are in a school, \r\n try using a vpn"));
+                System.out.println("Not connected to server! Please try using a VPN.");
             }
         }
     }
@@ -125,16 +124,16 @@ private String message;
         if(BCrypt.checkpw(passwordfield.getText(), message))
         {
             DataManager.getInstance().setcurrentuser(namefield.getText());
-            ap.getChildren().add(Panemanager.createPane(ap.getWidth(),ap.getHeight(),"Login successfull","/fxml/selection.fxml"));
+            ap.getChildren().add(PaneManager.createPane(ap.getWidth(),ap.getHeight(),"Login successfull","/fxml/selection.fxml"));
             sa.close();
         }
         else
         {
-            ap.getChildren().add(Panemanager.createPane(ap.getWidth(),ap.getHeight(),"Password or Username is incorrect"));
+            ap.getChildren().add(PaneManager.createPane(ap.getWidth(),ap.getHeight(),"Password or Username is incorrect"));
         }
         }
         catch(Exception e){
-            ap.getChildren().add(Panemanager.createPane(ap.getWidth(),ap.getHeight(),"Password or username is incorrect"));
+            ap.getChildren().add(PaneManager.createPane(ap.getWidth(),ap.getHeight(),"Password or username is incorrect"));
         }
     }
     private int count = 0;
