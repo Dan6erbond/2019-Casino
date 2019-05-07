@@ -25,7 +25,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
-import org.springframework.security.crypto.bcrypt.BCrypt;
+//import org.springframework.security.crypto.bcrypt.BCrypt;
 
 /**
  * FXML Controller class
@@ -72,7 +72,7 @@ public class RegisterController implements Initializable,Observer {
         if(namefield.getText().trim() != null && passwordfield.getText().trim() != null){
             try {
             sa.InitSocket("84.74.61.42", 1757);
-            sa.send("register:"+namefield.getText()+";"+BCrypt.hashpw(passwordfield.getText(), BCrypt.gensalt(12)));// send username and hashed password to server
+//            sa.send("register:"+namefield.getText()+";"+BCrypt.hashpw(passwordfield.getText(), BCrypt.gensalt(12)));// send username and hashed password to server
             check();
             } catch (IOException ex) {
              SceneManager.getInstance().getAnchorPane().getChildren().add(Panemanager.createPane(SceneManager.getInstance().getAnchorPane().getWidth(),SceneManager.getInstance().getAnchorPane().getHeight(),"Sorry, but we coulnd't \r\n connect to the Server. \r\n When you are in a school, \r\n try using a vpn"));

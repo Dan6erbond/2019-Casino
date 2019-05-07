@@ -28,7 +28,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javax.swing.JOptionPane;
-import org.springframework.security.crypto.bcrypt.BCrypt;
+//import org.springframework.security.crypto.bcrypt.BCrypt;
 
 /**
  * FXML Controller class
@@ -121,16 +121,16 @@ private String message;
             }
         };
         thread.run();
-        if(BCrypt.checkpw(passwordfield.getText(), message))
-        {
-            Databankmanager.getInstance().setcurrentuser(namefield.getText());
-            ap.getChildren().add(Panemanager.createPane(ap.getWidth(),ap.getHeight(),"Login successfull","/fxml/selection.fxml"));
-            sa.close();
-        }
-        else
-        {
-            ap.getChildren().add(Panemanager.createPane(ap.getWidth(),ap.getHeight(),"Password or Username is incorrect"));
-        }
+//        if(BCrypt.checkpw(passwordfield.getText(), message))
+//        {
+//            Databankmanager.getInstance().setcurrentuser(namefield.getText());
+//            ap.getChildren().add(Panemanager.createPane(ap.getWidth(),ap.getHeight(),"Login successfull","/fxml/selection.fxml"));
+//            sa.close();
+//        }
+//        else
+//        {
+//            ap.getChildren().add(Panemanager.createPane(ap.getWidth(),ap.getHeight(),"Password or Username is incorrect"));
+//        }
     }
     private int count = 0;
 

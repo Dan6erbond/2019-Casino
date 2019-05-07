@@ -1,5 +1,7 @@
 package ch.bbbaden.casino.bingo;
 
+import ch.bbbaden.casino.Databankmanager;
+import static java.lang.Math.abs;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,6 +25,7 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
@@ -32,7 +35,14 @@ import javafx.util.Duration;
 public class BingoController implements Initializable {
 
     public int boards;
+    private Databankmanager dm = Databankmanager.getInstance();
 
+    int won;
+    int key = 0;
+    private int money;
+
+    Boolean[] bingorow = {false, false, false, false, false, false, false, false, false, false};
+    Boolean[] bingocol = {false, false, false, false, false, false, false, false, false, false};
     private List<Button> ButtonList = new ArrayList<Button>();
     private List tabs = new ArrayList();
     private Random rand = new Random();
@@ -55,16 +65,24 @@ public class BingoController implements Initializable {
     @FXML
     private Label lblanzahl;
     @FXML
-    private TextField txtbetrag;
+    private ChoiceBox<Integer> txtbetrag;
     @FXML
     private Button btnbingo;
     @FXML
     private Button btnstart;
+    @FXML
+    private Label lblgeldbetrag;
+    @FXML
+    private Label lblgewonnen;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         cboxboards.setItems(FXCollections.observableArrayList(1, 2, 3, 4, 5));
+        txtbetrag.setItems(FXCollections.observableArrayList(10, 50, 100, 500, 1000));
+        cboxboards.getSelectionModel().selectFirst();
+        txtbetrag.getSelectionModel().selectFirst();
         Kugelziehen();
+        lblgeldbetrag.setText(String.valueOf(getbalance()));
 
     }
 
@@ -74,32 +92,34 @@ public class BingoController implements Initializable {
 
     @FXML
     private void setstart() {
-        btnstart.visibleProperty().set(true);
-        btnbingo.visibleProperty().set(true);
-        createGegenspieler(2);
-        if (cboxboards.getSelectionModel().getSelectedItem() != null) {
-            boards = cboxboards.getSelectionModel().getSelectedItem();
+        checkmoney();
+        if (money != 0) {
+            btnstart.visibleProperty().set(true);
+            btnbingo.visibleProperty().set(true);
+            createGegenspieler(2);
+            if (cboxboards.getSelectionModel().getSelectedItem() != null) {
+                boards = cboxboards.getSelectionModel().getSelectedItem();
 
-            tabpane.visibleProperty().set(true);
-            titledPane.visibleProperty().set(false);
+                tabpane.visibleProperty().set(true);
+                titledPane.visibleProperty().set(false);
 
-            List grids = new ArrayList<GridPane>();
+                List grids = new ArrayList<GridPane>();
 
-            for (int i = 0; i < boards; i++) {
-                createbtn();
-                grids.add(i, fillgrid(creategrid(5, 7, new GridPane()), getButtonList()));
+                for (int i = 0; i < boards; i++) {
+                    createbtn();
+                    grids.add(i, fillgrid(creategrid(5, 7, new GridPane()), getButtonList()));
+                }
+
+                List tabs = createtabs(boards);
+
+                for (int i = 0; i < tabs.size(); i++) {
+                    Tab t = (Tab) tabs.get(i);
+                    t.setContent((Node) grids.get(i));
+                    tabpane.getTabs().add((Tab) tabs.get(i));
+                }
+
             }
-
-            List tabs = createtabs(boards);
-
-            for (int i = 0; i < tabs.size(); i++) {
-                Tab t = (Tab) tabs.get(i);
-                t.setContent((Node) grids.get(i));
-                tabpane.getTabs().add((Tab) tabs.get(i));
-            }
-
         }
-
     }
 
     public List<Button> getButtonList() {
@@ -191,7 +211,7 @@ public class BingoController implements Initializable {
 
     private void start() {
 
-        Timeline pause = new Timeline(new KeyFrame(Duration.millis(10), new EventHandler<ActionEvent>() {
+        Timeline pause = new Timeline(new KeyFrame(Duration.millis(100), new EventHandler<ActionEvent>() {
             int zahl;
 
             @Override
@@ -234,7 +254,6 @@ public class BingoController implements Initializable {
          */
 
         GridPane g = null;
-        ArrayList<Node> children = new ArrayList<Node>();
 
         ArrayList<GridPane> tabcontent = new ArrayList<GridPane>();
 
@@ -248,10 +267,6 @@ public class BingoController implements Initializable {
         for (int i = 0; i < tabcontent.size(); i++) {
             g = (GridPane) tabcontent.get(i);
 
-            for (int j = 0; j < 5; j = j + 5) {
-                children.addAll(g.getChildren().subList(j, 5));
-            }
-
         }
         int key = 0;
         for (int j = 7; j < g.getChildren().size() - 1; j = j + 7) {
@@ -260,15 +275,14 @@ public class BingoController implements Initializable {
 
                 for (int i = 1; i <= 7; i++) {
                     Button b = (Button) n.get(j - i);
-                    if (b.getStyle().contains("-fx-background-color: #FFFFFF;") || (b.getStyle().contains("-fx-background-color: #000000;"))) {
-                        if (bereitsgezogen.contains(Integer.valueOf(b.getText()))) {
-                            key++;
-                            n.get(j - i).setStyle("-fx-background-color:#214bbc");
-                        }
+                    if (b.getStyle().contains("-fx-background-color: #FFFFFF;") || (b.getStyle().contains("-fx-background-color: #000000;")) && bereitsgezogen.contains(Integer.valueOf(b.getText()))) {
+                        key++;
+                        n.get(j - i).setStyle("-fx-background-color:#214bbc");
                     }
                 }
                 if (key >= 7) {
                     System.out.println("erreicht");
+                    dm.setchipamount(dm.getchipamount() + getMoney());
                     key = 0;
                 }
             }
@@ -310,33 +324,109 @@ public class BingoController implements Initializable {
     }
 
     private void showgegner(int cnt) {
+        int[] row = new int[6];
+        int[] col = new int[7];
+
         ArrayList<GridPane> gridpanes = new ArrayList<GridPane>();
         ArrayList<Button> btn = new ArrayList<Button>();
+
         for (int i = 0; i < tabpane.getTabs().size() - boards; i++) {
             gridpanes.add((GridPane) tabpane.getTabs().get(i).getContent());
+
         }
 
         for (int i = 0; i < gridpanes.size(); i++) {
             for (int j = 0; j < gridpanes.get(i).getChildren().size(); j++) {
                 btn.add((Button) gridpanes.get(i).getChildren().get(j));
             }
-            for (int k = 0; k < btn.size(); k++) {
-                Button b = btn.get(k);
+
+            for (Button b : btn) {
+
                 if (bereitsgezogen.contains(Integer.valueOf(b.getText()))) {
                     b.setStyle("-fx-background-color:#000000");
                 }
+            }
+
+            for (int j = 0; j < gridpanes.get(i).getChildren().size(); j++) {
+                Button b = (Button) gridpanes.get(i).getChildren().get(j);
+
+                if (b.getStyle().equals("-fx-background-color:#000000") && bereitsgezogen.contains(Integer.valueOf(b.getText()))) {
+                    row[GridPane.getRowIndex(b)] += 1;
+                }
+
+                if (b.getStyle().equals("-fx-background-color:#000000") && bereitsgezogen.contains(Integer.valueOf(b.getText()))) {
+                    col[GridPane.getColumnIndex(b)] += 1;
+                }
+
+                if (row[GridPane.getRowIndex(b)] == gridpanes.get(i).getRowConstraints().size() && bingorow[GridPane.getRowIndex(b)] == false) {
+                    bingorow[GridPane.getRowIndex(b)] = true;
+                    System.out.println("Bingogegner");
+                    setMoney(0);
+                }
+                
+//                if (row[GridPane.getColumnIndex(b)] == gridpanes.get(i).getColumnConstraints().size() && bingorow[GridPane.getColumnIndex(b)] == false) {
+//                    bingorow[GridPane.getRowIndex(b)] = true;
+//                    System.out.println("Bingogegner");
+//                    setMoney(0);
+//                }
+
             }
 
         }
 
     }
 
+    public int getbalance() {
+        return dm.getchipamount();
+    }
+
     private void checkgegner() {
 
+//        ArrayList<GridPane> grid = new ArrayList<GridPane>();
+//        ArrayList<Button> btn = new ArrayList<Button>();
+//
+//        for (int i = 0; i < tabpane.getTabs().size() - boards; i++) {
+//            grid.add((GridPane) tabpane.getTabs().get(i).getContent());
+//        }
+//
+//        for (int i = 0; i < grid.size(); i++) {
+//            for (int j = 0; j < grid.get(i).getChildren().size(); j++) {
+//                btn.add((Button) grid.get(i).getChildren().get(i));
+//            }
+//
+//            int key = 0;
+//            for (Button b : btn) {
+//                if (b.getStyle().equals("-fx-background-color:#000000") && bereitsgezogen.contains(Integer.valueOf(b.getText()))) {
+//                    key++;
+//                }
+//
+//                if (key >= 7) {
+//                    System.out.println("Bingo gegner");
+//                    key = 0;
+//                }
+//            }
+//        }
     }
 
     @FXML
     private void btnbingo(ActionEvent event) {
         checkbingo();
     }
+
+    public int getMoney() {
+        return money;
+    }
+
+    public void setMoney(int money) {
+        this.money = money;
+    }
+
+    private void checkmoney() {
+        int money2 = txtbetrag.getSelectionModel().getSelectedItem();
+        if (getbalance() < money2) {
+            setMoney(money2);
+//            dm.setchipamount(abs(dm.getchipamount() - money2));
+        }
+    }
+
 }
