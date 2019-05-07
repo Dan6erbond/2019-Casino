@@ -72,7 +72,7 @@ public class SceneManager {
     public Tuple<Stage, Object> openWindow(String fxml) throws IOException {
         Stage s = new Stage(StageStyle.UTILITY);
         s.setResizable(false);
-        s.setOnCloseRequest((event) -> {
+        s.setOnHidden((event) -> {
             try {
                 if (s.getScene() != homeScene) {
                     stage = openWindow(startFXML).x;

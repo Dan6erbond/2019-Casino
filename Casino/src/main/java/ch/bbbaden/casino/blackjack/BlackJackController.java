@@ -609,10 +609,7 @@ public class BlackJackController implements Initializable {
 
     @FXML
     private void clickLeave(ActionEvent event) {
-        try {
-            SceneManager.getInstance().changeScene("/fxml/Login.fxml");
-        } catch (IOException ex) {
-            Logger.getLogger(BlackJackController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        Stage stage = (Stage) again.getScene().getWindow();
+        stage.close();
     }
 }
