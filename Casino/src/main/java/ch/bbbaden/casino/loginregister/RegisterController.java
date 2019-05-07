@@ -61,15 +61,19 @@ public class RegisterController implements Initializable,Observer {
 
     @FXML
     private void register(ActionEvent event) {
-        if(namefield.getText().trim() == null)
+        boolean namecorrect = true;
+        boolean passcorrect = true;
+        if(namefield.getText().isEmpty() || namefield.getText().length() > 50)
         {
-            alertname.setText("Please fill out the field");
+            alertname.setText("This field must be filled out and within the length of 50 characters");
+            namecorrect = false;
         }
-        if(passwordfield.getText().trim() == null)
+        if(passwordfield.getText().isEmpty() || passwordfield.getText().length() > 200)
         {
             alertpassword.setText("Please fill out the field");
+            passcorrect = false;
         }
-        if(namefield.getText().trim() != null && passwordfield.getText().trim() != null){
+        if(passcorrect == false || namecorrect == false){
             try {
             sa.InitSocket("84.74.61.42", 1757);
             sa.send("register:"+namefield.getText()+";"+BCrypt.hashpw(passwordfield.getText(), BCrypt.gensalt(12)));// send username and hashed password to server

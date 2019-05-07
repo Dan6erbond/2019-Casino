@@ -75,19 +75,19 @@ public class LoginController implements Initializable {
 
     @FXML
     private void login(ActionEvent event) throws IOException, InterruptedException {
-        if(count > 0)
+        boolean namecorrect = true;
+        boolean passcorrect = true;
+        if(namefield.getText().isEmpty() || namefield.getText().length() > 50)
         {
-             SceneManager.getInstance().changeScene("/fxml/selection.fxml");
+            alertname.setText("This field must be filled out and within the length of 50 characters");
+            namecorrect = false;
         }
-        if(namefield.getText().trim() == null || namefield.getText().trim() == "")
-        {
-            alertname.setText("This field must be filled out, without any special symbols and within the length of 50 characters");
-        }
-        if(passwordfield.getText().trim() == null || passwordfield.getText().trim() == "")
+        if(passwordfield.getText().isEmpty() || passwordfield.getText().length() > 200)
         {
             alertpassword.setText("Please fill out the field");
+            passcorrect = false;
         }
-        if(namefield.getText().trim() != null && passwordfield.getText().trim() != null){
+        if(passcorrect != false && namecorrect != false){
             try {
             sa.InitSocket("84.74.61.42", 1757);
             sa.send("login:"+namefield.getText());// send username and hashed password to server
@@ -121,6 +121,7 @@ private String message;
             }
         };
         thread.run();
+        try{
         if(BCrypt.checkpw(passwordfield.getText(), message))
         {
             Databankmanager.getInstance().setcurrentuser(namefield.getText());
@@ -130,6 +131,10 @@ private String message;
         else
         {
             ap.getChildren().add(Panemanager.createPane(ap.getWidth(),ap.getHeight(),"Password or Username is incorrect"));
+        }
+        }
+        catch(Exception e){
+            ap.getChildren().add(Panemanager.createPane(ap.getWidth(),ap.getHeight(),"Password or username is incorrect"));
         }
     }
     private int count = 0;

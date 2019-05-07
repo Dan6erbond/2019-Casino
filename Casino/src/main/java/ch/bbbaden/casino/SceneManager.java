@@ -21,7 +21,7 @@ import javafx.stage.StageStyle;
  */
 public class SceneManager {
 
-    private static final String startFXML = "/fxml/selection.fxml";
+    private static final String startFXML = "/fxml/Login.fxml";
     private static SceneManager sceneManager;
 
     private static Stage stage;
