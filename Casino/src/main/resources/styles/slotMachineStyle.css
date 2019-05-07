@@ -1,0 +1,83 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 12.04.2019, 11:33:44
+    Author     : User
+*/
+
+
+.startButton {
+    -fx-background-color: #ff3333;
+    -fx-background-radius: 50px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 2, 0, 0, 0);
+    -fx-color: #ff3333;
+}
+
+.startButton:hover {
+    -fx-background-color: #ff0000;
+}
+
+.scroll-bar .increment-button {
+  visibility: hidden;
+}
+
+.scroll-bar .decrement-button {
+  visibility: hidden;
+}
+
+.scroll-bar:vertical {
+  -fx-background-color: transparent;
+}
+
+.scroll-bar:vertical .track-background {
+  visibility: hidden;
+}
+
+.scroll-bar:vertical .track {
+  visibility: hidden;
+}
+
+.scroll-bar:vertical .thumb {
+    -fx-background-radius: 50px;
+    -fx-background-color: red;
+}
+
+.marked {
+    -fx-border-color: rgb(235, 172, 13, 0.5);
+    -fx-border-radius: 15px;
+    -fx-border-width: 25px;
+}
+
+.spinner .increment-arrow-button {
+    -fx-background-image: url("../img/slotmachine/plus.png");
+    -fx-background-size: stretch;
+    -fx-padding: 9px;
+}
+
+.spinner .increment-arrow-button .increment-arrow {
+    visibility: hidden;
+}
+
+.spinner .decrement-arrow-button {
+    -fx-background-image: url("../img/slotmachine/minus.png");
+    -fx-background-size: stretch;
+    -fx-padding: 9px;
+}
+
+.freespinsBorder {
+    -fx-border-color: red;
+    -fx-border-width: 5px;
+    -fx-border-radius: 3px;
+}
+
+.scrollBorder {
+    -fx-border-color: transparent transparent red transparent;
+    -fx-border-width: 2px;
+}
+
+.spinner .decrement-arrow-button .decrement-arrow {
+    visibility: hidden;
+}

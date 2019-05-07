@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane id="AnchorPane" maxHeight="476.0" maxWidth="1015.0" minHeight="400.0" minWidth="1000.0" prefHeight="476.0" prefWidth="1015.0" style="-fx-background-color: #081b51; -fx-border-width: 2; -fx-background-radius: 10; -fx-border-color: red;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.bbbaden.casino.bingo.BingoController">
+  
+    <children>
+        <Label fx:id="lblziehung" layoutX="606.0" layoutY="31.0" prefHeight="160.0" prefWidth="249.0" textFill="WHITE" wrapText="true" />
+        <TabPane fx:id="tabpane" layoutX="40.0" layoutY="83.0" prefHeight="333.0" prefWidth="331.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="62.0" AnchorPane.leftAnchor="38.0" AnchorPane.rightAnchor="646.0" AnchorPane.topAnchor="81.0" />
+        <TitledPane fx:id="titledPane" animated="false" layoutX="140.0" layoutY="81.0" prefHeight="299.0" prefWidth="343.0" style="-fx-background-color: blue; -fx-border-width: 19; -fx-border-radius: 90; -fx-border-color: red;" text="Einstellungen Bingo" textFill="#360b0b">
+            <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="24.0" prefWidth="0.0" style="-fx-background-color: darkblue;">
+                    <children>
+                        <Label layoutX="62.0" layoutY="55.0" text="Anzahl Spielboards" textFill="WHITE" />
+                        <ChoiceBox fx:id="cboxboards" layoutX="182.0" layoutY="51.0" prefHeight="25.0" prefWidth="74.0" style="-fx-background-color: blue;" />
+                        <Button fx:id="btncheck" layoutX="126.0" layoutY="142.0" mnemonicParsing="false" onAction="#setstart" style="-fx-background-color: blue;" text="Start" textFill="WHITE" />
+                  <Label layoutX="68.0" layoutY="92.0" text="Geldbetrag" textFill="WHITE" />
+                  <TextField fx:id="txtbetrag" layoutX="152.0" layoutY="88.0" prefHeight="25.0" prefWidth="104.0" />
+                    </children>
+                </AnchorPane>
+            </content>
+        </TitledPane>
+        <Button fx:id="btnstart" layoutX="226.0" layoutY="31.0" mnemonicParsing="false" onAction="#Kugelziehenstart" prefHeight="33.0" prefWidth="172.0" style="-fx-background-color: blue;" text="Start" textFill="WHITE" visible="false" />
+        <Label fx:id="label" layoutX="542.0" layoutY="31.0" prefHeight="33.0" prefWidth="49.0" style="-fx-border-radius: 3;" text="Ziehung:" textFill="WHITE" />
+      <Button fx:id="btnbingo" layoutX="263.0" layoutY="395.0" mnemonicParsing="false" onAction="#btnbingo" prefHeight="44.0" prefWidth="77.0" style="-fx-background-color: blue;" text="Bingo" textFill="WHITE" visible="false" />
+      <Label layoutX="548.0" layoutY="204.0" text="Anzahl Gegenspieler:" textFill="WHITE" />
+      <Label fx:id="lblanzahl" layoutX="672.0" layoutY="204.0" prefHeight="17.0" prefWidth="343.0" textAlignment="JUSTIFY" textFill="WHITE" />
+    </children>
+
+
+</AnchorPane>

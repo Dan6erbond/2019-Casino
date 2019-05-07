@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.TextFlow?>
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" stylesheets="@../styles/style.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.bbbaden.casino.slotmachine.SlotMachineIntroController">
+   <children>
+      <CheckBox fx:id="lightsCheck" layoutX="250.0" layoutY="348.0" mnemonicParsing="false" selected="true" text="Fancy Lights" />
+      <Button layoutX="261.0" layoutY="300.0" mnemonicParsing="false" onAction="#play" prefHeight="25.0" prefWidth="66.0" styleClass="button" stylesheets="@../styles/style.css" text="Play" />
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="33.0" layoutY="33.0" prefHeight="17.0" prefWidth="522.0" styleClass="title" text="Slot Machine Super Cherry" textAlignment="CENTER" />
+      <TextFlow fx:id="intro" layoutX="30.0" layoutY="97.0" prefHeight="181.0" prefWidth="539.0" />
+   </children>
+</AnchorPane>

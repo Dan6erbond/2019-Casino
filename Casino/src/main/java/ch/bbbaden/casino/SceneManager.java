@@ -6,9 +6,12 @@
 package ch.bbbaden.casino;
 
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -18,8 +21,12 @@ import javafx.stage.StageStyle;
  */
 public class SceneManager {
 
+    private static final String startFXML = "/fxml/selection.fxml";
     private static SceneManager sceneManager;
-    private Stage stage;
+
+    private static Stage stage;
+    private static Scene homeScene;
+    private static AnchorPane ap;
 
     private SceneManager() {
         sceneManager = this;
@@ -31,36 +38,75 @@ public class SceneManager {
         }
         return sceneManager;
     }
-
-    public void changeScene(String fxml) throws IOException {
-        if (stage == null) {
-            stage = openWindow(fxml);
-            return;
-        }
-
-        Parent root = FXMLLoader.load(getClass().getResource(fxml));
-
-        Scene scene = new Scene(root);
-
-        stage.setScene(scene);
+    
+    public void openStart() throws IOException{
+        changeScene(startFXML);
     }
 
-    public Stage getStage() {
+    public Object changeScene(String fxml) throws IOException {
+        Tuple<Stage,Object> window;
+        if (stage == null) {
+            window = openWindow(fxml);
+            stage = window.x;
+            return window.y;
+        }
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(fxml));
+        Parent root = loader.load();
+        Object controller = loader.getController();
+
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        
+        return controller;
+    }
+
+    public static Stage getStage() {
         return stage;
     }
 
-    public Stage openWindow(String fxml) throws IOException {
-        Stage s = new Stage(StageStyle.UTILITY);
+    public static Scene getHomeScene() {
+        return homeScene;
+    }
 
-        Parent root = FXMLLoader.load(getClass().getResource(fxml));
+    public Tuple<Stage, Object> openWindow(String fxml) throws IOException {
+        Stage s = new Stage(StageStyle.UTILITY);
+        s.setResizable(false);
+        s.setOnCloseRequest((event) -> {
+            try {
+                if (s.getScene() != homeScene){
+                    stage = openWindow(startFXML).x;
+                }
+            } catch (IOException ex) {
+                Logger.getLogger(SceneManager.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(fxml));
+        Parent root = loader.load();
+        Object controller = loader.getController();
 
         Scene scene = new Scene(root);
+        
+        scene.getStylesheets().add("https://fonts.googleapis.com/css?family=Roboto");
+        scene.getStylesheets().add("https://fonts.googleapis.com/css?family=Aldrich");        
+        
+        if (fxml.equals(startFXML)){
+            homeScene = scene;
+        }
 
         s.setTitle("Casino");
         s.setScene(scene);
         s.show();
 
-        return s;
+        return new Tuple(s, controller);
     }
 
+    public void setAnchorPane(AnchorPane ap) {
+        SceneManager.ap = ap;
+    }
+
+    public AnchorPane getAnchorPane() {
+        return ap;
+    }
 }

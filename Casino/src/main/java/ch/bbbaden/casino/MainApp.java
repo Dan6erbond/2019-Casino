@@ -1,5 +1,6 @@
 package ch.bbbaden.casino;
 
+
 import javafx.application.Application;
 import static javafx.application.Application.launch;
 import javafx.stage.Stage;
@@ -9,7 +10,7 @@ public class MainApp extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        SceneManager.getInstance().openWindow("/fxml/BlackJack.fxml");
+        SceneManager.getInstance().openStart();
     }
 
     /**
@@ -21,13 +22,6 @@ public class MainApp extends Application {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        String gay = "gay";
-        launch(args);
-        System.out.println("Genau");
-        System.out.println("de");
-        System.out.println("Ravi");
-        System.out.println("esch");
-        System.out.println(gay);
     }
 
 }
