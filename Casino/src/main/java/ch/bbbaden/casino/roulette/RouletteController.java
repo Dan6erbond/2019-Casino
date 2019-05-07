@@ -565,8 +565,7 @@ public class RouletteController implements Initializable {
 
     @FXML
     private void makebet(MouseEvent event) {
-        if(haschip == false || event.getSource().getClass().equals(iv2.getClass()))
-        {
+        if(haschip == false || event.getSource().getClass().equals(iv2.getClass())) {
             try{
         ImageView iv = (ImageView) event.getSource();
         chip = Integer.parseInt(iv.getId().substring(3));
@@ -576,14 +575,12 @@ public class RouletteController implements Initializable {
         iv2.setScaleY(0.03125);
         haschip = true;
         }
-        else
-        {
+        else{
             ap.getChildren().add(Panemanager.createPane(ap.getWidth(), ap.getHeight(),"Sorry, but you don't have enough Money"));
         }
             }catch(Exception e){}
         }
-        else if(haschip == true)
-        {
+        else if(haschip == true){
             Pane pane  = (Pane) event.getSource();
             ImageView iv = new ImageView(iv2.getImage());
             iv.setScaleX(0.015625);
@@ -652,8 +649,7 @@ public class RouletteController implements Initializable {
                 ap.getChildren().add(Panemanager.createPane(ap.getWidth(), ap.getHeight(), "The ball landed in field:"+landedin()+" \r\n" + (won < 0 ? "You lost "+(won*-1): "You won "+won)));
                 balance.setText("Balance: "+model.getbalance());
                 totalbet.setText("Total Bet: " + model.getbetamount());
-                for(ImageView iv : betchips)
-                {
+                for(ImageView iv : betchips){
                 ap.getChildren().remove(iv);
                 }
                 ball.setLayoutX(ballx);

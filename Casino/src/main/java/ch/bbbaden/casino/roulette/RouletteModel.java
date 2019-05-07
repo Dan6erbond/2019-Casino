@@ -39,41 +39,33 @@ public class RouletteModel {
     public int check(String number)
     {
         int won = 0;
-        for(String s: bets)
-        {
+        for(String s: bets){
             int currentwin = 0;
             int bet = Integer.parseInt(s.split(":")[1]);
-            for(String string : s.split(","))
-            {
-                if(string.equals(number))
-                {
+            for(String string : s.split(",")){
+                if(string.equals(number)){
                     
                     if(s.split(",").length != 5){
                     currentwin += (bet* ((int) 35/s.split(",").length))+bet;
                     }
-                    else
-                    {
+                    else{
                         currentwin += (bet* ((int) 35/s.split(",").length-1))+bet;
                     }
                 }
             }
-            if(currentwin == 0)
-            {
+            if(currentwin == 0){
                 won -= bet;
             }
-            else
-            {
+            else{
                 won += currentwin;
             }
         }
-        if(won > 0)
-        {
+        if(won > 0){
              dm.setchipamount(dm.getchipamount()+won);
              dm.updatestatistik("totalwon", won);
              dm.updatestatistik("roulettewon", won);
         }
-        else
-        {
+        else{
             dm.updatestatistik("totallost", won*-1);
             dm.updatestatistik("roulettelost", won*-1);
         }
