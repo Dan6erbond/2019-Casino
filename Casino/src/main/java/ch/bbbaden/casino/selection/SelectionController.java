@@ -26,15 +26,17 @@ public class SelectionController implements Initializable {
     @FXML
     private ImageView BlackJack;
     @FXML
-    private ImageView SlotMachine;
-    @FXML
-    private ImageView bingo;
-    @FXML
     private ImageView statistik;
     @FXML
     private AnchorPane ap;
     @FXML
     private ImageView roulettemenu;
+    @FXML
+    private ImageView SlotMachineIntro;
+    @FXML
+    private ImageView Bingo;
+    @FXML
+    private ImageView Bank;
 
     /**
      * Initializes the controller class.

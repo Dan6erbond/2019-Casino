@@ -24,6 +24,7 @@ public class Databankmanager {
    private Databankmanager()
    {
        try {
+           //the first is the ip of my Server, the second is the port
            sa.InitSocket("84.74.61.42", 1756);
        } catch (IOException ex) {
             SceneManager.getInstance().getAnchorPane().getChildren().add(Panemanager.createPane(SceneManager.getInstance().getAnchorPane().getWidth(),SceneManager.getInstance().getAnchorPane().getHeight(),"Sorry, but we coulnd't \r\n connect to the Server. \r\n When you are in a school, \r\n try using a vpn"));
