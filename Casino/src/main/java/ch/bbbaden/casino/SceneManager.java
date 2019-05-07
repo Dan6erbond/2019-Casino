@@ -21,7 +21,7 @@ import javafx.stage.StageStyle;
  */
 public class SceneManager {
 
-    private static final String startFXML = "/fxml/Login.fxml";
+    private static final String homeFXML = "/fxml/Selection.fxml";
     private static SceneManager sceneManager;
 
     private static Stage stage;
@@ -37,10 +37,6 @@ public class SceneManager {
             sceneManager = new SceneManager();
         }
         return sceneManager;
-    }
-
-    public void openStart() throws IOException {
-        changeScene(startFXML);
     }
 
     public Object changeScene(String fxml) throws IOException {
@@ -75,7 +71,7 @@ public class SceneManager {
         s.setOnHidden((event) -> {
             try {
                 if (s.getScene() != homeScene) {
-                    stage = openWindow(startFXML).x;
+                    stage = openWindow(homeFXML).x;
                 }
             } catch (IOException ex) {
                 Logger.getLogger(SceneManager.class.getName()).log(Level.SEVERE, null, ex);
@@ -91,7 +87,7 @@ public class SceneManager {
         scene.getStylesheets().add("https://fonts.googleapis.com/css?family=Roboto");
         scene.getStylesheets().add("https://fonts.googleapis.com/css?family=Aldrich");
 
-        if (fxml.equals(startFXML)) {
+        if (fxml.equals(homeFXML)) {
             homeScene = scene;
         }
 

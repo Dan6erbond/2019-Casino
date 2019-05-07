@@ -5,7 +5,7 @@
  */
 package ch.bbbaden.casino.statistik;
 
-import ch.bbbaden.casino.Databankmanager;
+import ch.bbbaden.casino.DataManager;
 import ch.bbbaden.casino.SceneManager;
 import java.io.IOException;
 import java.net.URL;
@@ -63,7 +63,7 @@ public class StatistikController implements Initializable {
     @FXML
     private AnchorPane ap;
     
-    Databankmanager dm = Databankmanager.getInstance();
+    DataManager dm = DataManager.getInstance();
     @FXML
     private Label bingowon;
     @FXML

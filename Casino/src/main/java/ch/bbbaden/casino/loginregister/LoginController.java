@@ -5,7 +5,7 @@
  */
 package ch.bbbaden.casino.loginregister;
 
-import ch.bbbaden.casino.Databankmanager;
+import ch.bbbaden.casino.DataManager;
 import ch.bbbaden.casino.Panemanager;
 import ch.bbbaden.casino.SceneManager;
 import ch.bbbaden.casino.ServerAccess;
@@ -124,7 +124,7 @@ private String message;
         try{
         if(BCrypt.checkpw(passwordfield.getText(), message))
         {
-            Databankmanager.getInstance().setcurrentuser(namefield.getText());
+            DataManager.getInstance().setcurrentuser(namefield.getText());
             ap.getChildren().add(Panemanager.createPane(ap.getWidth(),ap.getHeight(),"Login successfull","/fxml/selection.fxml"));
             sa.close();
         }

@@ -5,7 +5,7 @@
  */
 package ch.bbbaden.casino.loginregister;
 
-import ch.bbbaden.casino.Databankmanager;
+import ch.bbbaden.casino.DataManager;
 import ch.bbbaden.casino.Panemanager;
 import ch.bbbaden.casino.SceneManager;
 import ch.bbbaden.casino.ServerAccess;
@@ -109,7 +109,7 @@ public class RegisterController implements Initializable,Observer {
         
         if("User added".equals(sa.getmessage())){
             sa.close();
-            Databankmanager.getInstance().setcurrentuser(namefield.getText());
+            DataManager.getInstance().setcurrentuser(namefield.getText());
             ap.getChildren().add(Panemanager.createPane(ap.getWidth(),ap.getHeight(),"User added successfully","/fxml/selection.fxml"));
             
         }

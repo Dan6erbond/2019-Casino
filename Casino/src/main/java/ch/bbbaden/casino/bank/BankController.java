@@ -5,7 +5,7 @@
  */
 package ch.bbbaden.casino.bank;
 
-import ch.bbbaden.casino.Databankmanager;
+import ch.bbbaden.casino.DataManager;
 import ch.bbbaden.casino.Panemanager;
 import ch.bbbaden.casino.SceneManager;
 import java.io.IOException;
@@ -32,7 +32,7 @@ public class BankController implements Initializable {
     private AnchorPane ap;
     @FXML
     private Label amount;
-        Databankmanager dm = Databankmanager.getInstance();
+        DataManager dm = DataManager.getInstance();
     /**
      * Initializes the controller class.
      */
