@@ -86,7 +86,7 @@ public class RegisterController implements Initializable, Observer {
             public void run() {
                 while (true) {
                     try {
-                        Thread.sleep(100);
+                        Thread.sleep(500);
                     } catch (InterruptedException ex) {
                         Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -102,7 +102,7 @@ public class RegisterController implements Initializable, Observer {
         if ("User added".equals(sa.getmessage())) {
             sa.close();
             DataManager.getInstance().setcurrentuser(namefield.getText());
-            ap.getChildren().add(PaneManager.createPane(ap.getWidth(), ap.getHeight(), "User added successfully", "/fxml/selection.fxml"));
+            ap.getChildren().add(PaneManager.createPane(ap.getWidth(), ap.getHeight(), "User added successfully", "/fxml/Selection.fxml"));
 
         } else {
             ap.getChildren().add(PaneManager.createPane(ap.getWidth(), ap.getHeight(), "Username already taken"));

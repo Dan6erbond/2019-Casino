@@ -5,6 +5,7 @@
  */
 package ch.bbbaden.casino.roulette;
 
+import ch.bbbaden.casino.DataManager;
 import ch.bbbaden.casino.SceneManager;
 import java.io.IOException;
 import java.net.URL;
@@ -30,12 +31,15 @@ public class RoulettemenuController implements Initializable {
     private Circle ball;
     @FXML
     private Label title;
+    @FXML
+    private Label balance;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        balance.setText(balance.getText() + DataManager.getInstance().getchipamount());
         RotateTransition RT1 = new RotateTransition(Duration.millis(16000), wheel);
             RT1.setCycleCount(Timeline.INDEFINITE);
             RT1.setByAngle(500f+(1000f*Math.random()));

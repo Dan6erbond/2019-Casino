@@ -9,7 +9,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" fx:id="ap" prefHeight="524.0" prefWidth="691.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.bbbaden.casino.statistik.StatistikController">
+<AnchorPane id="AnchorPane" fx:id="ap" prefHeight="524.0" prefWidth="691.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.bbbaden.casino.statistic.StatisticController">
     <stylesheets>
         <URL value="@/styles/statistik.css" />
     </stylesheets>

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ch.bbbaden.casino.statistik;
+package ch.bbbaden.casino.statistic;
 
 import ch.bbbaden.casino.DataManager;
 import ch.bbbaden.casino.SceneManager;
@@ -25,11 +25,9 @@ import javafx.scene.layout.AnchorPane;
  *
  * @author aless
  */
-public class StatistikController implements Initializable {
+public class StatisticController implements Initializable {
     @FXML
     private ScrollPane table;
-    @FXML
-    private AnchorPane statistiktable;
     @FXML
     private Label totalwin;
     @FXML
@@ -70,6 +68,8 @@ public class StatistikController implements Initializable {
     private Label bingolost;
     @FXML
     private Label bingobet;
+    @FXML
+    private AnchorPane statistiktable;
 
     /**
      * Initializes the controller class.
@@ -90,17 +90,15 @@ public class StatistikController implements Initializable {
         datatitle.setVisible(true);
         if(playerlist.getSelectionModel().getSelectedItem() != null){
             String[] statistik = dm.readstatistik("*",playerlist.getSelectionModel().getSelectedItem()).split(";");
-            for(int i = 0; i < statistik.length; i++)
-            {
+            for(int i = 0; i < statistik.length; i++){
                 labels[i].setText(labels[i].getText()+statistik[i]);
             }
         }
-        
     }
 
     @FXML
     private void back(ActionEvent event) throws IOException {
-        SceneManager.getInstance().changeScene("/fxml/selection.fxml");
+        SceneManager.getInstance().changeScene("/fxml/Selection.fxml");
     }
     
 }
