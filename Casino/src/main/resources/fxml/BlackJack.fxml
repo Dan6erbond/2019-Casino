@@ -117,6 +117,11 @@
       </Label>
       <Pane fx:id="imgpane" layoutX="157.0" layoutY="147.0" prefHeight="246.0" prefWidth="824.0" />
       <Button fx:id="insure" disable="true" layoutX="447.0" layoutY="385.0" mnemonicParsing="false" onAction="#clickInsure" prefHeight="26.0" prefWidth="75.0" text="Insure" visible="false" />
+      <ImageView fitHeight="75.0" fitWidth="171.0" layoutX="884.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../img/blackjacklogoblack.png" />
+         </image>
+      </ImageView>
    </children>
    <stylesheets>
       <URL value="@../styles/style.css" />
