@@ -37,10 +37,11 @@ public class RouletteModel {
 
     public int check(String number) {
         int won = 0;
+
         for (String s : bets) {
             int currentwin = 0;
             int bet = Integer.parseInt(s.split(":")[1]);
-            for (String string : s.split(",")) {
+            for (String string : s.split(":")[0].split(",")) {
                 if (string.equals(number)) {
 
                     if (s.split(",").length != 5) {
@@ -64,7 +65,6 @@ public class RouletteModel {
             dm.updatestatistik("totallost", won * -1);
             dm.updatestatistik("roulettelost", won * -1);
         }
-
         betbalance = 0;
         bets.removeAll(bets);
         return won;
