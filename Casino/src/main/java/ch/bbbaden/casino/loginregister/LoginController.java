@@ -6,17 +6,10 @@
 package ch.bbbaden.casino.loginregister;
 
 import ch.bbbaden.casino.DataManager;
-import ch.bbbaden.casino.PaneManager;
 import ch.bbbaden.casino.SceneManager;
 import ch.bbbaden.casino.ServerAccess;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.Socket;
 import java.net.URL;
-import java.util.Observable;
-import java.util.Observer;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -27,7 +20,6 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
-import javax.swing.JOptionPane;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 
 /**
@@ -63,9 +55,12 @@ public class LoginController implements Initializable {
     private Label alertcheck;
     @FXML
     private AnchorPane ap;
+    @FXML
+    private Pane loginFailed;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        loginFailed.setVisible(false);
     }
 
     @FXML
@@ -78,14 +73,14 @@ public class LoginController implements Initializable {
         boolean namecorrect = true;
         boolean passcorrect = true;
         if (namefield.getText().isEmpty() || namefield.getText().length() > 50) {
-            alertname.setText("This field must be filled out and within the length of 50 characters");
+            alertname.setVisible(true);
             namecorrect = false;
         }
         if (passwordfield.getText().isEmpty() || passwordfield.getText().length() > 200) {
-            alertpassword.setText("Please fill out the field");
+            alertpassword.setVisible(true);
             passcorrect = false;
         }
-        if (passcorrect != false && namecorrect != false) {
+        if (passcorrect && namecorrect) {
             try {
                 sa.InitSocket("84.74.61.42", 1757);
                 sa.send("login:" + namefield.getText());// send username and hashed password to server
@@ -118,15 +113,20 @@ public class LoginController implements Initializable {
         try {
             if (BCrypt.checkpw(passwordfield.getText(), message)) {
                 DataManager.getInstance().setcurrentuser(namefield.getText());
-                SceneManager.getInstance().changeScene(SceneManager.homeFXML);
+                SceneManager.getInstance().setHome("/fxml/Selection.fxml");
                 sa.close();
             } else {
-                ap.getChildren().add(PaneManager.createPane(ap.getWidth(), ap.getHeight(), "Password or Username is incorrect"));
+                loginFailed.setVisible(true);
             }
         } catch (IOException e) {
-            ap.getChildren().add(PaneManager.createPane(ap.getWidth(), ap.getHeight(), "Password or username is incorrect"));
+            loginFailed.setVisible(true);
         }
     }
     private int count = 0;
+
+    @FXML
+    private void closeLoginFailed(ActionEvent event) {
+        loginFailed.setVisible(false);
+    }
 
 }

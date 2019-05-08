@@ -6,7 +6,6 @@
 package ch.bbbaden.casino.loginregister;
 
 import ch.bbbaden.casino.DataManager;
-import ch.bbbaden.casino.PaneManager;
 import ch.bbbaden.casino.SceneManager;
 import ch.bbbaden.casino.ServerAccess;
 import java.io.BufferedReader;
@@ -23,8 +22,11 @@ import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 
 /**
@@ -32,45 +34,58 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
  *
  * @author aless
  */
-public class RegisterController implements Initializable, Observer {
+public class RegisterController implements Initializable {
 
     @FXML
     private TextField namefield;
     @FXML
     private PasswordField passwordfield;
     @FXML
-    private Button registerbutton;
-    @FXML
     private Label alertname;
     @FXML
     private Label alertpassword;
 
-    /**
-     * Initializes the controller class.
-     */
+    private boolean registered;
+
     ServerAccess sa = ServerAccess.getInstance();
     @FXML
-    private Button back;
-    @FXML
     private AnchorPane ap;
+    @FXML
+    private Pane popup;
+    @FXML
+    private Label popupMessage;
+    @FXML
+    private Label popupTitle;
+    @FXML
+    private PasswordField passwordConfirmation;
+    @FXML
+    private Label passwordMatch;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        popup.setVisible(false);
     }
 
     @FXML
     private void register(ActionEvent event) {
         boolean namecorrect = true;
         boolean passcorrect = true;
+        boolean passmatch = true;
+        
         if (namefield.getText().isEmpty() || namefield.getText().length() > 50) {
-            alertname.setText("This field must be filled out and within the length of 50 characters");
+            alertname.setVisible(true);
             namecorrect = false;
         }
         if (passwordfield.getText().isEmpty() || passwordfield.getText().length() > 200) {
-            alertpassword.setText("Please fill out the field");
+            alertpassword.setVisible(true);
             passcorrect = false;
         }
-        if (passcorrect == false || namecorrect == false) {
+        if (!passwordfield.getText().equals(passwordConfirmation.getText())) {
+            passwordMatch.setVisible(true);
+            passmatch = false;
+        }
+        
+        if (passcorrect && namecorrect && passmatch) {
             try {
                 sa.InitSocket("84.74.61.42", 1757);
                 sa.send("register:" + namefield.getText() + ";" + BCrypt.hashpw(passwordfield.getText(), BCrypt.gensalt(12)));// send username and hashed password to server
@@ -102,20 +117,28 @@ public class RegisterController implements Initializable, Observer {
         if ("User added".equals(sa.getmessage())) {
             sa.close();
             DataManager.getInstance().setcurrentuser(namefield.getText());
-            ap.getChildren().add(PaneManager.createPane(ap.getWidth(), ap.getHeight(), "User added successfully", "/fxml/selection.fxml"));
-
+            popupTitle.setText("Registration successful");
+            popupMessage.setText("User successfully added!");
+            registered = true;
+            popup.setVisible(true);
         } else {
-            ap.getChildren().add(PaneManager.createPane(ap.getWidth(), ap.getHeight(), "Username already taken"));
+            popupTitle.setText("Registration failed");
+            popupMessage.setText("The given username is already taken!");
+            popup.setVisible(true);
         }
-    }
-
-    @Override
-    public void update(Observable o, Object arg) {
-
     }
 
     @FXML
     private void back(ActionEvent event) throws IOException {
-        SceneManager.getInstance().changeScene("/fxml/Login.fxml");
+        ((Stage) ((Node) event.getSource()).getScene().getWindow()).hide();
+    }
+
+    @FXML
+    private void closePopup(ActionEvent event) throws IOException {
+        if (!registered) {
+            popup.setVisible(false);
+        } else {
+            SceneManager.getInstance().setHome("/fxml/Selection.fxml");
+        }
     }
 }
