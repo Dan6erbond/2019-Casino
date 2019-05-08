@@ -113,7 +113,7 @@ public class LoginController implements Initializable {
         try {
             if (BCrypt.checkpw(passwordfield.getText(), message)) {
                 DataManager.getInstance().setcurrentuser(namefield.getText());
-                SceneManager.getInstance().setHome("/fxml/Selection.fxml");
+                SceneManager.getInstance().setHome("/fxml/GamePicker.fxml");
                 sa.close();
             } else {
                 loginFailed.setVisible(true);

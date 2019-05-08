@@ -1,6 +1,6 @@
 package ch.bbbaden.casino.bingo;
 
-import ch.bbbaden.casino.Databankmanager;
+import ch.bbbaden.casino.DataManager;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -38,7 +38,7 @@ public class BingoController implements Initializable {
     //Gegner Bingo 0 oder 1
     int bingo = 0;
     //Datenbankmanager handelt Datenbank mit Spielstatistik und Geldbeträgen
-    private Databankmanager dm = Databankmanager.getInstance();
+    private DataManager dm = DataManager.getInstance();
 
     // gesetzter geldbetrag
     private int money;

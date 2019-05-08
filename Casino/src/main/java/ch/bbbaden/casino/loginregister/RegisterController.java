@@ -132,7 +132,7 @@ public class RegisterController implements Initializable {
         if (!registered) {
             popup.setVisible(false);
         } else {
-            SceneManager.getInstance().setHome("/fxml/Selection.fxml");
+            SceneManager.getInstance().setHome("/fxml/GamePicker.fxml");
         }
     }
 }

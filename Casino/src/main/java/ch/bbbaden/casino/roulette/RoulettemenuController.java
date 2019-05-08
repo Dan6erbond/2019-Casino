@@ -14,9 +14,11 @@ import javafx.animation.*;
 import javafx.event.*;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Circle;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
 /**
@@ -87,7 +89,7 @@ public class RoulettemenuController implements Initializable {
 
     @FXML
     private void back(ActionEvent event) throws IOException {
-        SceneManager.getInstance().changeScene("/fxml/selection.fxml");
+        ((Stage) ((Node) event.getSource()).getScene().getWindow()).hide();
     }
     
 }

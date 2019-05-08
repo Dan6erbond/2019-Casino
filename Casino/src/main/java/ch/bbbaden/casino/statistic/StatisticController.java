@@ -14,11 +14,13 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -98,7 +100,7 @@ public class StatisticController implements Initializable {
 
     @FXML
     private void back(ActionEvent event) throws IOException {
-        SceneManager.getInstance().changeScene("/fxml/Selection.fxml");
+        ((Stage) ((Node) event.getSource()).getScene().getWindow()).hide();
     }
     
 }

@@ -13,12 +13,14 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -59,7 +61,7 @@ public class BankController implements Initializable {
         int number;
         try {
             number = Integer.parseInt(chips.getEditor().getText());
-            
+
             if (number > 0) {
                 dm.setchipamount(dm.getchipamount() + number);
                 popup.setVisible(true);
@@ -73,7 +75,7 @@ public class BankController implements Initializable {
 
     @FXML
     private void back(ActionEvent event) throws IOException {
-        SceneManager.getInstance().changeScene("/fxml/Selection.fxml");
+        ((Stage) ((Node) event.getSource()).getScene().getWindow()).hide();
     }
 
     @FXML

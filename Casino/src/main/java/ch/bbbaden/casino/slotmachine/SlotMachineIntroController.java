@@ -25,18 +25,12 @@ public class SlotMachineIntroController implements Initializable {
 
     @FXML
     private CheckBox lightsCheck;
-    @FXML
-    private TextFlow intro;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        final Text t1 = new Text("Welcome to Slot Machine Super Cherry! Here are the rules:\n\n");
-        final Text t2 = new Text("TBD");
-        intro.getChildren().add(t1);
-        intro.getChildren().add(t2);
     }
 
     @FXML
