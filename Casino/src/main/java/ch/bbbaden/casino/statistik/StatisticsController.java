@@ -25,7 +25,7 @@ import javafx.scene.layout.AnchorPane;
  *
  * @author aless
  */
-public class StatistikController implements Initializable {
+public class StatisticsController implements Initializable {
     @FXML
     private ScrollPane table;
     @FXML

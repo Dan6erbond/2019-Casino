@@ -36,6 +36,7 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
  * @author User
  */
 public class LoginController implements Initializable {
+
     @FXML
     private Label registerlabel;
     @FXML
@@ -54,7 +55,7 @@ public class LoginController implements Initializable {
     private Label alertname;
     @FXML
     private Label alertpassword;
-    
+
     private ServerAccess sa = ServerAccess.getInstance();
     @FXML
     private Label title;
@@ -62,57 +63,51 @@ public class LoginController implements Initializable {
     private Label alertcheck;
     @FXML
     private AnchorPane ap;
-    
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-    }    
+    }
 
     @FXML
     private void register(MouseEvent event) throws IOException {
-        SceneManager.getInstance().changeScene("/fxml/register.fxml");
+        SceneManager.getInstance().changeScene("/fxml/Register.fxml");
     }
 
     @FXML
     private void login(ActionEvent event) throws IOException, InterruptedException {
         boolean namecorrect = true;
         boolean passcorrect = true;
-        if(namefield.getText().isEmpty() || namefield.getText().length() > 50)
-        {
+        if (namefield.getText().isEmpty() || namefield.getText().length() > 50) {
             alertname.setText("This field must be filled out and within the length of 50 characters");
             namecorrect = false;
         }
-        if(passwordfield.getText().isEmpty() || passwordfield.getText().length() > 200)
-        {
+        if (passwordfield.getText().isEmpty() || passwordfield.getText().length() > 200) {
             alertpassword.setText("Please fill out the field");
             passcorrect = false;
         }
-        if(passcorrect != false && namecorrect != false){
+        if (passcorrect != false && namecorrect != false) {
             try {
-            sa.InitSocket("84.74.61.42", 1757);
-            sa.send("login:"+namefield.getText());// send username and hashed password to server
-            check();
+                sa.InitSocket("84.74.61.42", 1757);
+                sa.send("login:" + namefield.getText());// send username and hashed password to server
+                check();
             } catch (IOException ex) {
                 System.out.println("Not connected to server! Please try using a VPN.");
             }
         }
     }
-private String message;
-    private void check()
-    {
-        Thread thread = new Thread()
-        {
-            public void run()
-            {
-                while(true)
-                {
+    private String message;
+
+    private void check() {
+        Thread thread = new Thread() {
+            public void run() {
+                while (true) {
                     try {
                         Thread.sleep(100);
                     } catch (InterruptedException ex) {
                         Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     message = sa.getmessage();
-                    if(message != null)
-                    {
+                    if (message != null) {
                         break;
                     }
 
@@ -120,20 +115,16 @@ private String message;
             }
         };
         thread.run();
-        try{
-        if(BCrypt.checkpw(passwordfield.getText(), message))
-        {
-            DataManager.getInstance().setcurrentuser(namefield.getText());
-            ap.getChildren().add(PaneManager.createPane(ap.getWidth(),ap.getHeight(),"Login successfull","/fxml/selection.fxml"));
-            sa.close();
-        }
-        else
-        {
-            ap.getChildren().add(PaneManager.createPane(ap.getWidth(),ap.getHeight(),"Password or Username is incorrect"));
-        }
-        }
-        catch(Exception e){
-            ap.getChildren().add(PaneManager.createPane(ap.getWidth(),ap.getHeight(),"Password or username is incorrect"));
+        try {
+            if (BCrypt.checkpw(passwordfield.getText(), message)) {
+                DataManager.getInstance().setcurrentuser(namefield.getText());
+                SceneManager.getInstance().changeScene(SceneManager.homeFXML);
+                sa.close();
+            } else {
+                ap.getChildren().add(PaneManager.createPane(ap.getWidth(), ap.getHeight(), "Password or Username is incorrect"));
+            }
+        } catch (IOException e) {
+            ap.getChildren().add(PaneManager.createPane(ap.getWidth(), ap.getHeight(), "Password or username is incorrect"));
         }
     }
     private int count = 0;

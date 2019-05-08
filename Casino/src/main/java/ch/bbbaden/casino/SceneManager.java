@@ -18,9 +18,9 @@ import javafx.stage.StageStyle;
  *
  * @author User
  */
-public class SceneManager {
-
-    private static final String homeFXML = "/fxml/Selection.fxml";
+public class SceneManager {    
+    
+    public static final String homeFXML = "/fxml/Login.fxml";
     private static SceneManager sceneManager;
 
     private static Stage stage;
