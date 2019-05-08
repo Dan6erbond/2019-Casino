@@ -8,14 +8,8 @@ package ch.bbbaden.casino.loginregister;
 import ch.bbbaden.casino.DataManager;
 import ch.bbbaden.casino.SceneManager;
 import ch.bbbaden.casino.ServerAccess;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.Socket;
 import java.net.URL;
-import java.util.Observable;
-import java.util.Observer;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -71,7 +65,7 @@ public class RegisterController implements Initializable {
         boolean namecorrect = true;
         boolean passcorrect = true;
         boolean passmatch = true;
-        
+
         if (namefield.getText().isEmpty() || namefield.getText().length() > 50) {
             alertname.setVisible(true);
             namecorrect = false;
@@ -84,7 +78,7 @@ public class RegisterController implements Initializable {
             passwordMatch.setVisible(true);
             passmatch = false;
         }
-        
+
         if (passcorrect && namecorrect && passmatch) {
             try {
                 sa.InitSocket("84.74.61.42", 1757);
