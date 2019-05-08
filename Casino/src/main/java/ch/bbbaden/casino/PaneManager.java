@@ -67,14 +67,11 @@ public class PaneManager {
         //create button
         Button continuebutton = new Button();
         continuebutton.setText("continue");
-        continuebutton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-                try {
-                    SceneManager.getInstance().changeScene(fxml);
-                } catch (IOException ex) {
-                    Logger.getLogger(PaneManager.class.getName()).log(Level.SEVERE, null, ex);
-                }
+        continuebutton.setOnAction((ActionEvent e) -> {
+            try {
+                SceneManager.getInstance().changeScene(fxml);
+            } catch (IOException ex) {
+                Logger.getLogger(PaneManager.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
         continuebutton.layoutYProperty().bind(pane.heightProperty().subtract(pane.getHeight() + 40));
