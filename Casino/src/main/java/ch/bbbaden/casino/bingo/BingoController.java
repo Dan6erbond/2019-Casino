@@ -35,12 +35,15 @@ public class BingoController implements Initializable {
 
     // Anzahl Spielbretter
     public int boards;
+    //Gegner Bingo 0 oder 1
+    int bingo = 0;
+    //Datenbankmanager handelt Datenbank mit Spielstatistik und Geldbeträgen
     private Databankmanager dm = Databankmanager.getInstance();
 
     // gesetzter geldbetrag
     private int money;
     // aktueller Kontostand nach abzug des Einsatz für Propertybinding
-    IntegerProperty property = new SimpleIntegerProperty(getbalance() - money);
+    IntegerProperty property = new SimpleIntegerProperty(getbalance() - getMoney());
 
     // Überprüfung ob bereits Bingo angemeldet wurde
     Boolean[] bingorow = {false, false, false, false, false, false, false, false, false, false};
@@ -54,7 +57,7 @@ public class BingoController implements Initializable {
     // Zufallszahlen werden für Ziehungen verwendet
     private Random rand = new Random();
     //  Kugel ist die aktuelle Ziehung
-    private int Kugel;
+    private int kugel;
     // Hier werden alle Kugeln abgespeichert
     private List alleziehungen = new ArrayList();
     // alle bereits gezogenen Zahlen werden hier abgespeichert
@@ -110,42 +113,43 @@ public class BingoController implements Initializable {
 
     }
 
+    /*Sobald der Button start auf der Einstellungsseite gedrückt wurde
+    wird die Funktion setstart ausgeführt.
+    Die Einstellungsseite wird ausgeblendet.
+     */
     @FXML
     private void setstart() {
         checkmoney();
-        if (money != 0) {
+        if (getMoney() != 0) {
             btnstart.visibleProperty().set(true);
             btnbingo.visibleProperty().set(true);
             createGegenspieler(2);
             if (cboxboards.getSelectionModel().getSelectedItem() != null) {
-                boards = cboxboards.getSelectionModel().getSelectedItem();
+                setBoards(cboxboards.getSelectionModel().getSelectedItem());
 
                 tabpane.visibleProperty().set(true);
                 titledPane.visibleProperty().set(false);
 
                 List grids = new ArrayList<GridPane>();
 
-                for (int i = 0; i < boards; i++) {
+                for (int i = 0; i < getBoards(); i++) {
                     createbtn();
                     grids.add(i, fillgrid(creategrid(5, 7, new GridPane()), getButtonList()));
                 }
 
-                List tabs = createtabs(boards);
+                setTabs(createtabs(getBoards()));
 
-                for (int i = 0; i < tabs.size(); i++) {
-                    Tab t = (Tab) tabs.get(i);
+                for (int i = 0; i < getTabs().size(); i++) {
+                    Tab t = (Tab) getTabs().get(i);
                     t.setContent((Node) grids.get(i));
-                    tabpane.getTabs().add((Tab) tabs.get(i));
+                    tabpane.getTabs().add((Tab) getTabs().get(i));
                 }
 
             }
         }
     }
 
-    public List<Button> getButtonList() {
-        return ButtonList;
-    }
-
+    //Hier wird das  GridPane mit Buttons befüllt 
     private GridPane fillgrid(GridPane g, List ButtonList) {
         int count = 1;
         for (int j = 0; j < 5; j++) {
@@ -157,6 +161,7 @@ public class BingoController implements Initializable {
         return g;
     }
 
+    //Erstellt ein GridPane mit vordefinierten anzahl Zeilen und spalten
     private GridPane creategrid(int spalten, int zeilen, GridPane grid) {
 
         for (int i = 0; i < zeilen; i++) {
@@ -171,18 +176,20 @@ public class BingoController implements Initializable {
         return grid;
     }
 
+    //Erstellt eine Liste mit Tabs
     private List createtabs(int anztabs) {
 
         for (int i = 0; i < anztabs; i++) {
             Tab t = new Tab("Spielbrett " + Integer.toString(i + 1));
             t.getStyleClass().add("bingostyle.css");
             t.setId(Integer.toString(i));
-            tabs.add(t);
+            getTabs().add(t);
         }
 
         return tabs;
     }
 
+    //Erstellt eine Liste mit Buttons
     private void createbtn() {
         ButtonList.clear();
         Integer[] card = new Integer[75];
@@ -214,10 +221,10 @@ public class BingoController implements Initializable {
                 }
 
             });
-            ButtonList.add(b);
+            getButtonList().add(b);
         }
 
-        ButtonList.sort((o1, o2) -> {
+        getButtonList().sort((o1, o2) -> {
             return Integer.compare(Integer.parseInt(o1.getText()), Integer.parseInt(o2.getText()));
         });
     }
@@ -229,9 +236,10 @@ public class BingoController implements Initializable {
         return false;
     }
 
+    //Alle 30 Sekunden wird ein eine neue Bingokugel angezeigt
     private void start() {
 
-        Timeline pause = new Timeline(new KeyFrame(Duration.millis(100), new EventHandler<ActionEvent>() {
+        Timeline pause = new Timeline(new KeyFrame(Duration.millis(30000), new EventHandler<ActionEvent>() {
             int zahl;
 
             @Override
@@ -242,36 +250,42 @@ public class BingoController implements Initializable {
         }));
 
         pause.setCycleCount(75);
-
         pause.play();
 
+        if (getBingo() == 1) {
+            pause.stop();
+        }
     }
 
+    //Hier werden zufällige Zahlen gezogen und falls noch nicht in Alleziehungen vorhanden, dort hinzugefügt.
     public void Kugelziehen() {
 
-        while (alleziehungen.size() < 75) {
-            Kugel = rand.nextInt(75);
-            if (!alleziehungen.contains(Kugel)) {
-                alleziehungen.add(Kugel);
+        while (getAlleziehungen().size() < 75) {
+            setKugel(rand.nextInt(75));
+            if (!getAlleziehungen().contains(getKugel())) {
+                getAlleziehungen().add(getKugel());
             }
 
         }
 
     }
 
+    // Auf dem Label lblziehung werden die bereits gezogenen Bingokugeln angezeigt
     public void showNumber(int zahl) {
-        Integer nummer = (Integer) alleziehungen.get(zahl);
-        bereitsgezogen.add(nummer);
+        Integer nummer = (Integer) getAlleziehungen().get(zahl);
+        getBereitsgezogen().add(nummer);
         lblziehung.setText(lblziehung.getText() + " " + Integer.toString(nummer));
         if (zahl % 10 == 0) {
             lblziehung.setText(lblziehung.getText() + "\r\n");
         }
     }
 
+    public Button b;
+
+    // Auf dem Label lblziehung werden die bereits gezogenen Bingokugeln angezeigt
     public void checkbingo() {
-        /* todo:  All Children of Gridpane in a list consisting of Seven nodes each row
-                   with 5 column .sublist()
-         */
+        int[][] row = new int[2][6];
+        int[][] col = new int[2][7];
 
         GridPane g = null;
 
@@ -294,23 +308,28 @@ public class BingoController implements Initializable {
                 ObservableList<Node> n = g.getChildren();
 
                 for (int i = 1; i <= 7; i++) {
-                    Button b = (Button) n.get(j - i);
-                    if (b.getStyle().contains("-fx-background-color: #FFFFFF;") || (b.getStyle().contains("-fx-background-color: #000000;")) && bereitsgezogen.contains(Integer.valueOf(b.getText()))) {
+                    b = (Button) n.get(j - i);
+                    if (b.getStyle().contains("-fx-background-color: #FFFFFF;") || (b.getStyle().contains("-fx-background-color: #000000;")) && getBereitsgezogen().contains(Integer.valueOf(b.getText()))) {
                         key++;
                         n.get(j - i).setStyle("-fx-background-color:#214bbc");
                     }
                 }
-                if (key >= 7) {
-                    System.out.println("erreicht");
-                    dm.setchipamount(dm.getchipamount() + getMoney());
-                    key = 0;
-                }
+
+//                if (key >= 7 && getBingo() == 0) {
+//                    System.out.println("Bingo!");
+////                    dm.setchipamount(dm.getchipamount() + getMoney());
+//                    key = 0;
+//                } else if (key >= 7 && getBingo() == 1) {
+//                    System.out.println("leider kein Bingo!");
+//                    key = 0;
+//                }
             }
 
         }
 
     }
 
+    // Auf dem Label lblziehung werden die bereits gezogenen Bingokugeln angezeigt
     @FXML
     private void Kugelziehenstart(ActionEvent event
     ) {
@@ -322,6 +341,7 @@ public class BingoController implements Initializable {
         }
     }
 
+    // Als Parameter kann ein Integer mitgegeben werden welcher die Anzahl gegner definiert
     private void createGegenspieler(int anz) {
         List grids = new ArrayList<GridPane>();
         List<Button> buttons = getButtonList();
@@ -337,12 +357,17 @@ public class BingoController implements Initializable {
                 b.setMouseTransparent(true);
             }
             grids.add(i, fillgrid(creategrid(5, 7, new GridPane()), getButtonList()));
-            (tabpane.getTabs().get(boards + i)).setContent((GridPane) grids.get(i));
+            (tabpane.getTabs().get(getBoards() + i)).setContent((GridPane) grids.get(i));
         }
         lblanzahl.setText(String.valueOf(anz));
 
     }
 
+    /* 
+    Hier wird alles graphische des gegners erstellt:
+    die gezogenen Zahlen werden markiert.
+    es wird überprüft und ausgegeben falls der gegner Bingo hat.
+     */
     private void showgegner(int cnt) {
 
         int[][] row = new int[2][6];
@@ -351,7 +376,7 @@ public class BingoController implements Initializable {
         ArrayList<GridPane> gridpanes = new ArrayList<GridPane>();
         ArrayList<Button> btn = new ArrayList<Button>();
 
-        for (int i = 0; i < tabpane.getTabs().size() - (boards); i++) {
+        for (int i = 0; i < tabpane.getTabs().size() - (getBoards()); i++) {
             gridpanes.add((GridPane) tabpane.getTabs().get(i).getContent());
 
         }
@@ -362,7 +387,7 @@ public class BingoController implements Initializable {
             }
 
             for (Button b : btn) {
-                if (bereitsgezogen.contains(Integer.valueOf(b.getText()))) {
+                if (getBereitsgezogen().contains(Integer.valueOf(b.getText()))) {
                     b.setStyle("-fx-background-color:#000000");
                 }
             }
@@ -371,7 +396,7 @@ public class BingoController implements Initializable {
 
                 Button b = (Button) gridpanes.get(i).getChildren().get(j);
 
-                if (b.getStyle().equals("-fx-background-color:#000000") && bereitsgezogen.contains(Integer.valueOf(b.getText()))) {
+                if (b.getStyle().equals("-fx-background-color:#000000") && getBereitsgezogen().contains(Integer.valueOf(b.getText()))) {
                     //todo: IF-Statements to check if not already in List. Otherwise this will be set every time.
 
                     row[i][GridPane.getRowIndex(b)] += 1;
@@ -388,12 +413,12 @@ public class BingoController implements Initializable {
 //                    }
 //                }
 //
-                if (row[i][GridPane.getRowIndex(b)] == gridpanes.get(i).getRowConstraints().size() && bingorow[GridPane.getRowIndex(b)] == false) {
+                if (row[i][GridPane.getRowIndex(b)] == gridpanes.get(i).getRowConstraints().size() && bingorow[GridPane.getRowIndex(b)] == false && getBingo() == 0) {
                     bingorow[GridPane.getRowIndex(b)] = true;
-                    System.out.println("Bingogegner");
-
+                    System.out.println("Gegnerbingo");
 //                    dm.setchipamount((dm.getchipamount() - getMoney()));
                     setMoney(0);
+                    setBingo(1);
                 }
 
 //                if (row[GridPane.getColumnIndex(b)] == gridpanes.get(i).getColumnConstraints().size() && bingorow[GridPane.getColumnIndex(b)] == false) {
@@ -407,6 +432,10 @@ public class BingoController implements Initializable {
 
     }
 
+    /* 
+    Falls der Gewünschte Betrag grösser ist als der Betrag auf dem Konto
+    muss erneut ein Betrag eingegeben werden.
+     */
     private void checkmoney() {
         int money2 = txtbetrag.getSelectionModel().getSelectedItem();
         if (getbalance() < money2) {
@@ -414,13 +443,13 @@ public class BingoController implements Initializable {
         }
     }
 
-    public int getbalance() {
-        return dm.getchipamount();
-    }
-
     @FXML
     private void btnbingo(ActionEvent event) {
         checkbingo();
+    }
+
+    public int getbalance() {
+        return dm.getchipamount();
     }
 
     public int getBoards() {
@@ -464,11 +493,23 @@ public class BingoController implements Initializable {
     }
 
     public int getKugel() {
-        return Kugel;
+        return kugel;
     }
 
     public void setKugel(int Kugel) {
-        this.Kugel = Kugel;
+        this.kugel = Kugel;
     }
-    
+
+    public int getBingo() {
+        return bingo;
+    }
+
+    public void setBingo(int bingo) {
+        this.bingo = bingo;
+    }
+
+    public List<Button> getButtonList() {
+        return ButtonList;
+    }
+
 }
