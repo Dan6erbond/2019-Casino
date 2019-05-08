@@ -23,20 +23,21 @@ import javafx.scene.layout.AnchorPane;
  */
 public class SelectionController implements Initializable {
 
-    @FXML
-    private ImageView blackJack;
-    @FXML
     private ImageView statistic;
     @FXML
-    private AnchorPane anchorPanert;
+    private AnchorPane ap;
     @FXML
-    private ImageView rouletteMenu;
+    private ImageView BlackJack;
     @FXML
-    private ImageView slotMachineIntro;
+    private ImageView SlotMachineIntro;
     @FXML
-    private ImageView bingo;
+    private ImageView RouletteMenu;
     @FXML
-    private ImageView bank;
+    private ImageView Bingo;
+    @FXML
+    private ImageView Statistics;
+    @FXML
+    private ImageView Bank;
 
     /**
      * Initializes the controller class.

@@ -10,8 +10,8 @@
 <AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" styleClass="window" stylesheets="@../styles/style.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.bbbaden.casino.GamePickerController">
    <children>
       <Label alignment="CENTER" layoutX="43.0" layoutY="44.0" prefHeight="17.0" prefWidth="503.0" styleClass="title" text="Choose your game" textAlignment="CENTER" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="40.0" />
-      <Button layoutX="246.0" layoutY="261.0" mnemonicParsing="false" onAction="#play" prefHeight="39.0" prefWidth="109.0" stylesheets="@../styles/style.css" text="Play" />
-      <Button layoutX="246.0" layoutY="318.0" mnemonicParsing="false" onAction="#openBank" prefHeight="39.0" prefWidth="109.0" text="Bank" />
+      <Button layoutX="246.0" layoutY="261.0" mnemonicParsing="false" onAction="#play" prefHeight="29.0" prefWidth="109.0" stylesheets="@../styles/style.css" text="Play" />
+      <Button layoutX="246.0" layoutY="298.0" mnemonicParsing="false" onAction="#openBank" prefHeight="29.0" prefWidth="109.0" text="Bank" />
       <Button layoutX="426.0" layoutY="87.0" mnemonicParsing="false" onAction="#nextGame" prefHeight="150.0" prefWidth="95.0" style="-fx-background-color: none;" text="&gt;">
          <font>
             <Font size="39.0" />
@@ -27,5 +27,6 @@
             <ImageView fx:id="image" fitHeight="150.0" fitWidth="252.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER" />
          </center>
       </BorderPane>
+      <Button fx:id="statisticsButton" layoutX="246.0" layoutY="336.0" mnemonicParsing="false" onAction="#openStatistics" prefHeight="29.0" prefWidth="109.0" text="Statistics" />
    </children>
 </AnchorPane>

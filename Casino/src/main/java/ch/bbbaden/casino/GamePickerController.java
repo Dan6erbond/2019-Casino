@@ -13,6 +13,7 @@ import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -34,6 +35,8 @@ public class GamePickerController implements Initializable {
     };
 
     private int index;
+    @FXML
+    private Button statisticsButton;
 
     /**
      * Initializes the controller class.
@@ -41,6 +44,9 @@ public class GamePickerController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         updateGUI();
+        if (DataManager.getInstance().getcurrentuser().equals("admin")) {
+            statisticsButton.setVisible(true);
+        }
     }
 
     @FXML
@@ -78,9 +84,18 @@ public class GamePickerController implements Initializable {
         }
         updateGUI();
     }
-    
+
     private void updateGUI() {
         image.setImage((Image) games[index].y);
         System.out.println(index);
+    }
+
+    @FXML
+    private void openStatistics(ActionEvent event) {
+        try {
+            SceneManager.getInstance().changeScene("/fxml/Statistics.fxml");
+        } catch (IOException ex) {
+            Logger.getLogger(GamePickerController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }
