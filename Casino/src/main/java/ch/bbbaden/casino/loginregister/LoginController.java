@@ -97,7 +97,7 @@ public class LoginController implements Initializable {
             public void run() {
                 while (true) {
                     try {
-                        Thread.sleep(100);
+                        Thread.sleep(500);
                     } catch (InterruptedException ex) {
                         Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
                     }

@@ -10,7 +10,7 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="486.0" prefWidth="480.0" styleClass="mainFxmlClass" stylesheets="@../styles/roulette.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.bbbaden.casino.roulette.RoulettemenuController">
+<AnchorPane id="AnchorPane" prefHeight="497.0" prefWidth="480.0" styleClass="mainFxmlClass" stylesheets="@../styles/roulette.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.bbbaden.casino.roulette.RoulettemenuController">
    <children>
       <Button layoutX="211.0" layoutY="357.0" mnemonicParsing="false" onAction="#play" text="play" textFill="RED">
          <font>
@@ -55,5 +55,6 @@
          <effect>
             <DropShadow height="5.0" radius="2.0" spread="0.91" width="5.0" />
          </effect></Label>
+      <Label fx:id="balance" layoutX="209.0" layoutY="465.0" styleClass="Label" text="Balance: " />
    </children>
 </AnchorPane>

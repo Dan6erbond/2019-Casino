@@ -155,30 +155,6 @@ public class RouletteController implements Initializable {
     private double ballx;
     private double bally;
     private final Random r = new Random();
-    @FXML
-    private Pane zerotop;
-    @FXML
-    private Pane zerotopright;
-    @FXML
-    private Pane zerobottom;
-    @FXML
-    private Pane zerobottomright;
-    @FXML
-    private Pane zerocenter;
-    @FXML
-    private Pane zeroright;
-    @FXML
-    private Pane doubletop;
-    @FXML
-    private Pane doubletopright;
-    @FXML
-    private Pane doublebottom;
-    @FXML
-    private Pane doublebottomright;
-    @FXML
-    private Pane doublecenter;
-    @FXML
-    private Pane doubleright;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -653,6 +629,7 @@ public class RouletteController implements Initializable {
             pause.play();
             
     }
+    // method to 
      private void moveBall(Circle ball, double x, double y) {
          
         TranslateTransition move = TranslateTransitionBuilder.create()
@@ -664,19 +641,21 @@ public class RouletteController implements Initializable {
  
         move.playFromStart();
     }
+     
+     // looks in what field the ball landed in
     private String landedin()
     {
         
          Rectangle[] wheeldata = {rec00,rec27,rec10,rec25,rec29,rec12,rec8,rec19,rec31,rec18,rec6,rec21,rec33,rec16,rec4,rec23,rec35,rec14,rec2,rec0,rec28,rec9,rec26,rec30,rec11,rec7,rec20,rec32,rec17,rec5,rec22,rec34,rec15,rec3,rec24,rec36,rec13,rec1};      
         for (Rectangle rec : wheeldata) {
-            Node node = rec;
-            Bounds b = node.localToScene(node.getBoundsInLocal());
-            Node node1 = ball;
-            Bounds a = node1.localToScene(node1.getBoundsInLocal());
-            if(a.intersects(b))
+            Node rectangle = rec; 
+            Bounds recbounds = rectangle.localToScene(rectangle.getBoundsInLocal()); 
+            Node circleball = ball;
+            Bounds ballbounds = circleball.localToScene(circleball.getBoundsInLocal());
+            if(ballbounds.intersects(recbounds)) // looks if ball is in a rectangle
             {
                 
-                return rec.getId().substring(3);
+                return rec.getId().substring(3); // gives a substring of the rectangle that the ball landed in. The substring of 3 gives the number.
             }
         }
         return "whoops ein Fehler!";
@@ -687,6 +666,7 @@ public class RouletteController implements Initializable {
         SceneManager.getInstance().changeScene("/fxml/Selection.fxml");
     }
 
+    // fro all Panes in the zero BorderPane to show the numbers
     @FXML
     private void zero(MouseEvent event) {
         Pane pane = (Pane) event.getSource();
@@ -708,6 +688,7 @@ public class RouletteController implements Initializable {
         }
     }
 
+    // for all Panes in the doublezero BorderPane to show the numbers
     @FXML
     private void doublezero(MouseEvent event) {
         Pane pane = (Pane) event.getSource();

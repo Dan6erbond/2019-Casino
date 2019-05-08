@@ -85,7 +85,7 @@ public class DataManager {
             public void run() {
                 while (true) {
                     try {
-                        Thread.sleep(100);
+                        Thread.sleep(500);
                     } catch (InterruptedException ex) {
 
                     }
@@ -105,7 +105,7 @@ public class DataManager {
             public void run() {
                 while (true) {
                     try {
-                        Thread.sleep(100);
+                        Thread.sleep(500);
                     } catch (InterruptedException ex) {
                     }
                     if (sa.getmessage() != null) {
