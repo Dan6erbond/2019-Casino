@@ -27,7 +27,7 @@ public class GamePickerController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-    }    
+    }
 
     @FXML
     private void playRoulette(ActionEvent event) {
@@ -50,7 +50,7 @@ public class GamePickerController implements Initializable {
     @FXML
     private void playBlackJack(ActionEvent event) {
         try {
-            SceneManager.getInstance().changeScene("/fxml/BlackJack.fxml");
+            SceneManager.getInstance().changeScene("/fxml/BlackJackIntro.fxml");
         } catch (IOException ex) {
             Logger.getLogger(GamePickerController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -64,5 +64,5 @@ public class GamePickerController implements Initializable {
             Logger.getLogger(GamePickerController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
 }

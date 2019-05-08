@@ -32,7 +32,7 @@ import javafx.util.Duration;
 public class BlackJackController implements Initializable {
 
     int pool = 0;
-    int balance = 1000;
+    int balance = 1000 ;
     ArrayList<Card> cards = new ArrayList<>();
     ArrayList<Card> pcards = new ArrayList<>();
     ArrayList<Card> bcards = new ArrayList<>();
@@ -106,6 +106,7 @@ public class BlackJackController implements Initializable {
         DataManager.getInstance().updateBet("blackjack", balance);
 
         lbalance.setText(Integer.toString(balance));
+        line.setVisible(false);
 
         HideButtAction();
 

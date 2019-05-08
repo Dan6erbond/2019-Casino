@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" fx:id="ap" prefHeight="478.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.bbbaden.casino.blackjack.BlackJackRules">
+   <children>
+      <ImageView fitHeight="494.0" fitWidth="600.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../img/black-jack%20regeln.jpg" />
+         </image>
+      </ImageView>
+      <Button fx:id="cardvalue" layoutX="43.0" layoutY="194.0" mnemonicParsing="false" onAction="#clickCardvalue" prefHeight="64.0" prefWidth="44.0" rotate="48.0" style="-fx-background-color: transparent;" styleClass="rules1" stylesheets="@../styles/blackjackstyle.css" text="1" textFill="WHITE" wrapText="true">
+         <font>
+            <Font name="SimSun-ExtB" size="24.0" />
+         </font></Button>
+      <Button fx:id="decide" layoutX="109.0" layoutY="246.0" mnemonicParsing="false" onAction="#clickDecide" prefHeight="67.0" prefWidth="53.0" rotate="18.0" style="-fx-background-color: transparent;" styleClass="rules1" stylesheets="@../styles/blackjackstyle.css" text="2" textFill="WHITE" wrapText="true">
+         <font>
+            <Font name="SimSun-ExtB" size="24.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Button>
+      <Button fx:id="end" layoutX="202.0" layoutY="271.0" mnemonicParsing="false" onAction="#clickEnd" prefHeight="70.0" prefWidth="53.0" rotate="11.0" style="-fx-background-color: transparent;" styleClass="rules1" stylesheets="@../styles/blackjackstyle.css" text="3" textFill="WHITE" wrapText="true">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <font>
+            <Font name="SimSun-ExtB" size="24.0" />
+         </font></Button>
+      <Button id="back" fx:id="back" layoutX="-1.0" layoutY="35.0" mnemonicParsing="false" onAction="#clickBack" style="-fx-background-color: transparent;" stylesheets="@../styles/blackjackstyle.css" text="&lt;" textFill="WHITE" wrapText="true">
+         <font>
+            <Font name="SimSun" size="24.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Button>
+   </children>
+</AnchorPane>

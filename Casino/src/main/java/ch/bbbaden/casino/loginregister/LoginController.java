@@ -124,7 +124,7 @@ private String message;
         if(BCrypt.checkpw(passwordfield.getText(), message))
         {
             DataManager.getInstance().setcurrentuser(namefield.getText());
-            ap.getChildren().add(PaneManager.createPane(ap.getWidth(),ap.getHeight(),"Login successfull","/fxml/selection.fxml"));
+            ap.getChildren().add(PaneManager.createPane(ap.getWidth(),ap.getHeight(),"Login successfull","/fxml/Selection.fxml"));
             sa.close();
         }
         else
