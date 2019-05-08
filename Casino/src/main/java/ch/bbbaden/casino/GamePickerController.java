@@ -27,9 +27,9 @@ public class GamePickerController implements Initializable {
     private ImageView image;
 
     private final Tuple[] games = {
-        new Tuple("/fxml/Roulette.fxml", new Image("/images/selectroulette.png")),
+        new Tuple("/fxml/RouletteMenu.fxml", new Image("/images/selectroulette.png")),
         new Tuple("/fxml/BingoSettings.fxml", new Image("/images/selectbingo.png")),
-        new Tuple("/fxml/BlackJack.fxml", new Image("/images/selectblackjack.png")),
+        new Tuple("/fxml/BlackJackIntro.fxml", new Image("/images/selectblackjack.png")),
         new Tuple("/fxml/SlotMachineIntro.fxml", new Image("/images/selectslotmachine.png"))
     };
 
