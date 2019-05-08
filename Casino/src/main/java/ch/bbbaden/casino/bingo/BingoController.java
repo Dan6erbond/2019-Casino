@@ -194,14 +194,25 @@ public class BingoController implements Initializable {
         ButtonList.clear();
         Integer[] card = new Integer[75];
 
+        /* 
+        Es werden zahlen von 0 bis 74 generiert um diese später als Buttonbeschriftung zu verwenden.
+         */
         for (int i = 0; i <= 74; i++) {
             card[i] = i;
         }
 
+        /*  
+           Die Zufällig gezogenen Zahlen werden hier in in der ArrayList shuffled gespeichert
+            und durcheinander gemischt.        
+         */
         ArrayList<Integer> shuffled = new ArrayList<>(Arrays.asList(card));
 
         Collections.shuffle(shuffled);
 
+        /*  
+           Hier werden die Dimensionen der Buttons festgelegt.
+           ausserdem wird die standardhintergrundfarbe festgelegt.
+         */
         for (int j = 0; j <= 35; j++) {
             final int number = shuffled.get(j);
 
@@ -211,6 +222,12 @@ public class BingoController implements Initializable {
             b.setMaxSize(40, 40);
             b.setStyle("-fx-background-color: #214bbc");
             b.setOnAction((ActionEvent) -> {
+                /*  
+                Sobald der Button angeklickt wird, löst dies ein Actionevent aus.
+                falls die Zahl auf dem Button bereits gezogen wurde färbt sich der Button
+                Schwarz ansonsten Weiss.
+                 */
+
                 boolean hoi = handleButton(number);
                 if (hoi == true) {
                     b.setStyle("-fx-background-color: #FFFFFF;");
@@ -230,7 +247,7 @@ public class BingoController implements Initializable {
     }
 
     private boolean handleButton(int number) {
-        if (lblziehung.getText().equals(String.valueOf(number))) {
+        if (lblziehung.getText().contains(String.valueOf(number))) {
             return true;
         }
         return false;
@@ -239,7 +256,7 @@ public class BingoController implements Initializable {
     //Alle 30 Sekunden wird ein eine neue Bingokugel angezeigt
     private void start() {
 
-        Timeline pause = new Timeline(new KeyFrame(Duration.millis(30000), new EventHandler<ActionEvent>() {
+        Timeline pause = new Timeline(new KeyFrame(Duration.millis(100), new EventHandler<ActionEvent>() {
             int zahl;
 
             @Override
@@ -315,14 +332,14 @@ public class BingoController implements Initializable {
                     }
                 }
 
-//                if (key >= 7 && getBingo() == 0) {
-//                    System.out.println("Bingo!");
-////                    dm.setchipamount(dm.getchipamount() + getMoney());
-//                    key = 0;
-//                } else if (key >= 7 && getBingo() == 1) {
-//                    System.out.println("leider kein Bingo!");
-//                    key = 0;
-//                }
+                if (key >= 7 && getBingo() == 0) {
+                    System.out.println("Bingo!");
+                    dm.setchipamount(dm.getchipamount() + 2 * (getMoney()));
+                    key = 0;
+                } else if (key >= 7 && getBingo() == 1) {
+                    System.out.println("leider kein Bingo!");
+                    key = 0;
+                }
             }
 
         }
@@ -416,7 +433,7 @@ public class BingoController implements Initializable {
                 if (row[i][GridPane.getRowIndex(b)] == gridpanes.get(i).getRowConstraints().size() && bingorow[GridPane.getRowIndex(b)] == false && getBingo() == 0) {
                     bingorow[GridPane.getRowIndex(b)] = true;
                     System.out.println("Gegnerbingo");
-//                    dm.setchipamount((dm.getchipamount() - getMoney()));
+                    dm.setchipamount((dm.getchipamount() - getMoney()));
                     setMoney(0);
                     setBingo(1);
                 }
