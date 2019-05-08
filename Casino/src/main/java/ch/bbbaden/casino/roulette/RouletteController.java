@@ -156,39 +156,29 @@ public class RouletteController implements Initializable {
     private double bally;
     private final Random r = new Random();
     @FXML
-    private Label lowlabel;
+    private Pane zerotop;
     @FXML
-    private Label highlabel;
+    private Pane zerotopright;
     @FXML
-    private Label col1label;
+    private Pane zerobottom;
     @FXML
-    private Label col2label;
+    private Pane zerobottomright;
     @FXML
-    private Label col3label;
+    private Pane zerocenter;
     @FXML
-    private Label third1label;
+    private Pane zeroright;
     @FXML
-    private Label third2label;
+    private Pane doubletop;
     @FXML
-    private Label third3label;
+    private Pane doubletopright;
     @FXML
-    private Label evenlabel;
+    private Pane doublebottom;
     @FXML
-    private Label redlabel;
+    private Pane doublebottomright;
     @FXML
-    private Label blacklabel;
+    private Pane doublecenter;
     @FXML
-    private Label oddlabel;
-    @FXML
-    private Pane wood;
-    @FXML
-    private ImageView bet2;
-    @FXML
-    private ImageView bet5;
-    @FXML
-    private ImageView bet25;
-    @FXML
-    private ImageView bet100;
+    private Pane doubleright;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -576,7 +566,7 @@ public class RouletteController implements Initializable {
         haschip = true;
         }
         else{
-            ap.getChildren().add(Panemanager.createPane(ap.getWidth(), ap.getHeight(),"Sorry, but you don't have enough Money"));
+            ap.getChildren().add(PaneManager.createPane(ap.getWidth(), ap.getHeight(),"Sorry, but you don't have enough Money"));
         }
             }catch(Exception e){}
         }
@@ -694,6 +684,48 @@ public class RouletteController implements Initializable {
 
     @FXML
     private void back(ActionEvent event) throws IOException {
-        SceneManager.getInstance().changeScene("/fxml/selection.fxml");
+        SceneManager.getInstance().changeScene("/fxml/Selection.fxml");
+    }
+
+    @FXML
+    private void zero(MouseEvent event) {
+        Pane pane = (Pane) event.getSource();
+        String id = pane.getId();
+        if("zerocenter".equals(id) || "zerobottom".equals(id)){
+            test.setText("0");
+        } 
+        else if("zeroright".equals(id)){
+            test.setText("0,1,2");
+        }
+        else if("zerotopright".equals(id)){
+            test.setText("0,00,2");
+        }
+        else if("zerobottomright".equals(id)){
+            test.setText("0,00,1,2,3");
+        }
+        else if("zerotop".equals(id)){
+        test.setText("0,00");
+        }
+    }
+
+    @FXML
+    private void doublezero(MouseEvent event) {
+        Pane pane = (Pane) event.getSource();
+        String id = pane.getId();
+        if("doublecenter".equals(id) || "doubletop".equals(id)){
+            test.setText("00");
+        } 
+        else if("doubleright".equals(id)){
+            test.setText("00,3,2");
+        }
+        else if("doubletopright".equals(id)){
+            test.setText("00,0,3,2,1");
+        }
+        else if("doublebottomright".equals(id)){
+            test.setText("00,0,2");
+        }
+        else if("doublebottom".equals(id)){
+        test.setText("00,0");
+        }
     }
 }

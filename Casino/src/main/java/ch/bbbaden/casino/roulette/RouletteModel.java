@@ -41,7 +41,7 @@ public class RouletteModel {
         for (String s : bets) {
             int currentwin = 0;
             int bet = Integer.parseInt(s.split(":")[1]);
-            for (String string : s.split(",")) {
+            for (String string : s.split(":")[0].split(",")) {
                 if (string.equals(number)) {
 
                     if (s.split(",").length != 5) {

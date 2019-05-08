@@ -38,22 +38,26 @@ public class BankController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         amount.setText(amount.getText()+dm.getchipamount());
-        chips.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 100000000,1));
+        chips.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 10000,1));
     }    
 
     @FXML
     private void addamount(ActionEvent event) {
-        if(chips.getValue() > 0)
+        int number = Integer.parseInt(chips.getEditor().getText());
+        if(number > 0)
         {
-            dm.setchipamount(dm.getchipamount() + (Integer)chips.getValue());
-            ap.getChildren().add(PaneManager.createPane(ap.getHeight(), ap.getWidth(), "We added "+(Integer) chips.getValue()+"\r\nYour current amount of chips is "+dm.getchipamount()));
+            dm.setchipamount(dm.getchipamount() + number);
+            ap.getChildren().add(PaneManager.createPane(ap.getHeight(), ap.getWidth(), "We added "+number+"\r\nYour current amount of chips is "+dm.getchipamount()));
             amount.setText("Your chips: "+dm.getchipamount());
+        }
+        else{
+        ap.getChildren().add(PaneManager.createPane(ap.getHeight(), ap.getWidth(), "You can't add 0 or a negative number \r\n to your account"));
         }
     }
 
     @FXML
     private void back(ActionEvent event) throws IOException {
-        SceneManager.getInstance().changeScene("/fxml/selection.fxml");
+        SceneManager.getInstance().changeScene("/fxml/Selection.fxml");
     }
     
 }

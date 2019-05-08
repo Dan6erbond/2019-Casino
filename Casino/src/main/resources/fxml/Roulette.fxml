@@ -5,6 +5,7 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.Pane?>
@@ -144,26 +145,8 @@
             </Label>
          </children>
       </Pane>
-      <Pane fx:id="doublezero" layoutX="474.0" layoutY="173.0" onMouseClicked="#makebet" prefHeight="74.0" prefWidth="72.5" styleClass="panes">
-         <children>
-            <Label layoutX="25.0" layoutY="23.0" text="00" textFill="WHITE">
-               <font>
-                  <Font size="19.0" />
-               </font>
-            </Label>
-         </children>
-      </Pane>
-      <Pane fx:id="zero" layoutX="474.0" layoutY="247.0" onMouseClicked="#makebet" prefHeight="74.0" prefWidth="72.5" styleClass="panes">
-         <children>
-            <Label layoutX="31.0" layoutY="23.0" text="0" textFill="WHITE">
-               <font>
-                  <Font size="19.0" />
-               </font>
-            </Label>
-         </children>
-      </Pane>
       <Label fx:id="test" layoutX="546.0" layoutY="25.0" textFill="WHITE" />
-      <Pane fx:id="wood" layoutY="556.0" prefHeight="89.0" prefWidth="1330.0" styleClass="wood" stylesheets="@../styles/roulette.css">
+      <Pane fx:id="wood" layoutY="556.0" prefHeight="89.0" prefWidth="1330.0" styleClass="wood">
          <children>
             <ImageView fx:id="bet2" fitHeight="103.0" fitWidth="84.0" layoutX="425.0" onMouseClicked="#makebet" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -234,5 +217,77 @@
             <Circle fx:id="ball" fill="WHITE" layoutX="150.0" layoutY="26.0" radius="3.5" stroke="WHITE" strokeType="INSIDE" visible="false" />
          </children>
       </Pane>
+      <BorderPane fx:id="zero" layoutX="474.0" layoutY="246.0" prefHeight="74.0" prefWidth="73.0" styleClass="panes">
+         <right>
+            <Pane fx:id="zeroright" onMouseMoved="#zero" prefHeight="72.0" prefWidth="17.0" BorderPane.alignment="CENTER" />
+         </right>
+         <center>
+            <Pane fx:id="zerocenter" onMouseMoved="#zero" prefHeight="37.0" prefWidth="54.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Label layoutX="34.0" layoutY="7.0" text="0" textFill="WHITE">
+                     <font>
+                        <Font size="19.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Pane>
+         </center>
+         <top>
+            <BorderPane prefHeight="15.0" prefWidth="71.0" BorderPane.alignment="CENTER">
+               <right>
+                  <Pane fx:id="zerotopright" onMouseMoved="#zero" prefHeight="15.0" prefWidth="18.0" BorderPane.alignment="CENTER" />
+               </right>
+               <center>
+                  <Pane fx:id="zerotop" onMouseMoved="#zero" prefHeight="6.0" prefWidth="38.0" BorderPane.alignment="CENTER" />
+               </center>
+            </BorderPane>
+         </top>
+         <bottom>
+            <BorderPane prefHeight="15.0" prefWidth="71.0" BorderPane.alignment="CENTER">
+               <right>
+                  <Pane fx:id="zerobottomright" onMouseMoved="#zero" prefHeight="15.0" prefWidth="18.0" BorderPane.alignment="CENTER" />
+               </right>
+               <center>
+                  <Pane fx:id="zerobottom" onMouseMoved="#zero" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+               </center>
+            </BorderPane>
+         </bottom>
+      </BorderPane>
+      <BorderPane fx:id="doublezero" layoutX="474.0" layoutY="173.0" prefHeight="74.0" prefWidth="74.0" styleClass="panes">
+         <right>
+            <Pane fx:id="doubleright" onMouseMoved="#doublezero" prefHeight="72.0" prefWidth="15.0" BorderPane.alignment="CENTER" />
+         </right>
+         <center>
+            <Pane fx:id="doublecenter" onMouseMoved="#doublezero" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Label layoutX="28.0" layoutY="7.0" text="00" textFill="WHITE">
+                     <font>
+                        <Font size="19.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Pane>
+         </center>
+         <top>
+            <BorderPane prefHeight="15.0" prefWidth="72.0" BorderPane.alignment="CENTER">
+               <right>
+                  <Pane fx:id="doubletopright" onMouseMoved="#doublezero" prefHeight="15.0" prefWidth="21.0" BorderPane.alignment="CENTER" />
+               </right>
+               <center>
+                  <Pane fx:id="doubletop" onMouseMoved="#doublezero" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+               </center>
+            </BorderPane>
+         </top>
+         <bottom>
+            <BorderPane prefHeight="15.0" prefWidth="72.0" BorderPane.alignment="CENTER">
+               <right>
+                  <Pane fx:id="doublebottomright" onMouseMoved="#doublezero" prefHeight="15.0" prefWidth="15.0" BorderPane.alignment="CENTER" />
+               </right>
+               <center>
+                  <Pane fx:id="doublebottom" onMouseMoved="#doublezero" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+               </center>
+            </BorderPane>
+         </bottom>
+      </BorderPane>
    </children>
 </AnchorPane>
