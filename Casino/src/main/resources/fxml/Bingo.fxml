@@ -42,6 +42,8 @@
         <Button fx:id="btnbingo" layoutX="263.0" layoutY="395.0" mnemonicParsing="false" onAction="#btnbingo" prefHeight="44.0" prefWidth="77.0" style="-fx-background-color: blue;" text="Bingo" textFill="WHITE" visible="false" />
         <Label layoutX="548.0" layoutY="204.0" text="Anzahl Gegenspieler:" textFill="WHITE" />
         <Label fx:id="lblanzahl" layoutX="672.0" layoutY="204.0" prefHeight="17.0" prefWidth="343.0" textAlignment="JUSTIFY" textFill="WHITE" />
+      <Label layoutX="560.0" layoutY="270.0" text="Kontostand" textFill="WHITE" />
+      <Label fx:id="lblkontostand" layoutX="628.0" layoutY="270.0" text="..." textFill="WHITE" />
     </children>
 
 
