@@ -70,7 +70,7 @@ public class RegisterController implements Initializable, Observer {
             alertpassword.setText("Please fill out the field");
             passcorrect = false;
         }
-        if (passcorrect == false || namecorrect == false) {
+        if (passcorrect != false || namecorrect != false) {
             try {
                 sa.InitSocket("84.74.61.42", 1757);
                 sa.send("register:" + namefield.getText() + ";" + BCrypt.hashpw(passwordfield.getText(), BCrypt.gensalt(12)));// send username and hashed password to server

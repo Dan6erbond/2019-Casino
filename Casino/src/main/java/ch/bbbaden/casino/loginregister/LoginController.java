@@ -66,12 +66,12 @@ public class LoginController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
     }    
-
+    //takes you to the register screen
     @FXML
     private void register(MouseEvent event) throws IOException {
         SceneManager.getInstance().changeScene("/fxml/register.fxml");
     }
-
+    //looks if the fields are empty or above the lengths they should be
     @FXML
     private void login(ActionEvent event) throws IOException, InterruptedException {
         boolean namecorrect = true;
@@ -83,11 +83,12 @@ public class LoginController implements Initializable {
         }
         if(passwordfield.getText().isEmpty() || passwordfield.getText().length() > 200)
         {
-            alertpassword.setText("Please fill out the field");
+            alertpassword.setText("Please fill out the field and within the length of 200 characters");
             passcorrect = false;
         }
         if(passcorrect != false && namecorrect != false){
             try {
+                namefield.setDisable(true);
             sa.InitSocket("84.74.61.42", 1757);
             sa.send("login:"+namefield.getText());// send username and hashed password to server
             check();
@@ -121,6 +122,7 @@ private String message;
         };
         thread.run();
         try{
+        //checks if the received hashed password is the same as the password that you set
         if(BCrypt.checkpw(passwordfield.getText(), message))
         {
             DataManager.getInstance().setcurrentuser(namefield.getText());
@@ -130,12 +132,13 @@ private String message;
         else
         {
             ap.getChildren().add(PaneManager.createPane(ap.getWidth(),ap.getHeight(),"Password or Username is incorrect"));
+            namefield.setDisable(false);
         }
         }
         catch(Exception e){
             ap.getChildren().add(PaneManager.createPane(ap.getWidth(),ap.getHeight(),"Password or username is incorrect"));
+            namefield.setDisable(false);
         }
     }
-    private int count = 0;
 
 }

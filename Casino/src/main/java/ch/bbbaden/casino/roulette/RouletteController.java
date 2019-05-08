@@ -27,35 +27,7 @@ public class RouletteController implements Initializable {
     @FXML
     private GridPane numbers;
     @FXML
-    private Pane redbet;
-    @FXML
-    private Pane blackbet;
-    @FXML
-    private Pane low;
-    @FXML
-    private Pane high;
-    @FXML
-    private Pane third1;
-    @FXML
-    private Pane third2;
-    @FXML
-    private Pane third3;
-    @FXML
-    private Pane even;
-    @FXML
-    private Pane odd;
-    @FXML
-    private Pane doublezero;
-    @FXML
-    private Pane zero;
-    @FXML
     private Label test;
-    @FXML
-    private Pane row1;
-    @FXML
-    private Pane row2;
-    @FXML
-    private Pane row3;
     @FXML
     private AnchorPane ap;
     @FXML
@@ -146,7 +118,6 @@ public class RouletteController implements Initializable {
     private Button Bspin;
     
     private final Field[][] grid = new Field[12][3];
-    private final List<Pane> otherpanes = new ArrayList<>();
     private final RouletteModel model = new RouletteModel();
     private final ImageView iv2 = new ImageView();
     private boolean haschip = false;
@@ -158,12 +129,15 @@ public class RouletteController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        //sets balance to the balance you currently have
         balance.setText("Balance: " + model.getbalance());
         totalbet.setText("Total Bet: " + model.getbetamount());
         ap.getChildren().add(iv2);
         iv2.setVisible(false);
+        // some attributes for the ball
         ballx = ball.getLayoutX();
         bally = ball.getLayoutY();
+        //to create the number field
         int count = 0;
         for(int row = 0;row < 12;row++)
         {
@@ -175,139 +149,34 @@ public class RouletteController implements Initializable {
             }
             
         }
-        otherpanes.add(low);
-        otherpanes.add(high);
-        otherpanes.add(redbet);
-        otherpanes.add(blackbet);
-        otherpanes.add(zero);
-        otherpanes.add(doublezero);
-        otherpanes.add(third1);
-        otherpanes.add(third2);
-        otherpanes.add(third3);
-        otherpanes.add(row1);
-        otherpanes.add(row2);
-        otherpanes.add(row3);
-        otherpanes.add(odd);
-        otherpanes.add(even);
-        putHoverHandlerInPanes();
+        //creates a menu bar
         MenuBar menu = new MenuBar();
         Menu info = new Menu("Info");
         MenuItem help = new MenuItem("Help");
+        //when you click on Help
         help.setOnAction(new EventHandler<ActionEvent>() {
             @Override public void handle(ActionEvent e) {
                 ap.getChildren().add(PaneManager.createPane(ap.getWidth(),ap.getHeight(), "1) You click on one of the chips. A mini version of it now follows you \r\n 2) You click on a field \r\n 3) You can always see which fields you are selecting in the text above the fields \r\n 4) You press the Button \"spin\" \r\n 5) Hope you win"));
             }
         });
         MenuItem bet = new MenuItem("Bets");
+        //when you click on Bets
         bet.setOnAction(new EventHandler<ActionEvent>() {
             @Override public void handle(ActionEvent e) {
                 ap.getChildren().add(PaneManager.createPane(ap.getWidth(),ap.getHeight(), "Column - You select one of the \"2 TO 1\" fields 2: 1 \r\n Dozen - You select twelve numbers 2:1 \r\n Even/Odd - You select the field \"Even/ODD\" 1:1 \r\n Red/Black - You select the field \"RED/BLACK\" 1:1 \r\n Low/High - You select the field \"1-18/19-36\" 1:1 \r\n 2:1 means, when you place 10 you get 20 plus your original 10"));
                 ap.getChildren().add(PaneManager.createPane(ap.getWidth(),ap.getHeight(), "Straight up bets - You select one number 35:1 \r\n Split bets - You select two numbers 17:1 \r\n Street bets - You select three numbers 11:1 \r\n corner bets - You select four numbers 8:1 \r\n 5 number bets - You select five numbers  \r\n  6 number bets - You select six numbers 5:1"));
             }
         });
+        //adds everything
         info.getItems().add(help);
         info.getItems().add(bet);
         menu.getMenus().add(info);
         ap.getChildren().add(menu);
     } 
-    
-    private void putHoverHandlerInPanes()
-    {
-        for(final Pane pane : otherpanes)
-        {
-            pane.hoverProperty().addListener((ChangeListener<Boolean>) new ChangeListener<Boolean>() {
 
-                @Override
-                public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                    switch (pane.getId()) {
-                        
-                        case "zero":
-                            test.setText("0");
-                            break;
-                        case "doublezero":
-                            test.setText("00");
-                            break;
-                        case "low":
-                            test.setText(forString(1,19,1));
-                            break;
-                            
-                        case "high":
-                            test.setText(forString(19,37,1));
-                            break;
-                        case "redbet":
-                            String result = "";
-                            for(int row = 0;row < 12;row++)
-                            {
-                                for(int col = 2;col >= 0;col--)
-                                {
-                                    result +=(grid[row][col].isblack() == false ? ","+grid[row][col].getnumber() : "");
-                                }
-                                test.setText(result.substring(1));
-                            }
-                            break;
-                        case "blackbet":
-                            result = "";
-                            for(int row = 0;row < 12;row++)
-                            {
-                                for(int col = 2;col >= 0;col--)
-                                {
-                                    result +=(grid[row][col].isblack() == true ? ","+grid[row][col].getnumber() : "");
-                                }
-                                test.setText(result.substring(1));
-                            }
-                            break;
-                        case "third1":
-                            test.setText(forString(1,13,1));
-                            break;
-                        case "third2":
-                            test.setText(forString(13,25,1));
-                            break;
-                        case "third3":
-                            test.setText(forString(25,37,1));
-                            break;
-                        case "row1":
-                            test.setText(forString(3,37,3));
-                            break;
-                        case "row2":
-                            test.setText(forString(2,37,3));
-                            break;
-                        case "row3":
-                            test.setText(forString(1,36,3));
-                            break;
-                        case "odd":
-                            result = "";
-                            for(int i = 1; i < 37; i++)
-                            {
-                                result += (i % 2 != 0 ? "," + i: "");
-                            }
-                            test.setText(result.substring(1));
-                            break;
-                        case "even":
-                            result = "";
-                            for(int i = 1; i < 37; i++)
-                            {
-                                result += (i % 2 == 0 ? "," + i: "");
-                            }
-                            test.setText(result.substring(1));
-                            break;
-                    }
-                }
-            });
-        }
-    }
-    
-    private String forString(int beginning,int number,int plus)
-    {
-        String result = "";
-        for(int i = beginning; i  < number;i += plus)
-        {
-            result += ","+i;
-        } 
-        return result.substring(1);
-    }
-    
     private void addPane(final int row, final int col)
     {
+        //creates all panes for one field
          BorderPane borderpane = new BorderPane();
          Pane centerpane = new Pane();
          Pane rightpane = new Pane();
@@ -324,7 +193,7 @@ public class RouletteController implements Initializable {
          borderpane.getStyleClass().add("panes");
          label.setText(grid[row][col].getnumber()+""); 
          label.getStyleClass().add("Label");
-         
+         //all methods for all the panes so that the label shows all selected fields
          bottomcenter.hoverProperty().addListener((ChangeListener<Boolean>) new ChangeListener<Boolean>() {
 
              @Override
@@ -489,23 +358,24 @@ public class RouletteController implements Initializable {
                  test.setText(grid[row][col].getnumber()+"");
              }
          });
+         //set pref height and width so it looks good
          bottomcenter.setPrefHeight(10);
          bottomright.setPrefWidth(10);    
          bottomleft.setPrefWidth(10);
          topcenter.setPrefHeight(10);
          topleft.setPrefWidth(10);
-         topright.setPrefWidth(10); //set pref height and width
+         topright.setPrefWidth(10);
          toppane.setPrefHeight(10);
          bottompane.setPrefHeight(10);
          leftpane.setPrefWidth(10);
          rightpane.setPrefWidth(10);
-         
+         // put everything together
          borderpane.setBottom(bottompane);
          centerpane.getChildren().add(label);
          label.layoutXProperty().bind(centerpane.widthProperty().subtract(label.widthProperty()).divide(2));
          label.layoutYProperty().bind(centerpane.widthProperty().subtract(label.heightProperty()).divide(2));
          bottompane.setCenter(bottomcenter);
-         bottompane.setRight(bottomright); // put all together
+         bottompane.setRight(bottomright); 
          bottompane.setLeft(bottomleft);
          toppane.setLeft(topleft);
          toppane.setRight(topright);
@@ -515,6 +385,7 @@ public class RouletteController implements Initializable {
          borderpane.setRight(rightpane);
          borderpane.setBottom(bottompane);
          borderpane.setTop(toppane);
+         // set Backgroundcolor of the BorderPane
          if((grid[row][col].getnumber() < 11 || (grid[row][col].getnumber() <29 && grid[row][col].getnumber() > 18) ? grid[row][col].getnumber() % 2 == 0 : grid[row][col].getnumber() % 2 != 0)) // to look if cell should be red or black
          {
              borderpane.setStyle("-fx-background-color: black;");
@@ -528,10 +399,11 @@ public class RouletteController implements Initializable {
          
          numbers.add(borderpane, row, col);
     }
-
+    //adds a mini chip that will follow your cursor or places the chip on the board
     @FXML
     private void makebet(MouseEvent event) {
         if(haschip == false || event.getSource().getClass().equals(iv2.getClass())) {
+            // creates the mini chip
             try{
         ImageView iv = (ImageView) event.getSource();
         chip = Integer.parseInt(iv.getId().substring(3));
@@ -547,6 +419,7 @@ public class RouletteController implements Initializable {
             }catch(Exception e){}
         }
         else if(haschip == true){
+            // places the mini chip
             Pane pane  = (Pane) event.getSource();
             ImageView iv = new ImageView(iv2.getImage());
             iv.setScaleX(0.015625);
@@ -563,7 +436,7 @@ public class RouletteController implements Initializable {
             balance.setText("Balance: "+model.getbalance());
         }
     }
-
+    // so that the mini chip follows the cursor
     @FXML
     private void move(MouseEvent event) {
         if(haschip == true)
@@ -573,14 +446,16 @@ public class RouletteController implements Initializable {
             iv2.setY(event.getY()-355);
         }
     }
+    // method to spin the wheel and ball
     @FXML
     private void spin(ActionEvent event) throws InterruptedException {
         Bspin.setDisable(true);
+        //rotates the wheel
         RotateTransition RT1 = new RotateTransition(Duration.millis(16000), wheel);
             RT1.setCycleCount(1);
             RT1.setByAngle(500f+(1000f*Math.random()));
             RT1.play();         
-
+            //rotates the ball
             final Timeline timeline = new Timeline(new KeyFrame(Duration.ZERO, new EventHandler() {
             int movingStep = 0;
             boolean beginning = true;
@@ -607,17 +482,19 @@ public class RouletteController implements Initializable {
         }), new KeyFrame(Duration.millis(60)));
              timeline.setCycleCount(100+r.nextInt(50));
              timeline.play();
+             // waits 17 seconds and then runs the code.
             Timeline pause = new Timeline(new KeyFrame(Duration.millis(17000), new EventHandler<ActionEvent>() {   
             @Override
             public void handle(ActionEvent event) {
-                System.out.println(landedin());
                 int won = model.check(landedin());
                 ap.getChildren().add(PaneManager.createPane(ap.getWidth(), ap.getHeight(), "The ball landed in field:"+landedin()+" \r\n" + (won < 0 ? "You lost "+(won*-1): "You won "+won)));
                 balance.setText("Balance: "+model.getbalance());
                 totalbet.setText("Total Bet: " + model.getbetamount());
+                // removes all chips on the boards
                 for(ImageView iv : betchips){
                 ap.getChildren().remove(iv);
                 }
+                //resets the ball
                 ball.setLayoutX(ballx);
                 ball.setLayoutY(bally);
                 ball.setRotate(0);
@@ -629,7 +506,7 @@ public class RouletteController implements Initializable {
             pause.play();
             
     }
-    // method to 
+    // method to move the ball to the next place
      private void moveBall(Circle ball, double x, double y) {
          
         TranslateTransition move = TranslateTransitionBuilder.create()
@@ -642,7 +519,7 @@ public class RouletteController implements Initializable {
         move.playFromStart();
     }
      
-     // looks in what field the ball landed in
+    // looks in what field the ball landed in
     private String landedin()
     {
         
@@ -660,13 +537,13 @@ public class RouletteController implements Initializable {
         }
         return "whoops ein Fehler!";
     }
-
+    //for going back to the Selection Screen
     @FXML
     private void back(ActionEvent event) throws IOException {
         SceneManager.getInstance().changeScene("/fxml/Selection.fxml");
     }
 
-    // fro all Panes in the zero BorderPane to show the numbers
+    // for all Panes in the zero BorderPane to show the numbers
     @FXML
     private void zero(MouseEvent event) {
         Pane pane = (Pane) event.getSource();
@@ -709,4 +586,90 @@ public class RouletteController implements Initializable {
         test.setText("00,0");
         }
     }
+    //a method for all the other fields so that you know what you select
+    @FXML
+    private void hover(MouseEvent event) {
+        Pane pane = (Pane) event.getSource();
+        switch (pane.getId()) {
+        case "low":
+            test.setText(forString(1,19,1));
+            break;
+        case "high":
+            test.setText(forString(19,37,1));
+            break;
+        case "redbet":
+            String result = "";
+            for(int row = 0;row < 12;row++)
+            {
+                for(int col = 2;col >= 0;col--)
+                {
+                    result +=(grid[row][col].isblack() == false ? ","+grid[row][col].getnumber() : "");
+                }
+                test.setText(result.substring(1));
+            }
+            break;
+        case "blackbet":
+            result = "";
+            for(int row = 0;row < 12;row++)
+            {
+                for(int col = 2;col >= 0;col--)
+                {
+                    result +=(grid[row][col].isblack() == true ? ","+grid[row][col].getnumber() : "");
+                }
+                test.setText(result.substring(1));
+            }
+            break;
+        case "third1":
+            test.setText(forString(1,13,1));
+            break;
+        case "third2":
+            test.setText(forString(13,25,1));
+            break;
+        case "third3":
+            test.setText(forString(25,37,1));
+            break;
+        case "row1":
+            test.setText(forString(3,37,3));
+            break;
+        case "row2":
+            test.setText(forString(2,37,3));
+            break;
+        case "row3":
+            test.setText(forString(1,36,3));
+            break;
+        case "odd":
+            result = "";
+            for(int i = 1; i < 37; i++)
+            {
+                result += (i % 2 != 0 ? "," + i: "");
+            }
+            test.setText(result.substring(1));
+            break;
+        case "even":
+            result = "";
+            for(int i = 1; i < 37; i++)
+            {
+                result += (i % 2 == 0 ? "," + i: "");
+            }
+            test.setText(result.substring(1));
+            break;
+        }
+    }
+    
+    // a method to reduce the code above
+    private String forString(int beginning,int number,int plus)
+    {
+        String result = "";
+        for(int i = beginning; i  < number;i += plus)
+        {
+            result += ","+i;
+        } 
+        return result.substring(1);
+    }
+    //resets the text to nothing when you don't select anything
+    @FXML
+    private void exit(MouseEvent event) {
+        test.setText("");
+    }
+    
 }

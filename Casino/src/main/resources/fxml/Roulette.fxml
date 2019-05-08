@@ -16,7 +16,7 @@
 
 <AnchorPane id="AnchorPane" fx:id="ap" onMouseMoved="#move" prefHeight="646.0" prefWidth="1330.0" styleClass="mainFxmlClass" stylesheets="@../styles/roulette.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.bbbaden.casino.roulette.RouletteController">
    <children>
-      <GridPane fx:id="numbers" layoutX="546.0" layoutY="173.0" onMouseClicked="#makebet" prefHeight="148.0" prefWidth="610.0">
+      <GridPane fx:id="numbers" layoutX="546.0" layoutY="173.0" onMouseClicked="#makebet" onMouseExited="#exit" prefHeight="148.0" prefWidth="610.0">
         <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -37,7 +37,7 @@
           <RowConstraints maxHeight="53.599993896484364" minHeight="6.399987792968744" prefHeight="47.20001220703125" vgrow="SOMETIMES" />
         </rowConstraints>
       </GridPane>
-      <Pane fx:id="low" layoutX="546.0" layoutY="107.0" onMouseClicked="#makebet" prefHeight="66.0" prefWidth="304.0" styleClass="panes">
+      <Pane fx:id="low" layoutX="546.0" layoutY="107.0" onMouseClicked="#makebet" onMouseExited="#exit" onMouseMoved="#hover" prefHeight="66.0" prefWidth="304.0" styleClass="panes">
          <children>
             <Label fx:id="lowlabel" layoutX="129.0" layoutY="19.0" text="1 TO 18" textFill="WHITE">
                <font>
@@ -46,7 +46,7 @@
             </Label>
          </children>
       </Pane>
-      <Pane fx:id="high" layoutX="850.0" layoutY="107.0" onMouseClicked="#makebet" prefHeight="66.0" prefWidth="306.0" styleClass="panes">
+      <Pane fx:id="high" layoutX="850.0" layoutY="107.0" onMouseClicked="#makebet" onMouseExited="#exit" onMouseMoved="#hover" prefHeight="66.0" prefWidth="306.0" styleClass="panes">
          <children>
             <Label fx:id="highlabel" layoutX="120.0" layoutY="19.0" text="19 TO 36" textFill="WHITE">
                <font>
@@ -55,7 +55,7 @@
             </Label>
          </children>
       </Pane>
-      <Pane fx:id="row1" layoutX="1156.0" layoutY="173.0" onMouseClicked="#makebet" prefHeight="50.0" prefWidth="54.0" styleClass="panes">
+      <Pane fx:id="row1" layoutX="1156.0" layoutY="173.0" onMouseClicked="#makebet" onMouseExited="#exit" onMouseMoved="#hover" prefHeight="50.0" prefWidth="54.0" styleClass="panes">
          <children>
             <Label fx:id="col1label" layoutX="7.0" layoutY="11.0" prefHeight="28.0" prefWidth="41.0" rotate="-90.0" text="2 TO 1" textFill="WHITE">
                <font>
@@ -64,7 +64,7 @@
             </Label>
          </children>
       </Pane>
-      <Pane fx:id="row2" layoutX="1156.0" layoutY="223.0" onMouseClicked="#makebet" prefHeight="50.0" prefWidth="54.0" styleClass="panes">
+      <Pane fx:id="row2" layoutX="1156.0" layoutY="223.0" onMouseClicked="#makebet" onMouseExited="#exit" onMouseMoved="#hover" prefHeight="50.0" prefWidth="54.0" styleClass="panes">
          <children>
             <Label fx:id="col2label" layoutX="7.0" layoutY="11.0" prefHeight="28.0" prefWidth="41.0" rotate="-90.0" text="2 TO 1" textFill="WHITE">
                <font>
@@ -73,7 +73,7 @@
             </Label>
          </children>
       </Pane>
-      <Pane fx:id="row3" layoutX="1156.0" layoutY="273.0" onMouseClicked="#makebet" prefHeight="49.5" prefWidth="54.0" styleClass="panes">
+      <Pane fx:id="row3" layoutX="1156.0" layoutY="273.0" onMouseClicked="#makebet" onMouseExited="#exit" onMouseMoved="#hover" prefHeight="49.5" prefWidth="54.0" styleClass="panes">
          <children>
             <Label fx:id="col3label" layoutX="7.0" layoutY="11.0" prefHeight="28.0" prefWidth="41.0" rotate="-90.0" text="2 TO 1" textFill="WHITE">
                <font>
@@ -82,7 +82,7 @@
             </Label>
          </children>
       </Pane>
-      <Pane fx:id="third1" layoutX="546.0" layoutY="321.0" onMouseClicked="#makebet" prefHeight="66.5" prefWidth="204.5" styleClass="panes">
+      <Pane fx:id="third1" layoutX="546.0" layoutY="321.0" onMouseClicked="#makebet" onMouseExited="#exit" onMouseMoved="#hover" prefHeight="66.5" prefWidth="204.5" styleClass="panes">
          <children>
             <Label fx:id="third1label" layoutX="61.0" layoutY="20.0" text="1 TO 12" textFill="WHITE">
                <font>
@@ -91,7 +91,7 @@
             </Label>
          </children>
       </Pane>
-      <Pane fx:id="third2" layoutX="750.0" layoutY="321.0" onMouseClicked="#makebet" prefHeight="66.0" prefWidth="204.5" styleClass="panes">
+      <Pane fx:id="third2" layoutX="750.0" layoutY="321.0" onMouseClicked="#makebet" onMouseExited="#exit" onMouseMoved="#hover" prefHeight="66.0" prefWidth="204.5" styleClass="panes">
          <children>
             <Label fx:id="third2label" layoutX="64.0" layoutY="19.0" text="13 TO 24" textFill="WHITE">
                <font>
@@ -100,16 +100,16 @@
             </Label>
          </children>
       </Pane>
-      <Pane fx:id="third3" layoutX="954.0" layoutY="321.0" onMouseClicked="#makebet" prefHeight="66.0" prefWidth="204.0" styleClass="panes">
+      <Pane fx:id="third3" layoutX="954.0" layoutY="321.0" onMouseClicked="#makebet" onMouseExited="#exit" onMouseMoved="#hover" prefHeight="66.0" prefWidth="204.0" styleClass="panes">
          <children>
-            <Label fx:id="third3label" layoutX="64.0" layoutY="19.0" text="24 TO 36" textFill="WHITE">
+            <Label fx:id="third3label" layoutX="64.0" layoutY="19.0" text="25 TO 36" textFill="WHITE">
                <font>
                   <Font size="19.0" />
                </font>
             </Label>
          </children>
       </Pane>
-      <Pane fx:id="even" layoutX="546.0" layoutY="387.0" onMouseClicked="#makebet" prefHeight="66.0" prefWidth="155.0" styleClass="panes">
+      <Pane fx:id="even" layoutX="546.0" layoutY="387.0" onMouseClicked="#makebet" onMouseExited="#exit" onMouseMoved="#hover" prefHeight="66.0" prefWidth="155.0" styleClass="panes">
          <children>
             <Label fx:id="evenlabel" layoutX="55.0" layoutY="19.0" text="EVEN" textFill="WHITE">
                <font>
@@ -118,7 +118,7 @@
             </Label>
          </children>
       </Pane>
-      <Pane fx:id="redbet" layoutX="699.0" layoutY="387.0" onMouseClicked="#makebet" prefHeight="66.0" prefWidth="155.0" styleClass="panes">
+      <Pane fx:id="redbet" layoutX="699.0" layoutY="387.0" onMouseClicked="#makebet" onMouseExited="#exit" onMouseMoved="#hover" prefHeight="66.0" prefWidth="155.0" styleClass="panes">
          <children>
             <Label fx:id="redlabel" layoutX="60.0" layoutY="19.0" text="RED" textFill="WHITE">
                <font>
@@ -127,7 +127,7 @@
             </Label>
          </children>
       </Pane>
-      <Pane fx:id="blackbet" layoutX="853.0" layoutY="387.0" onMouseClicked="#makebet" prefHeight="66.0" prefWidth="155.0" styleClass="panes">
+      <Pane fx:id="blackbet" layoutX="853.0" layoutY="387.0" onMouseClicked="#makebet" onMouseExited="#exit" onMouseMoved="#hover" prefHeight="66.0" prefWidth="155.0" styleClass="panes">
          <children>
             <Label fx:id="blacklabel" layoutX="50.0" layoutY="19.0" text="BLACK" textFill="WHITE">
                <font>
@@ -136,7 +136,7 @@
             </Label>
          </children>
       </Pane>
-      <Pane fx:id="odd" layoutX="1008.0" layoutY="387.0" onMouseClicked="#makebet" prefHeight="66.0" prefWidth="150.0" styleClass="panes">
+      <Pane fx:id="odd" layoutX="1008.0" layoutY="387.0" onMouseClicked="#makebet" onMouseExited="#exit" onMouseMoved="#hover" prefHeight="66.0" prefWidth="150.0" styleClass="panes">
          <children>
             <Label fx:id="oddlabel" layoutX="55.0" layoutY="19.0" text="ODD" textFill="WHITE">
                <font>
@@ -217,7 +217,7 @@
             <Circle fx:id="ball" fill="WHITE" layoutX="150.0" layoutY="26.0" radius="3.5" stroke="WHITE" strokeType="INSIDE" visible="false" />
          </children>
       </Pane>
-      <BorderPane fx:id="zero" layoutX="474.0" layoutY="246.0" prefHeight="74.0" prefWidth="73.0" styleClass="panes">
+      <BorderPane fx:id="zero" layoutX="474.0" layoutY="246.0" onMouseClicked="#makebet" onMouseExited="#exit" prefHeight="74.0" prefWidth="73.0" styleClass="panes">
          <right>
             <Pane fx:id="zeroright" onMouseMoved="#zero" prefHeight="72.0" prefWidth="17.0" BorderPane.alignment="CENTER" />
          </right>
@@ -253,7 +253,7 @@
             </BorderPane>
          </bottom>
       </BorderPane>
-      <BorderPane fx:id="doublezero" layoutX="474.0" layoutY="173.0" prefHeight="74.0" prefWidth="74.0" styleClass="panes">
+      <BorderPane fx:id="doublezero" layoutX="474.0" layoutY="173.0" onMouseClicked="#makebet" onMouseExited="#exit" prefHeight="74.0" prefWidth="74.0" styleClass="panes">
          <right>
             <Pane fx:id="doubleright" onMouseMoved="#doublezero" prefHeight="72.0" prefWidth="15.0" BorderPane.alignment="CENTER" />
          </right>

@@ -20,7 +20,7 @@ import javafx.stage.StageStyle;
  */
 public class SceneManager {
 
-    private static final String homeFXML = "/fxml/Selection.fxml";
+    private static final String homeFXML = "/fxml/Login.fxml";
     private static SceneManager sceneManager;
 
     private static Stage stage;
@@ -70,6 +70,7 @@ public class SceneManager {
             try {
                 if (s.getScene() != homeScene) {
                     stage = openWindow(homeFXML).x;
+                    DataManager.getInstance().close();
                 }
             } catch (IOException ex) {
                 Logger.getLogger(SceneManager.class.getName()).log(Level.SEVERE, null, ex);
