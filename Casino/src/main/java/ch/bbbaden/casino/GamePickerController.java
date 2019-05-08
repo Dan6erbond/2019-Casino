@@ -78,10 +78,9 @@ public class GamePickerController implements Initializable {
         }
         updateGUI();
     }
-
+    
     private void updateGUI() {
         image.setImage((Image) games[index].y);
         System.out.println(index);
     }
-
 }

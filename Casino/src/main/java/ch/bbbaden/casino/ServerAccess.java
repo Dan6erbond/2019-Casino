@@ -60,7 +60,7 @@ public class ServerAccess{
                 outputStream.write((text + CRLF).getBytes());
                 outputStream.flush();
             } catch (IOException ex) {
-                 
+                 System.out.println(ex);
             }
         }
 
