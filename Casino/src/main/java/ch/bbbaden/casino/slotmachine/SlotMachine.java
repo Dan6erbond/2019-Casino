@@ -5,6 +5,7 @@
  */
 package ch.bbbaden.casino.slotmachine;
 
+import ch.bbbaden.casino.DataManager;
 import ch.bbbaden.casino.Tuple;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -27,19 +28,23 @@ public final class SlotMachine {
     private int spinnable = -1;
 
     private int bank = 200;
+    private int startBank = 200;
     private int bet = 0;
     private int multiplier = 1;
     private int freespins = 0;
 
-    private final SlotMachineController controller;
-
-    public SlotMachine(SlotMachineController controller) {
-        faces = new SlotFace[5][SlotFace.values().length + EXTRA];
+    private ArrayList<String> winStates = new ArrayList<>();
+    
+    public SlotMachine(int bank, int wheels) {
+        this.bank = bank;
+        startBank = bank;
+        DataManager.getInstance().updateBet("slotmachine", bank);
+        
+        faces = new SlotFace[wheels][SlotFace.values().length + EXTRA];
         rotate();
         for (int i = 0; i < faces.length; i++) {
             faces[i][faces[i].length - 2] = SlotFace.SUPERCHERRY;
         }
-        this.controller = controller;
     }
 
     public int getBank() {
@@ -216,6 +221,7 @@ public final class SlotMachine {
             multiplier = 1;
             bank -= bet;
         } else if (state.isPresent()) {
+            winStates.add(state.get().toString());
             switch (state.get()) {
                 case CHERRY:
                     bank += bet * multiplier;
@@ -268,7 +274,9 @@ public final class SlotMachine {
         Optional<ArrayList<Tuple<SlotFace, Tuple<Integer, Integer>>>> straightResult = getStraight();
         Optional<ArrayList<Tuple<SlotFace, Tuple<Integer, Integer>>>> scatter = getScatter();
 
-        if (scatter.isPresent()) {
+        if (bank <= 0) {
+            state = WinState.LOST;
+        } else if (scatter.isPresent()) {
             state = WinState.SCATTER;
         } else if (diagonalResult.isPresent()) {
             SlotFace face = diagonalResult.get()[0].x;
@@ -331,7 +339,21 @@ public final class SlotMachine {
             bank += bet * multiplier;
             bet = 1;
             multiplier = 1;
+            winStates.add(WinState.CHERRY.toString());
         }
+    }
+    
+    public void endGame(){
+        DataManager.getInstance().updateWon("slotmachine", bank - startBank);
+    }
+    
+    @Override
+    public String toString(){
+        String ws = "Wins:\n" + String.join("\n", winStates);
+        String credits = "Start credits: " + startBank + "\nEnd credits: " + bank;
+        int balance = DataManager.getInstance().getchipamount() - (bank - startBank);
+        String curBank = "Current bank value: " + balance;
+        return String.join("\n\n", credits, ws, curBank);
     }
 
 }

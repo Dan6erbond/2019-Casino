@@ -8,7 +8,7 @@ public class MainApp extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        SceneManager.getInstance().setHome("/fxml/GamePicker.fxml");
+        SceneManager.getInstance().setHome("/fxml/Login.fxml");
     }
 
     /**

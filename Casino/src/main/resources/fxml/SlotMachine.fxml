@@ -11,6 +11,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
@@ -140,10 +141,20 @@
             <Font size="14.0" />
          </font>
       </Label>
-      <Button layoutX="1001.0" layoutY="793.0" mnemonicParsing="false" onAction="#superCherry" prefHeight="25.0" prefWidth="95.0" text="SuperCherry" />
-      <Button layoutX="1001.0" layoutY="758.0" mnemonicParsing="false" onAction="#diagonal" prefHeight="25.0" prefWidth="95.0" text="Diagonal" />
-      <Button layoutX="897.0" layoutY="758.0" mnemonicParsing="false" onAction="#straight" prefHeight="25.0" prefWidth="95.0" text="Straight" />
-      <Button layoutX="897.0" layoutY="793.0" mnemonicParsing="false" onAction="#spin" prefHeight="25.0" prefWidth="95.0" text="Spin" />
+      <Button layoutX="1031.0" layoutY="788.0" mnemonicParsing="false" onAction="#leave" prefHeight="25.0" prefWidth="95.0" text="Leave" />
+      <Button layoutX="1031.0" layoutY="755.0" mnemonicParsing="false" onAction="#openStats" prefHeight="25.0" prefWidth="95.0" text="Statistics" />
+      <Pane fx:id="pane" layoutX="213.0" layoutY="166.0" prefHeight="505.0" prefWidth="777.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2px; -fx-border-radius: 3px;">
+         <children>
+            <Label fx:id="paneTitle" alignment="CENTER" prefHeight="160.0" prefWidth="777.0" styleClass="title" text="Game over!" />
+            <Label fx:id="stats" alignment="TOP_LEFT" layoutY="160.0" prefHeight="257.0" prefWidth="777.0" wrapText="true">
+               <padding>
+                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+               </padding>
+            </Label>
+            <Button layoutX="280.0" layoutY="447.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="95.0" text="Main Menu" />
+            <Button layoutX="402.0" layoutY="447.0" mnemonicParsing="false" onAction="#closePane" prefHeight="25.0" prefWidth="95.0" text="Close" />
+         </children>
+      </Pane>
    </children>
    <stylesheets>
       <URL value="@../styles/style.css" />

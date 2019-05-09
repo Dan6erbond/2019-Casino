@@ -5,6 +5,7 @@
  */
 package ch.bbbaden.casino.slotmachine;
 
+import ch.bbbaden.casino.SceneManager;
 import ch.bbbaden.casino.Tuple;
 import java.net.URL;
 import java.util.ArrayList;
@@ -46,11 +47,13 @@ import javafx.scene.image.ImageView;
 import static javafx.scene.input.KeyCode.SPACE;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
 /**
@@ -60,7 +63,7 @@ import javafx.util.Duration;
  */
 public class SlotMachineController implements Initializable {
 
-    private final SlotMachine machine = new SlotMachine(this);
+    private SlotMachine machine;
 
     @FXML
     private VBox vBoxA;
@@ -113,6 +116,12 @@ public class SlotMachineController implements Initializable {
     private VBox lightrow1;
     @FXML
     private TextField freespinsText;
+    @FXML
+    private Pane pane;
+    @FXML
+    private Label paneTitle;
+    @FXML
+    private Label stats;
 
     /**
      * Initializes the controller class.
@@ -122,6 +131,8 @@ public class SlotMachineController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        pane.setVisible(false);
+
         vBoxes = new VBox[]{vBoxA, vBoxB, vBoxC, vBoxD, vBoxE};
         scrollPanes = new ScrollPane[]{scrollA, scrollB, scrollC, scrollD, scrollE};
 
@@ -154,9 +165,6 @@ public class SlotMachineController implements Initializable {
         betSpinner.valueProperty().addListener((observable) -> {
             setBet(betSpinner.getValue());
         });
-
-        updateImages();
-        setBet(betSpinner.getValue());
 
         final double startWidth = scrollBar.getPrefWidth();
         final double startVisible = scrollBar.getVisibleAmount();
@@ -217,8 +225,16 @@ public class SlotMachineController implements Initializable {
         transition.play();
     }
 
-    public void setVars(boolean animateLights) {
+    public void setVars(int bank, boolean animateLights) {
+        machine = new SlotMachine(bank, 5);
+        updateImages();
+        setBet(betSpinner.getValue());
+        
         this.animateLights = animateLights;
+
+        ((Stage) bankText.getScene().getWindow()).setOnCloseRequest(event -> {
+            machine.endGame();
+        });
     }
 
     private void animateLever(double timeUp) {
@@ -353,6 +369,14 @@ public class SlotMachineController implements Initializable {
             });
             transition.play();
         }
+
+        Optional<WinState> winState = machine.getWinState();
+        if (winState.isPresent() && winState.get().equals(WinState.LOST)) {
+            scrollBar.setDisable(true);
+            pane.setVisible(true);
+            paneTitle.setText("Game Over!");
+            stats.setText(machine.toString());
+        }
     }
 
     private void updateImages() {
@@ -439,12 +463,10 @@ public class SlotMachineController implements Initializable {
         }
     }
 
-    @FXML
     private void straight(ActionEvent event) {
         toWinState(WinState.GREENSEVEN, WinState.GREENBAR, WinState.YELLOWSEVEN, WinState.CHERRY);
     }
 
-    @FXML
     private void diagonal(ActionEvent event) {
         toWinState(WinState.REDSEVEN, WinState.GREENSTAR, WinState.YELLOWBAR);
     }
@@ -457,12 +479,10 @@ public class SlotMachineController implements Initializable {
         updateGUI();
     }
 
-    @FXML
     private void superCherry(ActionEvent event) {
         toWinState(WinState.SUPERCHERRY);
     }
 
-    @FXML
     private void spin(ActionEvent event) {
         toWinState(WinState.SPIN);
     }
@@ -475,5 +495,27 @@ public class SlotMachineController implements Initializable {
             state = machine.getWinState();
         }
         play(true);
+    }
+
+    @FXML
+    private void leave(ActionEvent event) {
+        ((Stage) ((Node) event.getSource()).getScene().getWindow()).hide();
+    }
+
+    @FXML
+    private void openStats(ActionEvent event) {
+        pane.setVisible(true);
+        paneTitle.setText("Game Statistics");
+        stats.setText(machine.toString());
+    }
+
+    @FXML
+    private void closePane(ActionEvent event) {
+        Optional<WinState> winState = machine.getWinState();
+        if (winState.isPresent() && winState.get().equals(WinState.LOST)){
+            ((Stage) ((Node) event.getSource()).getScene().getWindow()).hide();
+        } else {
+            pane.setVisible(false);
+        }
     }
 }

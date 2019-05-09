@@ -10,12 +10,16 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.util.Duration;
 
 /**
  * FXML Controller class
@@ -87,7 +91,11 @@ public class GamePickerController implements Initializable {
 
     private void updateGUI() {
         image.setImage((Image) games[index].y);
-        System.out.println(index);
+        image.setOpacity(0);
+        Timeline tl = new Timeline(
+                new KeyFrame(Duration.seconds(0.5), new KeyValue(image.opacityProperty(), 1))
+        );
+        tl.play();
     }
 
     @FXML
