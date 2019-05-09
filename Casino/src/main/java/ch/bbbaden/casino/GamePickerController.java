@@ -101,7 +101,7 @@ public class GamePickerController implements Initializable {
     @FXML
     private void openStatistics(ActionEvent event) {
         try {
-            SceneManager.getInstance().changeScene("/fxml/Statistics.fxml");
+            SceneManager.getInstance().changeScene("/fxml/Statistic.fxml");
         } catch (IOException ex) {
             Logger.getLogger(GamePickerController.class.getName()).log(Level.SEVERE, null, ex);
         }

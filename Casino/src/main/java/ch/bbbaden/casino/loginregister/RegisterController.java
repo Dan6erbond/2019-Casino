@@ -74,12 +74,6 @@ public class RegisterController implements Initializable {
             alertpassword.setVisible(true);
             passcorrect = false;
         }
-        if (!passwordfield.getText().equals(passwordConfirmation.getText())) {
-            passwordMatch.setVisible(true);
-            passmatch = false;
-        }
-
-        if (passcorrect && namecorrect && passmatch) {
             try {
                 sa.InitSocket("84.74.61.42", 1757);
                 sa.send("register:" + namefield.getText() + ";" + BCrypt.hashpw(passwordfield.getText(), BCrypt.gensalt(12)));// send username and hashed password to server
@@ -88,7 +82,7 @@ public class RegisterController implements Initializable {
                 System.out.println("Not connected to server! Please try using a VPN.");
             }
         }
-    }
+    
 
     public void check() {
         Thread thread = new Thread() {

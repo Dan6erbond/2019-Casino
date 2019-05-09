@@ -41,12 +41,14 @@ public class RoulettemenuController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        //sets your current balance
         balance.setText(balance.getText() + DataManager.getInstance().getchipamount());
+        //spins the wheel
         RotateTransition RT1 = new RotateTransition(Duration.millis(16000), wheel);
             RT1.setCycleCount(Timeline.INDEFINITE);
             RT1.setByAngle(500f+(1000f*Math.random()));
             RT1.play();  
-            
+            //spins the ball
             final Timeline timeline = new Timeline(new KeyFrame(Duration.ZERO, new EventHandler() {
             int movingStep = 0;
             boolean beginning = true;
@@ -69,7 +71,7 @@ public class RoulettemenuController implements Initializable {
              timeline.setCycleCount(Timeline.INDEFINITE);
              timeline.play();
     }    
-    
+    //method for the ball that uses math to set the balls next point
     private void moveBall(Circle ball, double x, double y) {
          
         TranslateTransition move = TranslateTransitionBuilder.create()
@@ -81,12 +83,12 @@ public class RoulettemenuController implements Initializable {
  
         move.playFromStart();
     }
-
+    //starts the game
     @FXML
     private void play(ActionEvent event) throws IOException {
         SceneManager.getInstance().changeScene("/fxml/Roulette.fxml");
     }
-
+    //brings you to the selection screen
     @FXML
     private void back(ActionEvent event) throws IOException {
         ((Stage) ((Node) event.getSource()).getScene().getWindow()).hide();

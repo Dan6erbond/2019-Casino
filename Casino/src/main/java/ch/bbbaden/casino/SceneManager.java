@@ -67,6 +67,7 @@ public class SceneManager {
         s.setOnHidden((event) -> {
             try {
                 if (s.getScene() != homeScene) {
+
                     stage = openWindow(SceneManager.homeFXML).x;
                 }
             } catch (IOException ex) {

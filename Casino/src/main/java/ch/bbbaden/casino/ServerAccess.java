@@ -25,7 +25,7 @@ public class ServerAccess{
             return sa;
         }
 
-        /** Create socket, and receiving thread */
+        //Creates a socket and listens to it
         public void InitSocket(String server, int port) throws IOException {
             socket = new Socket(server, port);
             outputStream = socket.getOutputStream();
@@ -37,6 +37,7 @@ public class ServerAccess{
                         BufferedReader reader = new BufferedReader(
                                 new InputStreamReader(socket.getInputStream()));
                         String line;
+                        // looks if something came in
                         while ((line = reader.readLine()) != null){
                                 message = line;
                         }
@@ -49,12 +50,12 @@ public class ServerAccess{
         }
 
         private static final String CRLF = "\r\n"; 
-        
+        // gets you the message the Server has send you
         public String getmessage()
         {
             return message;
         }
-        /** Send a line of text */
+        //Send a line of text 
         public void send(String text) {
             try {
                 outputStream.write((text + CRLF).getBytes());
@@ -63,11 +64,11 @@ public class ServerAccess{
                  System.out.println(ex);
             }
         }
-
+        //closes the socket
         public void close() {
             try {
-                
                 socket.close();
+                message = null;
             } catch (IOException ex) {
             }
         }

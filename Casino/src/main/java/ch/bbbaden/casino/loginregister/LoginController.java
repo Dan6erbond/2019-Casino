@@ -60,6 +60,7 @@ public class LoginController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+
         loginFailed.setVisible(false);
     }
 
@@ -67,7 +68,7 @@ public class LoginController implements Initializable {
     private void register(MouseEvent event) throws IOException {
         SceneManager.getInstance().changeScene("/fxml/Register.fxml");
     }
-
+    //looks if the fields are empty or above the lengths they should be
     @FXML
     private void login(ActionEvent event) throws IOException, InterruptedException {
         boolean namecorrect = true;
@@ -122,7 +123,6 @@ public class LoginController implements Initializable {
             loginFailed.setVisible(true);
         }
     }
-    private int count = 0;
 
     @FXML
     private void closeLoginFailed(ActionEvent event) {

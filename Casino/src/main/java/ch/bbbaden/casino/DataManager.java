@@ -6,6 +6,8 @@
 package ch.bbbaden.casino;
 
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -24,7 +26,7 @@ public class DataManager {
 
     private DataManager() {
         try {
-            //the first is the ip of my Server, the second is the port
+            //the first is the ip of my Server, the second is the port. It connects to the Server through the sockets
             sa.InitSocket("84.74.61.42", 1756);
         } catch (IOException ex) {
             System.out.println("Not connected to server! Please try using a VPN!");
@@ -133,5 +135,14 @@ public class DataManager {
         dm.updatestatistik(total, wonNormalized);
         String gameWon = won > 0 ? game + "won" : game + "lost";
         dm.updatestatistik(gameWon, wonNormalized);
+    }
+    public void close()
+    {
+        try {
+            sa.send("/quit");
+            Thread.sleep(500);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(DataManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

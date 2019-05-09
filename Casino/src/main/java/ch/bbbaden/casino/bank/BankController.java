@@ -50,12 +50,13 @@ public class BankController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+
         amount.setText("Your chips: " + dm.getchipamount());
         chips.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 10000, 1));
         chips.getValueFactory().setValue(100);
         popup.setVisible(false);
     }
-
+	//takes the number in the spinner and adds it to your account
     @FXML
     private void addamount(ActionEvent event) {
         int number;
@@ -72,7 +73,7 @@ public class BankController implements Initializable {
             chips.getValueFactory().setValue(100);
         }
     }
-
+    //brings you back
     @FXML
     private void back(ActionEvent event) throws IOException {
         ((Stage) ((Node) event.getSource()).getScene().getWindow()).hide();
