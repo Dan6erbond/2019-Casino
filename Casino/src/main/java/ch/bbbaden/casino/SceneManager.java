@@ -50,9 +50,9 @@ public class SceneManager {
             return window.y;
         }
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(fxml));
-        Parent root = loader.load();
-        Object controller = loader.getController();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(fxml)); // instead of using a static reference to the FXMLLoader, we create an instance so that the controller can be returned as an Object
+        Parent root = loader.load(); // loads the given FXML file
+        Object controller = loader.getController(); // returns the controller as an Object
 
         Scene scene = new Scene(root);
         stage.setScene(scene);
@@ -64,19 +64,18 @@ public class SceneManager {
         Stage s = new Stage(StageStyle.UTILITY);
         s.setResizable(false);
         
-        s.setOnHidden((event) -> {
+        s.setOnHidden((event) -> { // setOnCloseRequest() only works for external requests
             try {
-                if (s.getScene() != homeScene) {
-
-                    stage = openWindow(SceneManager.homeFXML).x;
+                if (s.getScene() != homeScene) { // making sure we aren't in the scene that we shouldn't be forwarding to
+                    stage = openWindow(SceneManager.homeFXML).x; // using a static reference to ensure changes aren't ignored
                 }
             } catch (IOException ex) {
-                Logger.getLogger(SceneManager.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(SceneManager.class.getName()).log(Level.SEVERE, null, ex); // not an expected exception and must be fixed
             }
         });
         
         if (homeFXML == null){
-             homeFXML = "/fxml/Selection.fxml";
+             homeFXML = "/fxml/Selection.fxml"; // setting a default for rare events
         }
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource(fxml));
