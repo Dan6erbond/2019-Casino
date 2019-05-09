@@ -5,19 +5,26 @@
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
 
 <AnchorPane id="AnchorPane" fx:id="ap" prefHeight="400.0" prefWidth="600.0" styleClass="Labels" stylesheets="@../styles/style.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.bbbaden.casino.loginregister.LoginController">
     <children>
-        <TextField fx:id="namefield" layoutX="219.0" layoutY="99.0" promptText="username" />
-        <PasswordField fx:id="passwordfield" layoutX="219.0" layoutY="200.0" promptText="password" />
-        <Label fx:id="title" layoutX="277.0" layoutY="14.0" text="Login" />
-        <Label fx:id="namelabel" layoutX="266.0" layoutY="75.0" text="Username" />
-        <Label fx:id="passwordlabel" layoutX="268.0" layoutY="174.0" text="Password" />
-        <Button fx:id="login" layoutX="268.0" layoutY="282.0" mnemonicParsing="false" onAction="#login" text="login" />
-        <Label fx:id="alertname" layoutX="218.0" layoutY="131.0" prefHeight="18.0" prefWidth="149.0" styleClass="Labels" stylesheets="@../styles/style.css" textAlignment="CENTER" textFill="RED" />
-        <Label fx:id="alertpassword" layoutX="218.0" layoutY="237.0" prefHeight="18.0" prefWidth="149.0" />
-        <Label fx:id="alertcheck" layoutX="216.0" layoutY="255.0" prefHeight="18.0" prefWidth="150.0" textAlignment="CENTER" textFill="#2ddd06" />
-        <Label fx:id="textlabel" layoutX="210.0" layoutY="324.0" prefHeight="18.0" prefWidth="205.0" text="You don't have an Account?" />
-        <Label fx:id="registerlabel" alignment="CENTER" contentDisplay="CENTER" layoutX="219.0" layoutY="358.0" onMouseClicked="#register" prefHeight="18.0" prefWidth="142.0" style="-fx-cursor: hand;" text="Create one here!" textAlignment="CENTER" textFill="#1d00f8" />
+        <TextField fx:id="namefield" layoutX="219.0" layoutY="123.0" onAction="#login" prefHeight="25.0" prefWidth="163.0" promptText="Enter Username" stylesheets="@../styles/style.css" AnchorPane.leftAnchor="219.0" AnchorPane.rightAnchor="218.0" />
+        <PasswordField fx:id="passwordfield" layoutX="219.0" layoutY="212.0" onAction="#login" prefHeight="25.0" prefWidth="163.0" promptText="Enter Password" AnchorPane.leftAnchor="219.0" AnchorPane.rightAnchor="218.0" />
+        <Label fx:id="title" alignment="CENTER" contentDisplay="CENTER" layoutX="193.0" layoutY="27.0" prefHeight="17.0" prefWidth="215.0" styleClass="title" stylesheets="@../styles/style.css" text="Login" textAlignment="CENTER" AnchorPane.leftAnchor="193.0" AnchorPane.rightAnchor="192.0" />
+        <Label fx:id="namelabel" layoutX="219.0" layoutY="96.0" prefHeight="17.0" prefWidth="163.0" text="Username" AnchorPane.leftAnchor="219.0" AnchorPane.rightAnchor="218.0" />
+        <Label fx:id="passwordlabel" layoutX="219.0" layoutY="184.0" prefHeight="17.0" prefWidth="163.0" text="Password" AnchorPane.leftAnchor="219.0" AnchorPane.rightAnchor="218.0" />
+        <Button fx:id="login" layoutX="265.0" layoutY="303.0" mnemonicParsing="false" onAction="#login" prefHeight="25.0" prefWidth="70.0" text="Login" AnchorPane.leftAnchor="265.0" AnchorPane.rightAnchor="265.0" />
+        <Label fx:id="alertname" layoutX="219.0" layoutY="148.0" prefHeight="4.0" prefWidth="163.0" styleClass="Labels" stylesheets="@../styles/style.css" text="This field is required." textFill="RED" visible="false" wrapText="true" AnchorPane.leftAnchor="219.0" AnchorPane.rightAnchor="218.0" />
+        <Label fx:id="alertpassword" layoutX="219.0" layoutY="237.0" prefHeight="18.0" prefWidth="163.0" text="This field is required." textFill="RED" visible="false" AnchorPane.leftAnchor="219.0" AnchorPane.rightAnchor="218.0" />
+        <Label fx:id="textlabel" alignment="CENTER" contentDisplay="CENTER" layoutX="219.0" layoutY="339.0" prefHeight="18.0" prefWidth="163.0" text="Don't have an account?" AnchorPane.leftAnchor="219.0" AnchorPane.rightAnchor="218.0" />
+        <Label fx:id="registerlabel" alignment="CENTER" contentDisplay="CENTER" layoutX="219.0" layoutY="357.0" onMouseClicked="#register" prefHeight="18.0" prefWidth="163.0" style="-fx-cursor: hand;" text="Create one here!" textAlignment="CENTER" textFill="#1d00f8" AnchorPane.leftAnchor="219.0" AnchorPane.rightAnchor="218.0" />
+      <Pane fx:id="loginFailed" layoutX="159.0" layoutY="98.0" prefHeight="171.0" prefWidth="283.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-radius: 3px;" visible="false">
+         <children>
+            <Label layoutX="23.0" layoutY="21.0" prefHeight="0.0" prefWidth="101.0" text="Login failed" />
+            <Label layoutX="54.0" layoutY="77.0" text="Username or Password incorrect!" wrapText="true" />
+            <Button layoutX="119.0" layoutY="120.0" mnemonicParsing="false" onAction="#closeLoginFailed" text="Close" />
+         </children>
+      </Pane>
     </children>
 </AnchorPane>

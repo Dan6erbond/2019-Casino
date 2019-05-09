@@ -5,32 +5,37 @@
 <?import javafx.scene.layout.AnchorPane?>
 
 <AnchorPane id="AnchorPane" fx:id="ap" prefHeight="547.0" prefWidth="598.0" styleClass="mainFxmlClass" stylesheets="@../styles/selection.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.bbbaden.casino.selection.SelectionController">
-   <children>
-      <ImageView fx:id="BlackJack" fitHeight="138.0" fitWidth="200.0" layoutX="14.0" layoutY="41.0" onMouseClicked="#startgame" pickOnBounds="true" preserveRatio="true" styleClass="games">
-         <image>
-            <Image url="@../images/selectblackjack.png" />
-         </image></ImageView>
-      <ImageView fx:id="SlotMachineIntro" fitHeight="150.0" fitWidth="111.0" layoutX="434.0" layoutY="41.0" onMouseClicked="#startgame" pickOnBounds="true" preserveRatio="true" styleClass="games">
-         <image>
-            <Image url="@../images/slotmachine.png" />
-         </image></ImageView>
-      <ImageView fx:id="roulettemenu" fitHeight="100.0" fitWidth="248.0" layoutX="14.0" layoutY="353.0" onMouseClicked="#startgame" pickOnBounds="true" preserveRatio="true" styleClass="games">
-         <image>
-            <Image url="@../images/selectroulette.png" />
-         </image></ImageView>
-      <ImageView fx:id="Bingo" fitHeight="160.0" fitWidth="164.0" layoutX="380.0" layoutY="323.0" onMouseClicked="#startgame" pickOnBounds="true" preserveRatio="true" styleClass="games">
-         <image>
-            <Image url="@../images/Bingo.png" />
-         </image></ImageView>
-      <ImageView fx:id="statistic" fitHeight="124.0" fitWidth="100.0" layoutX="249.0" layoutY="224.0" onMouseClicked="#startgame" pickOnBounds="true" preserveRatio="true" visible="false">
-         <image>
-            <Image url="@../images/statistik.png" />
-         </image>
-      </ImageView>
-      <ImageView fx:id="Bank" fitHeight="100.0" fitWidth="119.0" layoutX="240.0" layoutY="35.0" onMouseClicked="#startgame" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../images/Bank.png" />
-         </image>
-      </ImageView>
-   </children>
+    <children>
+        <ImageView fx:id="BlackJack" fitHeight="138.0" fitWidth="200.0" layoutX="14.0" layoutY="41.0" onMouseClicked="#startgame" pickOnBounds="true" preserveRatio="true" styleClass="games">
+            <image>
+                <Image url="@../images/selectblackjack.png" />
+            </image>
+        </ImageView>
+        <ImageView fx:id="SlotMachineIntro" fitHeight="124.0" fitWidth="186.0" layoutX="459.0" layoutY="41.0" onMouseClicked="#startgame" pickOnBounds="true" preserveRatio="true" styleClass="games">
+            <image>
+                <Image url="@../images/selectslotmachine.png" />
+            </image>
+        </ImageView>
+        <ImageView fx:id="RouletteMenu" fitHeight="100.0" fitWidth="248.0" layoutX="14.0" layoutY="353.0" onMouseClicked="#startgame" pickOnBounds="true" preserveRatio="true" styleClass="games">
+            <image>
+                <Image url="@../images/selectroulette.png" />
+            </image>
+        </ImageView>
+        <ImageView fx:id="Bingo" fitHeight="150.0" fitWidth="200.0" layoutX="349.0" layoutY="353.0" onMouseClicked="#startgame" pickOnBounds="true" preserveRatio="true" styleClass="games">
+            <image>
+                <Image url="@../images/selectbingo.png" />
+            </image>
+        </ImageView>
+        
+        <ImageView fx:id="Statistics" fitHeight="124.0" fitWidth="100.0" layoutX="249.0" layoutY="224.0" onMouseClicked="#startgame" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../images/statistik.png" />
+            </image>
+        </ImageView>
+        <ImageView fx:id="Bank" fitHeight="150.0" fitWidth="200.0" layoutX="252.0" layoutY="28.0" onMouseClicked="#startgame" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../images/Bank.png" />
+            </image>
+        </ImageView>
+    </children>
 </AnchorPane>

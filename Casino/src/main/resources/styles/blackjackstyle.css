@@ -18,3 +18,20 @@ and open the template in the editor.
 #wood{
     -fx-background-image: url("../img/wood.jpg");
 }
+
+.rules:hover{
+    -fx-scale-x: 1.2;
+    -fx-scale-y: 1.2;
+    -fx-cursor: hand;
+}
+
+.rules1:hover{
+    -fx-scale-x: 1.5;
+    -fx-scale-y: 1.5;
+    -fx-cursor: hand;
+}
+
+#back:hover{
+    -fx-scale-x: 1.2;
+    -fx-scale-y: 1.2;
+}

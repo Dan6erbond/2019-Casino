@@ -5,34 +5,24 @@
  */
 package ch.bbbaden.casino.blackjack;
 
-import ch.bbbaden.casino.SceneManager;
-import com.sun.prism.Texture;
-import com.sun.prism.impl.BaseResourceFactory;
-import java.io.IOException;
+import ch.bbbaden.casino.DataManager;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.animation.PauseTransition;
 import javafx.event.ActionEvent;
-import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Line;
 import javafx.stage.Stage;
-import javafx.stage.Window;
-import javafx.stage.WindowEvent;
 import javafx.util.Duration;
-import javax.swing.JOptionPane;
 
 /**
  * FXML Controller class
@@ -42,14 +32,14 @@ import javax.swing.JOptionPane;
 public class BlackJackController implements Initializable {
 
     int pool = 0;
-    int balance = 1000;
+    int balance = 1000 ;
     ArrayList<Card> cards = new ArrayList<>();
     ArrayList<Card> pcards = new ArrayList<>();
     ArrayList<Card> bcards = new ArrayList<>();
     int rand1;
     int rand2;
     int rand3;
-    int pxcoordinate = -230;
+    int pxcoordinate = -240;
     int bxcoordinate = 150;
     int pvalue;
     int bvalue;
@@ -113,7 +103,10 @@ public class BlackJackController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+        DataManager.getInstance().updateBet("blackjack", balance);
+
         lbalance.setText(Integer.toString(balance));
+        line.setVisible(false);
 
         HideButtAction();
 
@@ -173,8 +166,8 @@ public class BlackJackController implements Initializable {
         ImageView iv = new ImageView(card.getImage());
         iv.setLayoutX(x);
         iv.setLayoutY(-435);
-        iv.setScaleX(0.18);
-        iv.setScaleY(0.18);
+        iv.setScaleX(0.17);
+        iv.setScaleY(0.17);
         imgpane.getChildren().add(iv);
         cardimages.add(iv);
 
@@ -223,8 +216,8 @@ public class BlackJackController implements Initializable {
         }
         iv.setLayoutX(x);
         iv.setLayoutY(-435);
-        iv.setScaleX(0.18);
-        iv.setScaleY(0.18);
+        iv.setScaleX(0.17);
+        iv.setScaleY(0.17);
         imgpane.getChildren().add(iv);
         cardimages.add(iv);
 
@@ -350,8 +343,8 @@ public class BlackJackController implements Initializable {
         ImageView iv = new ImageView(bcards.get(0).getImage());
         iv.setLayoutX(bxcoordinate += 40);
         iv.setLayoutY(-435);
-        iv.setScaleX(0.18);
-        iv.setScaleY(0.18);
+        iv.setScaleX(0.17);
+        iv.setScaleY(0.17);
         imgpane.getChildren().add(iv);
         cardimages.add(iv);
 
@@ -438,8 +431,8 @@ public class BlackJackController implements Initializable {
         ImageView iv = new ImageView(bcards.get(0).getImage());
         iv.setLayoutX(bxcoordinate += 40);
         iv.setLayoutY(-435);
-        iv.setScaleX(0.18);
-        iv.setScaleY(0.18);
+        iv.setScaleX(0.17);
+        iv.setScaleY(0.17);
         imgpane.getChildren().add(iv);
         cardimages.add(iv);
 
@@ -609,7 +602,7 @@ public class BlackJackController implements Initializable {
 
     @FXML
     private void clickLeave(ActionEvent event) {
-        Stage stage = (Stage) again.getScene().getWindow();
+        Stage stage = (Stage) leave.getScene().getWindow();
         stage.close();
     }
 }

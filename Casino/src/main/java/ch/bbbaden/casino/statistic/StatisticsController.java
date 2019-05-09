@@ -3,13 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ch.bbbaden.casino.statistic;
+package ch.bbbaden.casino.statistik;
 
 import ch.bbbaden.casino.DataManager;
 import ch.bbbaden.casino.SceneManager;
 import java.io.IOException;
 import java.net.URL;
-import java.util.*;
+import java.util.Arrays;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -25,11 +25,13 @@ import javafx.stage.Stage;
 /**
  * FXML Controller class
  *
- * @author alessandro
+ * @author aless
  */
-public class StatisticController implements Initializable {
+public class StatisticsController implements Initializable {
     @FXML
     private ScrollPane table;
+    @FXML
+    private AnchorPane statistiktable;
     @FXML
     private Label totalwin;
     @FXML
@@ -64,15 +66,12 @@ public class StatisticController implements Initializable {
     private AnchorPane ap;
     
     DataManager dm = DataManager.getInstance();
-    List<String> labelstrings = new ArrayList<>();
     @FXML
     private Label bingowon;
     @FXML
     private Label bingolost;
     @FXML
     private Label bingobet;
-    @FXML
-    private AnchorPane statistiktable;
 
     /**
      * Initializes the controller class.
@@ -84,29 +83,23 @@ public class StatisticController implements Initializable {
     
     private void addnames()
     {
-        //adds all names from the databank to the ListView
-        playerlist.getItems().addAll(Arrays.asList(dm.readusername("username").split(";")));
-        Label [] labels = {totalwin,totallost,totalbet,roulettewon,roulettelost,roulettebet,slotwon,slotlost,slotbet,bingowon,bingolost,bingobet,blackjackwon,blackjacklost,blackjackbet};
-        for(Label l : labels)
-        {
-            labelstrings.add(l.getText());
-        }
+        playerlist.getItems().addAll(Arrays.asList(dm.readusername("username").split(";")));   
     }
-    //method to look what player you selected and shows their statistics
     @FXML
     private void playerselected(MouseEvent event) {
         Label [] labels = {totalwin,totallost,totalbet,roulettewon,roulettelost,roulettebet,slotwon,slotlost,slotbet,bingowon,bingolost,bingobet,blackjackwon,blackjacklost,blackjackbet};
         table.setVisible(true);
         datatitle.setVisible(true);
-        //sets all statistics to the labels
         if(playerlist.getSelectionModel().getSelectedItem() != null){
             String[] statistik = dm.readstatistik("*",playerlist.getSelectionModel().getSelectedItem()).split(";");
-            for(int i = 0; i < statistik.length; i++){
-                labels[i].setText(labelstrings.get(i)+statistik[i]);
+            for(int i = 0; i < statistik.length; i++)
+            {
+                labels[i].setText(labels[i].getText()+statistik[i]);
             }
         }
+        
     }
-    //allows yout to go back
+
     @FXML
     private void back(ActionEvent event) throws IOException {
         ((Stage) ((Node) event.getSource()).getScene().getWindow()).hide();

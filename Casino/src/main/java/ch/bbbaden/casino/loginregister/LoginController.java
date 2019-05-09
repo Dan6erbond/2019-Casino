@@ -6,17 +6,10 @@
 package ch.bbbaden.casino.loginregister;
 
 import ch.bbbaden.casino.DataManager;
-import ch.bbbaden.casino.PaneManager;
 import ch.bbbaden.casino.SceneManager;
 import ch.bbbaden.casino.ServerAccess;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.Socket;
 import java.net.URL;
-import java.util.Observable;
-import java.util.Observer;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -27,7 +20,6 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
-import javax.swing.JOptionPane;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 
 /**
@@ -36,6 +28,7 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
  * @author User
  */
 public class LoginController implements Initializable {
+
     @FXML
     private Label registerlabel;
     @FXML
@@ -54,7 +47,7 @@ public class LoginController implements Initializable {
     private Label alertname;
     @FXML
     private Label alertpassword;
-    
+
     private ServerAccess sa = ServerAccess.getInstance();
     @FXML
     private Label title;
@@ -62,58 +55,55 @@ public class LoginController implements Initializable {
     private Label alertcheck;
     @FXML
     private AnchorPane ap;
-    
+    @FXML
+    private Pane loginFailed;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-    }    
-    //takes you to the register screen
+
+        loginFailed.setVisible(false);
+    }
+
     @FXML
     private void register(MouseEvent event) throws IOException {
-        SceneManager.getInstance().changeScene("/fxml/register.fxml");
+        SceneManager.getInstance().changeScene("/fxml/Register.fxml");
     }
     //looks if the fields are empty or above the lengths they should be
     @FXML
     private void login(ActionEvent event) throws IOException, InterruptedException {
         boolean namecorrect = true;
         boolean passcorrect = true;
-        if(namefield.getText().isEmpty() || namefield.getText().length() > 50)
-        {
-            alertname.setText("This field must be filled out and within the length of 50 characters");
+        if (namefield.getText().isEmpty() || namefield.getText().length() > 50) {
+            alertname.setVisible(true);
             namecorrect = false;
         }
-        if(passwordfield.getText().isEmpty() || passwordfield.getText().length() > 200)
-        {
-            alertpassword.setText("Please fill out the field and within the length of 200 characters");
+        if (passwordfield.getText().isEmpty() || passwordfield.getText().length() > 200) {
+            alertpassword.setVisible(true);
             passcorrect = false;
         }
-        if(passcorrect != false && namecorrect != false){
+        if (passcorrect && namecorrect) {
             try {
-                namefield.setDisable(true);
-            sa.InitSocket("84.74.61.42", 1757);
-            sa.send("login:"+namefield.getText());// send username and hashed password to server
-            check();
+                sa.InitSocket("84.74.61.42", 1757);
+                sa.send("login:" + namefield.getText());// send username and hashed password to server
+                check();
             } catch (IOException ex) {
                 System.out.println("Not connected to server! Please try using a VPN.");
             }
         }
     }
-private String message;
-    private void check()
-    {
-        Thread thread = new Thread()
-        {
-            public void run()
-            {
-                while(true)
-                {
+    private String message;
+
+    private void check() {
+        Thread thread = new Thread() {
+            public void run() {
+                while (true) {
                     try {
                         Thread.sleep(500);
                     } catch (InterruptedException ex) {
                         Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     message = sa.getmessage();
-                    if(message != null)
-                    {
+                    if (message != null) {
                         break;
                     }
 
@@ -121,24 +111,22 @@ private String message;
             }
         };
         thread.run();
-        try{
-        //checks if the received hashed password is the same as the password that you set
-        if(BCrypt.checkpw(passwordfield.getText(), message))
-        {
-            DataManager.getInstance().setcurrentuser(namefield.getText());
-            ap.getChildren().add(PaneManager.createPane(ap.getWidth(),ap.getHeight(),"Login successfull","/fxml/Selection.fxml"));
-            sa.close();
+        try {
+            if (BCrypt.checkpw(passwordfield.getText(), message)) {
+                DataManager.getInstance().setcurrentuser(namefield.getText());
+                SceneManager.getInstance().setHome("/fxml/GamePicker.fxml");
+                sa.close();
+            } else {
+                loginFailed.setVisible(true);
+            }
+        } catch (IOException e) {
+            loginFailed.setVisible(true);
         }
-        else
-        {
-            ap.getChildren().add(PaneManager.createPane(ap.getWidth(),ap.getHeight(),"Password or Username is incorrect"));
-            namefield.setDisable(false);
-        }
-        }
-        catch(Exception e){
-            ap.getChildren().add(PaneManager.createPane(ap.getWidth(),ap.getHeight(),"Password or username is incorrect"));
-            namefield.setDisable(false);
-        }
+    }
+
+    @FXML
+    private void closeLoginFailed(ActionEvent event) {
+        loginFailed.setVisible(false);
     }
 
 }

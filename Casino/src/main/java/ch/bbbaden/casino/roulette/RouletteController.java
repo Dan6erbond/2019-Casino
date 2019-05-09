@@ -17,13 +17,16 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.shape.*;
+import javafx.stage.Stage;
 import javafx.util.Duration;
+
 /**
  * FXML Controller class
  *
  * @author alessandro
  */
 public class RouletteController implements Initializable {
+
     @FXML
     private GridPane numbers;
     @FXML
@@ -116,7 +119,7 @@ public class RouletteController implements Initializable {
     private Pane wheel;
     @FXML
     private Button Bspin;
-    
+
     private final Field[][] grid = new Field[12][3];
     private final RouletteModel model = new RouletteModel();
     private final ImageView iv2 = new ImageView();
@@ -139,15 +142,13 @@ public class RouletteController implements Initializable {
         bally = ball.getLayoutY();
         //to create the number field
         int count = 0;
-        for(int row = 0;row < 12;row++)
-        {
-            for(int col = 2;col >= 0;col--)
-            {
+        for (int row = 0; row < 12; row++) {
+            for (int col = 2; col >= 0; col--) {
                 count++;
                 grid[row][col] = new Field(count);
-                addPane(row,col);
+                addPane(row, col);
             }
-            
+
         }
         //creates a menu bar
         MenuBar menu = new MenuBar();
@@ -155,16 +156,18 @@ public class RouletteController implements Initializable {
         MenuItem help = new MenuItem("Help");
         //when you click on Help
         help.setOnAction(new EventHandler<ActionEvent>() {
-            @Override public void handle(ActionEvent e) {
-                ap.getChildren().add(PaneManager.createPane(ap.getWidth(),ap.getHeight(), "1) You click on one of the chips. A mini version of it now follows you \r\n 2) You click on a field \r\n 3) You can always see which fields you are selecting in the text above the fields \r\n 4) You press the Button \"spin\" \r\n 5) Hope you win"));
+            @Override
+            public void handle(ActionEvent e) {
+                ap.getChildren().add(PaneManager.createPane(ap.getWidth(), ap.getHeight(), "1) You click on one of the chips. A mini version of it now follows you \r\n 2) You click on a field \r\n 3) You can always see which fields you are selecting in the text above the fields \r\n 4) You press the Button \"spin\" \r\n 5) Hope you win"));
             }
         });
         MenuItem bet = new MenuItem("Bets");
         //when you click on Bets
         bet.setOnAction(new EventHandler<ActionEvent>() {
-            @Override public void handle(ActionEvent e) {
-                ap.getChildren().add(PaneManager.createPane(ap.getWidth(),ap.getHeight(), "Column - You select one of the \"2 TO 1\" fields 2: 1 \r\n Dozen - You select twelve numbers 2:1 \r\n Even/Odd - You select the field \"Even/ODD\" 1:1 \r\n Red/Black - You select the field \"RED/BLACK\" 1:1 \r\n Low/High - You select the field \"1-18/19-36\" 1:1 \r\n 2:1 means, when you place 10 you get 20 plus your original 10"));
-                ap.getChildren().add(PaneManager.createPane(ap.getWidth(),ap.getHeight(), "Straight up bets - You select one number 35:1 \r\n Split bets - You select two numbers 17:1 \r\n Street bets - You select three numbers 11:1 \r\n corner bets - You select four numbers 8:1 \r\n 5 number bets - You select five numbers  \r\n  6 number bets - You select six numbers 5:1"));
+            @Override
+            public void handle(ActionEvent e) {
+                ap.getChildren().add(PaneManager.createPane(ap.getWidth(), ap.getHeight(), "Column - You select one of the \"2 TO 1\" fields 2: 1 \r\n Dozen - You select twelve numbers 2:1 \r\n Even/Odd - You select the field \"Even/ODD\" 1:1 \r\n Red/Black - You select the field \"RED/BLACK\" 1:1 \r\n Low/High - You select the field \"1-18/19-36\" 1:1 \r\n 2:1 means, when you place 10 you get 20 plus your original 10"));
+                ap.getChildren().add(PaneManager.createPane(ap.getWidth(), ap.getHeight(), "Straight up bets - You select one number 35:1 \r\n Split bets - You select two numbers 17:1 \r\n Street bets - You select three numbers 11:1 \r\n corner bets - You select four numbers 8:1 \r\n 5 number bets - You select five numbers  \r\n  6 number bets - You select six numbers 5:1"));
             }
         });
         //adds everything
@@ -398,6 +401,7 @@ public class RouletteController implements Initializable {
          }
          
          numbers.add(borderpane, row, col);
+
     }
     //adds a mini chip that will follow your cursor or places the chip on the board
     @FXML
@@ -425,28 +429,28 @@ public class RouletteController implements Initializable {
             iv.setScaleX(0.015625);
             iv.setScaleY(0.015625);
             iv.setSmooth(true);
-            iv.setLayoutX(event.getSceneX()-378);
-            iv.setLayoutY(event.getSceneY()-378);
+            iv.setLayoutX(event.getSceneX() - 378);
+            iv.setLayoutY(event.getSceneY() - 378);
             ap.getChildren().add(iv);
             betchips.add(iv);
-            model.makebet(test.getText()+":"+chip);
+            model.makebet(test.getText() + ":" + chip);
             haschip = false;
             iv2.setVisible(false);
-            totalbet.setText("Total Bet: "+model.getbetamount());
-            balance.setText("Balance: "+model.getbalance());
+            totalbet.setText("Total Bet: " + model.getbetamount());
+            balance.setText("Balance: " + model.getbalance());
         }
     }
     // so that the mini chip follows the cursor
     @FXML
     private void move(MouseEvent event) {
-        if(haschip == true)
-        {
+        if (haschip == true) {
             iv2.setVisible(true);
-            iv2.setX(event.getX()-355);
-            iv2.setY(event.getY()-355);
+            iv2.setX(event.getX() - 355);
+            iv2.setY(event.getY() - 355);
         }
     }
     // method to spin the wheel and ball
+
     @FXML
     private void spin(ActionEvent event) throws InterruptedException {
         Bspin.setDisable(true);
@@ -457,24 +461,26 @@ public class RouletteController implements Initializable {
             RT1.play();         
             //rotates the ball
             final Timeline timeline = new Timeline(new KeyFrame(Duration.ZERO, new EventHandler() {
+
             int movingStep = 0;
             boolean beginning = true;
             int remove = 250;
+
             @Override
             public void handle(Event event) {
                 movingStep++;
-                double angleAlpha = movingStep * ( Math.PI / 30 );
-                double midPointx = wheel.getLayoutX() + (wheel.getWidth()/2)-215;
-                double midPointy = wheel.getLayoutY() + (wheel.getHeight()/2)-160;
+                double angleAlpha = movingStep * (Math.PI / 30);
+                double midPointx = wheel.getLayoutX() + (wheel.getWidth() / 2) - 215;
+                double midPointy = wheel.getLayoutY() + (wheel.getHeight() / 2) - 160;
                 double ballorbit = midPointy - ball.getCenterY();
-                    beginning = false;
-                
-                    moveBall(ball, midPointx + (ballorbit-remove) * Math.sin(angleAlpha), midPointy - (ballorbit-remove) * Math.cos(angleAlpha));
+                beginning = false;
+
+                moveBall(ball, midPointx + (ballorbit - remove) * Math.sin(angleAlpha), midPointy - (ballorbit - remove) * Math.cos(angleAlpha));
                 // Reset after one orbit.
                 if (movingStep == 360) {
                     movingStep = 0;
                 }
-                if(remove > 207 && movingStep % 2 == 0){
+                if (remove > 207 && movingStep % 2 == 0) {
                     remove -= 1;
                     ball.setVisible(true);
                 }
@@ -487,8 +493,8 @@ public class RouletteController implements Initializable {
             @Override
             public void handle(ActionEvent event) {
                 int won = model.check(landedin());
-                ap.getChildren().add(PaneManager.createPane(ap.getWidth(), ap.getHeight(), "The ball landed in field:"+landedin()+" \r\n" + (won < 0 ? "You lost "+(won*-1): "You won "+won)));
-                balance.setText("Balance: "+model.getbalance());
+                ap.getChildren().add(PaneManager.createPane(ap.getWidth(), ap.getHeight(), "The ball landed in field:" + landedin() + " \r\n" + (won < 0 ? "You lost " + (won * -1) : "You won " + won)));
+                balance.setText("Balance: " + model.getbalance());
                 totalbet.setText("Total Bet: " + model.getbetamount());
                 // removes all chips on the boards
                 for(ImageView iv : betchips){
@@ -501,10 +507,10 @@ public class RouletteController implements Initializable {
                 wheel.setRotate(0);
                 Bspin.setDisable(false);
             }
-            }));
-            pause.setCycleCount(1);
-            pause.play();
-            
+        }));
+        pause.setCycleCount(1);
+        pause.play();
+
     }
     // method to move the ball to the next place
      private void moveBall(Circle ball, double x, double y) {
@@ -515,7 +521,7 @@ public class RouletteController implements Initializable {
                 .toY(y)
                 .duration(Duration.millis(60))
                 .build();
- 
+
         move.playFromStart();
     }
      
@@ -525,13 +531,13 @@ public class RouletteController implements Initializable {
         
          Rectangle[] wheeldata = {rec00,rec27,rec10,rec25,rec29,rec12,rec8,rec19,rec31,rec18,rec6,rec21,rec33,rec16,rec4,rec23,rec35,rec14,rec2,rec0,rec28,rec9,rec26,rec30,rec11,rec7,rec20,rec32,rec17,rec5,rec22,rec34,rec15,rec3,rec24,rec36,rec13,rec1};      
         for (Rectangle rec : wheeldata) {
-            Node rectangle = rec; 
-            Bounds recbounds = rectangle.localToScene(rectangle.getBoundsInLocal()); 
+            Node rectangle = rec;
+            Bounds recbounds = rectangle.localToScene(rectangle.getBoundsInLocal());
             Node circleball = ball;
             Bounds ballbounds = circleball.localToScene(circleball.getBoundsInLocal());
-            if(ballbounds.intersects(recbounds)) // looks if ball is in a rectangle
+            if (ballbounds.intersects(recbounds)) // looks if ball is in a rectangle
             {
-                
+
                 return rec.getId().substring(3); // gives a substring of the rectangle that the ball landed in. The substring of 3 gives the number.
             }
         }
@@ -540,7 +546,7 @@ public class RouletteController implements Initializable {
     //for going back to the Selection Screen
     @FXML
     private void back(ActionEvent event) throws IOException {
-        SceneManager.getInstance().changeScene("/fxml/Selection.fxml");
+        ((Stage) ((Node) event.getSource()).getScene().getWindow()).hide();
     }
 
     // for all Panes in the zero BorderPane to show the numbers
@@ -548,20 +554,16 @@ public class RouletteController implements Initializable {
     private void zero(MouseEvent event) {
         Pane pane = (Pane) event.getSource();
         String id = pane.getId();
-        if("zerocenter".equals(id) || "zerobottom".equals(id)){
+        if ("zerocenter".equals(id) || "zerobottom".equals(id)) {
             test.setText("0");
-        } 
-        else if("zeroright".equals(id)){
+        } else if ("zeroright".equals(id)) {
             test.setText("0,1,2");
-        }
-        else if("zerotopright".equals(id)){
+        } else if ("zerotopright".equals(id)) {
             test.setText("0,00,2");
-        }
-        else if("zerobottomright".equals(id)){
+        } else if ("zerobottomright".equals(id)) {
             test.setText("0,00,1,2,3");
-        }
-        else if("zerotop".equals(id)){
-        test.setText("0,00");
+        } else if ("zerotop".equals(id)) {
+            test.setText("0,00");
         }
     }
 
@@ -570,20 +572,16 @@ public class RouletteController implements Initializable {
     private void doublezero(MouseEvent event) {
         Pane pane = (Pane) event.getSource();
         String id = pane.getId();
-        if("doublecenter".equals(id) || "doubletop".equals(id)){
+        if ("doublecenter".equals(id) || "doubletop".equals(id)) {
             test.setText("00");
-        } 
-        else if("doubleright".equals(id)){
+        } else if ("doubleright".equals(id)) {
             test.setText("00,3,2");
-        }
-        else if("doubletopright".equals(id)){
+        } else if ("doubletopright".equals(id)) {
             test.setText("00,0,3,2,1");
-        }
-        else if("doublebottomright".equals(id)){
+        } else if ("doublebottomright".equals(id)) {
             test.setText("00,0,2");
-        }
-        else if("doublebottom".equals(id)){
-        test.setText("00,0");
+        } else if ("doublebottom".equals(id)) {
+            test.setText("00,0");
         }
     }
     //a method for all the other fields so that you know what you select

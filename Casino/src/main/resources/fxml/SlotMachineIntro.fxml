@@ -3,14 +3,236 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.TextFlow?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" stylesheets="@../styles/style.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.bbbaden.casino.slotmachine.SlotMachineIntroController">
+<AnchorPane id="AnchorPane" prefHeight="736.0" prefWidth="1116.0" stylesheets="@../styles/style.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.bbbaden.casino.slotmachine.SlotMachineIntroController">
    <children>
-      <CheckBox fx:id="lightsCheck" layoutX="250.0" layoutY="348.0" mnemonicParsing="false" selected="true" text="Fancy Lights" />
-      <Button layoutX="261.0" layoutY="300.0" mnemonicParsing="false" onAction="#play" prefHeight="25.0" prefWidth="66.0" styleClass="button" stylesheets="@../styles/style.css" text="Play" />
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="33.0" layoutY="33.0" prefHeight="17.0" prefWidth="522.0" styleClass="title" text="Slot Machine Super Cherry" textAlignment="CENTER" />
-      <TextFlow fx:id="intro" layoutX="30.0" layoutY="97.0" prefHeight="181.0" prefWidth="539.0" />
+      <CheckBox fx:id="lightsCheck" layoutX="515.0" layoutY="650.0" mnemonicParsing="false" selected="true" text="Fancy Lights" />
+      <Button layoutX="436.0" layoutY="573.0" mnemonicParsing="false" onAction="#play" prefHeight="62.0" prefWidth="245.0" styleClass="button" stylesheets="@../styles/style.css" text="Play Slot Machine Super Cherry" />
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="297.0" layoutY="38.0" prefHeight="17.0" prefWidth="522.0" styleClass="title" text="Slot Machine Super Cherry" textAlignment="CENTER" />
+      <Text layoutX="60.0" layoutY="147.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome to Slot Machine Super Cherry! Here are the rules:" />
+      <VBox layoutX="83.0" layoutY="197.0" prefHeight="290.0" prefWidth="491.0" spacing="20.0">
+         <children>
+            <HBox prefHeight="17.0" prefWidth="216.0" spacing="10.0">
+               <children>
+                  <ImageView fitHeight="42.0" fitWidth="79.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../img/slotmachine/yellow-scatter.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="42.0" fitWidth="79.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../img/slotmachine/yellow-scatter.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="42.0" fitWidth="79.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../img/slotmachine/yellow-scatter.png" />
+                     </image>
+                  </ImageView>
+                  <Label prefHeight="42.0" prefWidth="330.0" text="Get the amount as displayed Scatters back." wrapText="true" />
+               </children>
+            </HBox>
+            <HBox prefHeight="17.0" prefWidth="216.0">
+               <children>
+                  <ImageView fitHeight="34.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../img/slotmachine/blue-spin.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="34.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../img/slotmachine/blue-spin.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="34.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../img/slotmachine/blue-spin.png" />
+                     </image>
+                  </ImageView>
+                  <Label prefHeight="42.0" prefWidth="330.0" text="Gives you the opportunity to win your bet multiplied by the multiplier back by giving you a free spin on a roll." wrapText="true" />
+               </children>
+            </HBox>
+            <HBox prefHeight="17.0" prefWidth="216.0" spacing="10.0">
+               <children>
+                  <ImageView fitHeight="42.0" fitWidth="79.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../img/slotmachine/red-seven.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="42.0" fitWidth="79.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../img/slotmachine/red-seven.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="42.0" fitWidth="79.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../img/slotmachine/red-seven.png" />
+                     </image>
+                  </ImageView>
+                  <Label prefHeight="42.0" prefWidth="330.0" text="Increases your multiplier to 5." wrapText="true" />
+               </children>
+            </HBox>
+            <HBox prefHeight="17.0" prefWidth="216.0" spacing="10.0">
+               <children>
+                  <ImageView fitHeight="42.0" fitWidth="79.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../img/slotmachine/green-star.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="42.0" fitWidth="79.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../img/slotmachine/green-star.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="42.0" fitWidth="79.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../img/slotmachine/green-star.png" />
+                     </image>
+                  </ImageView>
+                  <Label prefHeight="42.0" prefWidth="330.0" text="Increases your multiplier to 3." wrapText="true" />
+               </children>
+            </HBox>
+            <HBox prefHeight="17.0" prefWidth="216.0" spacing="10.0">
+               <children>
+                  <ImageView fitHeight="42.0" fitWidth="79.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../img/slotmachine/yellow-bar.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="42.0" fitWidth="79.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../img/slotmachine/yellow-bar.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="42.0" fitWidth="79.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../img/slotmachine/yellow-bar.png" />
+                     </image>
+                  </ImageView>
+                  <Label prefHeight="42.0" prefWidth="330.0" text="Gives you 2 Freespins." wrapText="true" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+      <VBox layoutX="603.0" layoutY="197.0" prefHeight="228.0" prefWidth="482.0" spacing="20.0">
+         <children>
+            <HBox prefHeight="17.0" prefWidth="216.0" spacing="10.0">
+               <children>
+                  <ImageView fitHeight="42.0" fitWidth="79.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../img/slotmachine/green-seven.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="42.0" fitWidth="79.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../img/slotmachine/green-seven.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="42.0" fitWidth="79.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../img/slotmachine/green-seven.png" />
+                     </image>
+                  </ImageView>
+                  <Label prefHeight="42.0" prefWidth="330.0" text="Increases your multiplier to 5." wrapText="true" />
+               </children>
+            </HBox>
+            <HBox prefHeight="17.0" prefWidth="216.0" spacing="10.0">
+               <children>
+                  <ImageView fitHeight="42.0" fitWidth="79.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../img/slotmachine/green-bar.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="42.0" fitWidth="79.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../img/slotmachine/green-bar.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="42.0" fitWidth="79.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../img/slotmachine/green-bar.png" />
+                     </image>
+                  </ImageView>
+                  <Label prefHeight="42.0" prefWidth="330.0" text="Increases your multiplier to 3." wrapText="true" />
+               </children>
+            </HBox>
+            <HBox prefHeight="17.0" prefWidth="216.0" spacing="10.0">
+               <children>
+                  <ImageView fitHeight="42.0" fitWidth="79.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../img/slotmachine/yellow-seven.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="42.0" fitWidth="79.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../img/slotmachine/yellow-seven.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="42.0" fitWidth="79.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../img/slotmachine/yellow-seven.png" />
+                     </image>
+                  </ImageView>
+                  <Label prefHeight="42.0" prefWidth="330.0" text="Increases your multiplier to 2." wrapText="true" />
+               </children>
+            </HBox>
+            <HBox prefHeight="17.0" prefWidth="216.0" spacing="10.0">
+               <children>
+                  <ImageView fitHeight="42.0" fitWidth="79.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../img/slotmachine/super-cherry.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="42.0" fitWidth="79.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../img/slotmachine/super-cherry.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="42.0" fitWidth="79.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../img/slotmachine/super-cherry.png" />
+                     </image>
+                  </ImageView>
+                  <Label prefHeight="42.0" prefWidth="330.0" text="Returns your bet multiplied by the multiplier." wrapText="true" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" minHeight="-Infinity" prefHeight="38.0" prefWidth="482.0">
+               <children>
+                  <ImageView fitHeight="31.0" fitWidth="61.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../img/slotmachine/super-cherry.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="31.0" fitWidth="61.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../img/slotmachine/super-cherry.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="31.0" fitWidth="61.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../img/slotmachine/super-cherry.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="31.0" fitWidth="61.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../img/slotmachine/super-cherry.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="31.0" fitWidth="61.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../img/slotmachine/super-cherry.png" />
+                     </image>
+                  </ImageView>
+                  <Label prefHeight="53.0" prefWidth="212.0" text="Returns your bet multiplied by the multiplier + 5." wrapText="true" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
    </children>
 </AnchorPane>

@@ -18,9 +18,9 @@ import javafx.stage.StageStyle;
  *
  * @author User
  */
-public class SceneManager {
-
-    private static final String homeFXML = "/fxml/Login.fxml";
+public class SceneManager {    
+    
+    public static String homeFXML;
     private static SceneManager sceneManager;
 
     private static Stage stage;
@@ -35,6 +35,11 @@ public class SceneManager {
             sceneManager = new SceneManager();
         }
         return sceneManager;
+    }
+    
+    public void setHome(String fxml) throws IOException{
+        changeScene(fxml);
+        homeFXML = fxml;
     }
 
     public Object changeScene(String fxml) throws IOException {
@@ -54,28 +59,25 @@ public class SceneManager {
 
         return controller;
     }
-
-    public static Stage getStage() {
-        return stage;
-    }
-
-    public static Scene getHomeScene() {
-        return homeScene;
-    }
-
+    
     public Tuple<Stage, Object> openWindow(String fxml) throws IOException {
         Stage s = new Stage(StageStyle.UTILITY);
         s.setResizable(false);
+        
         s.setOnHidden((event) -> {
             try {
                 if (s.getScene() != homeScene) {
-                    stage = openWindow(homeFXML).x;
-                    DataManager.getInstance().close();
+
+                    stage = openWindow(SceneManager.homeFXML).x;
                 }
             } catch (IOException ex) {
                 Logger.getLogger(SceneManager.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
+        
+        if (homeFXML == null){
+             homeFXML = "/fxml/Selection.fxml";
+        }
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource(fxml));
         Parent root = loader.load();
