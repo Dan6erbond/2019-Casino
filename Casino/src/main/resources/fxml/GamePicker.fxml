@@ -27,6 +27,6 @@
             <ImageView fx:id="image" fitHeight="150.0" fitWidth="252.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER" />
          </center>
       </BorderPane>
-      <Button fx:id="statisticsButton" layoutX="246.0" layoutY="336.0" mnemonicParsing="false" onAction="#openStatistics" prefHeight="29.0" prefWidth="109.0" text="Statistics" />
+      <Button fx:id="statisticsButton" layoutX="246.0" layoutY="336.0" mnemonicParsing="false" onAction="#openStatistics" prefHeight="29.0" prefWidth="109.0" text="Statistics" visible="false" />
    </children>
 </AnchorPane>

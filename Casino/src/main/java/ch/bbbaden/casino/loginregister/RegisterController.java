@@ -82,7 +82,7 @@ public class RegisterController implements Initializable {
                 System.out.println("Not connected to server! Please try using a VPN.");
             }
         }
-    }
+    
 
     public void check() {
         Thread thread = new Thread() {
