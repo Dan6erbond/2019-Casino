@@ -1,7 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/* Autor: RaviAnand Mohabir
+ * Firma: BBBaden
+ * Version: 1.9.2
+ * Erstell-Datum: 04. Mai 2019
+ * Letzte Bearbeitung: 06. Mai 2019
  */
 package ch.bbbaden.casino;
 
@@ -21,11 +22,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 
-/**
- * FXML Controller class
- *
- * @author User
- */
 public class GamePickerController implements Initializable {
 
     @FXML

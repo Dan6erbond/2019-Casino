@@ -1,20 +1,18 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/* Autor: RaviAnand Mohabir
+ * Firma: BBBaden
+ * Version: 1.0
+ * Erstell-Datum: 10. April 2019
+ * Letzte Bearbeitung: 02. Mai 2019
  */
 package ch.bbbaden.casino.slotmachine;
 
 import javafx.scene.image.Image;
 
-/**
- *
- * @author User
- */
 public enum SlotFace {
     
     SPIN, GREENBAR, GREENSEVEN, GREENSTAR, REDSEVEN, YELLOWBAR, SCATTER, YELLOWSEVEN, SUPERCHERRY;
     
+    //caching the images in a static context to save on RAM
     public static Image[] images = {
         new Image("/img/slotmachine/blue-spin.png"),
         new Image("/img/slotmachine/green-bar.png"),
@@ -28,6 +26,7 @@ public enum SlotFace {
     };
     
     public Image getImage() {
+        //returns an image based on the enum value
         Image image;
         switch (this) {
             case SPIN:

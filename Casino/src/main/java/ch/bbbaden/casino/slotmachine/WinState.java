@@ -1,14 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/* Autor: RaviAnand Mohabir
+ * Firma: BBBaden
+ * Version: 1.0
+ * Erstell-Datum: 03. Mai 2019
+ * Letzte Bearbeitung: 03. Mai 2019
  */
 package ch.bbbaden.casino.slotmachine;
 
-/**
- *
- * @author User
- */
 public enum WinState {
     SPIN, REDSEVEN, GREENSTAR, YELLOWBAR, GREENSEVEN, GREENBAR, YELLOWSEVEN, SCATTER, CHERRY, SUPERCHERRY, LOST;
 }

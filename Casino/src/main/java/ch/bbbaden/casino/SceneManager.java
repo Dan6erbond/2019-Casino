@@ -1,7 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/* Autor: RaviAnand Mohabir
+ * Firma: BBBaden
+ * Version: 2.8.4
+ * Erstell-Datum: 10. April 2019
+ * Letzte Bearbeitung: 04. Mai 2019
  */
 package ch.bbbaden.casino;
 
@@ -14,10 +15,6 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-/**
- *
- * @author User
- */
 public class SceneManager {    
     
     public static String homeFXML;

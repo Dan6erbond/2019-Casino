@@ -1,9 +1,10 @@
 package ch.bbbaden.casino.slotmachine;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/* Autor: RaviAnand Mohabir
+ * Firma: BBBaden
+ * Version: 1.2
+ * Erstell-Datum: 15. April 2019
+ * Letzte Bearbeitung: 03. Mai 2019
  */
 import ch.bbbaden.casino.DataManager;
 import ch.bbbaden.casino.SceneManager;
@@ -18,11 +19,6 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 
-/**
- * FXML Controller class
- *
- * @author User
- */
 public class SlotMachineIntroController implements Initializable {
 
     @FXML

@@ -1,3 +1,10 @@
+/* Autor: RaviAnand Mohabir
+ * Firma: BBBaden
+ * Version: 1.3.1
+ * Erstell-Datum: 10. April 2019
+ * Letzte Bearbeitung: 10. Mai 2019
+ */
+
 package ch.bbbaden.casino;
 
 import javafx.application.Application;
@@ -10,15 +17,7 @@ public class MainApp extends Application {
     public void start(Stage stage) throws Exception {
         SceneManager.getInstance().setHome("/fxml/Login.fxml");
     }
-
-    /**
-     * The main() method is ignored in correctly deployed JavaFX application.
-     * main() serves only as fallback in case the application can not be
-     * launched through deployment artifacts, e.g., in IDEs with limited FX
-     * support. NetBeans ignores main().
-     *
-     * @param args the command line arguments
-     */
+    
     public static void main(String[] args) {
         launch(args);
     }

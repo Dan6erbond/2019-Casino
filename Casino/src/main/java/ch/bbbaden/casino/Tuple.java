@@ -1,14 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/* Autor: RaviAnand Mohabir
+ * Firma: BBBaden
+ * Version: 1.2
+ * Erstell-Datum: 24. April 2019
+ * Letzte Bearbeitung: 02. Mai 2019
  */
 package ch.bbbaden.casino;
 
-/**
- *
- * @author User
- */
 public class Tuple<X, Y> {
 
     public final X x;
